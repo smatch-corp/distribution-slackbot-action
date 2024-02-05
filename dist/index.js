@@ -32902,7 +32902,7 @@ const web_api_1 = __nccwpck_require__(9691);
 const ts_pattern_1 = __nccwpck_require__(4502);
 async function run() {
     const ACTION_TYPE = core.getInput('action_type');
-    const channelId = core.getInput('channel-id');
+    const channelId = core.getInput('channel_id');
     try {
         if (!channelId) {
             throw new Error('Channel is missing.');
