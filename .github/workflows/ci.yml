@@ -55,7 +55,10 @@ jobs:
         uses: ./
         with:
           channel_id: 'C06H62PLQNN'
-          action_type: 'start'
+          phase: 'start'
+          team: Front-End
+          service-name: 스매치어드민
+          environment: dev
         env:
           SLACKBOT_TOKEN: ${{ secrets.DISTRIBUTION_SLACKBOT_TOKEN }}
 

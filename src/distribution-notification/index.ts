@@ -2,17 +2,17 @@ import * as core from '@actions/core'
 import { WebClient } from '@slack/web-api'
 import { match, P } from 'ts-pattern'
 
-type ACTION_TYPE = 'start' | 'finish' | '' | null | undefined
+type Phase = 'start' | 'finish' | '' | null | undefined
 
 export async function run(): Promise<void> {
-  const ACTION_TYPE = core.getInput('action_type') as ACTION_TYPE
+  const PHASE = core.getInput('phase') as Phase
   const channelId = core.getInput('channel_id')
 
   try {
     if (!channelId) {
       throw new Error('Channel is missing.')
     }
-    match(ACTION_TYPE)
+    match(PHASE)
       .with('start', () => onDistributionStart({ channel: channelId }))
       .with('finish', () => {
         onDistributionFinish({ channel: channelId })

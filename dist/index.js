@@ -32901,13 +32901,13 @@ const core = __importStar(__nccwpck_require__(9093));
 const web_api_1 = __nccwpck_require__(9691);
 const ts_pattern_1 = __nccwpck_require__(4502);
 async function run() {
-    const ACTION_TYPE = core.getInput('action_type');
+    const PHASE = core.getInput('phase');
     const channelId = core.getInput('channel_id');
     try {
         if (!channelId) {
             throw new Error('Channel is missing.');
         }
-        (0, ts_pattern_1.match)(ACTION_TYPE)
+        (0, ts_pattern_1.match)(PHASE)
             .with('start', () => onDistributionStart({ channel: channelId }))
             .with('finish', () => {
             onDistributionFinish({ channel: channelId });
