@@ -6,7 +6,7 @@ type ACTION_TYPE = 'start' | 'finish' | '' | null | undefined
 
 export async function run(): Promise<void> {
   const ACTION_TYPE = core.getInput('action_type') as ACTION_TYPE
-  const channelId = core.getInput('channel-id')
+  const channelId = core.getInput('channel_id')
 
   try {
     if (!channelId) {

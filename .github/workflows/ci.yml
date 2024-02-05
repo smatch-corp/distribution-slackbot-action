@@ -54,7 +54,8 @@ jobs:
         id: test-action
         uses: ./
         with:
-          channel-id: 'C06H62PLQNN'
+          channel_id: 'C06H62PLQNN'
+          action_type: 'start'
         env:
           SLACKBOT_TOKEN: ${{ secrets.DISTRIBUTION_SLACKBOT_TOKEN }}
 
