@@ -1,5 +1,5 @@
 {
-  "name": "deployment-slackbot-action",
+  "name": "distribution-slackbot-action",
   "version": "0.0.1",
   "description": "배포 알리미를 위한 액션입니다.",
   "main": "index.js",
