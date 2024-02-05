@@ -33,8 +33,7 @@ jobs:
         with:
           version: 8
           run_install: |
-            - recursive: false
-              args: [--frozen-lockfile]
+            args: [--frozen-lockfile]
 
       - name: Lint Codebase
         id: super-linter

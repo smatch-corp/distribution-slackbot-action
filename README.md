@@ -17,7 +17,3 @@ uses: ./.github/actions/distribution-notification
 with:
   slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
 ```
-
-```
-
-```
