@@ -54,9 +54,9 @@ jobs:
         id: test-action
         uses: ./
         with:
-          milliseconds: 2000
+          channel-id: 'C06H62PLQNN'
         env:
-          SLACKBOT_TOKEN: 'ulalal'
+          SLACKBOT_TOKEN: ${{ secrets.DISTRIBUTION_SLACKBOT_TOKEN }}
 
       - name: Print Output
         id: output

@@ -22,15 +22,10 @@ inputs:
   #   description: '배포 환경 (test, stage, prod)'
   #   required: true
   #   default: 테스트 환경
-  milliseconds:
-    description: 'Milliseconds to wait before exiting'
+  channel-id:
+    description: '배포 알림 채널 ID'
     required: true
-    default: '1000'
-
-# env:
-#   SLACK_DISTRIBUTION_NOTIFICATION_WEBHOOK_URL:
-#     description: 'Slack 웹훅 주소'
-#     required: true
+    default: 'C06H62PLQNN'
 
 outputs:
   time:
