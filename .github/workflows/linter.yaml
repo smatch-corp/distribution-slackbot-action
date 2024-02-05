@@ -26,11 +26,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-          cache: pnpm
 
-      - name: Install Dependencies
-        id: install
-        run: pnpm install --frozen
+      - name: Setup pnpm
+        id: setup-pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: |
+            - recursive: false
+              args: [--frozen-lockfile]
 
       - name: Lint Codebase
         id: super-linter

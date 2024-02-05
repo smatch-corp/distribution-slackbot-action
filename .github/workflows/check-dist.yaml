@@ -33,11 +33,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-          cache: pnpm
 
-      - name: Install Dependencies
-        id: install
-        run: pnpm install --frozen-lockfile
+      - name: Setup pnpm
+        id: setup-pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: |
+            args: [--frozen-lockfile]
 
       - name: Build dist/ Directory
         id: build
