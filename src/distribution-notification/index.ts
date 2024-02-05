@@ -1,19 +1,9 @@
 import * as core from '@actions/core'
+import { WebClient } from '@slack/web-api'
 
 export async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-
-    // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${ms} milliseconds ...`)
-
-    // Log the current timestamp, wait, then log the new timestamp
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    // Set outputs for other workflow steps to use
-    core.setOutput('time', new Date().toTimeString())
+    onDistributionStart()
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
@@ -28,4 +18,19 @@ async function wait(milliseconds: number): Promise<string> {
 
     setTimeout(() => resolve('done!'), milliseconds)
   })
+}
+
+async function onDistributionStart(): Promise<void> {
+  core.info('Distribution started!')
+  try {
+    const SLACKBOT_TOKEN = process.env.SLACKBOT_TOKEN
+    if (!SLACKBOT_TOKEN) {
+      throw new Error('SLACKBOT_TOKEN is missing.')
+    }
+    const slackWebClient = new WebClient(SLACKBOT_TOKEN)
+    core.info('Sending notification to Slack...')
+    core.info(`Testing env: ${SLACKBOT_TOKEN}`)
+  } catch (e) {
+    if (e instanceof Error) core.setFailed(e.message)
+  }
 }

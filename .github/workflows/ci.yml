@@ -55,6 +55,8 @@ jobs:
         uses: ./
         with:
           milliseconds: 2000
+        env:
+          SLACKBOT_TOKEN: 'ulalal'
 
       - name: Print Output
         id: output
