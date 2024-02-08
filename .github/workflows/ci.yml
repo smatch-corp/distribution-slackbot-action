@@ -55,7 +55,7 @@ jobs:
         uses: ./
         with:
           channel_id: 'C06H62PLQNN'
-          member_id: 'U02U5KJ3G7P'
+          # group_id: 'S03V01C0H61'
           phase: 'start'
           team: Front-End
           service_name: 스매치어드민
@@ -68,12 +68,16 @@ jobs:
         id: thread_ts
         run: echo "${{ steps.test-start-action.outputs.thread_ts }}"
 
+      - name: Sleep for 10 seconds
+        run: sleep 10s
+        shell: bash
+
       - name: Test Finish Action
         id: test-finish-action
         uses: ./
         with:
           channel_id: 'C06H62PLQNN'
-          member_id: 'U02U5KJ3G7P'
+          # group_id: 'S03V01C0H61'
           phase: 'finish'
           team: Front-End
           service_name: 스매치어드민

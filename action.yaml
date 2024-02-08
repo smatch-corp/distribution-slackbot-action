@@ -19,9 +19,9 @@ inputs:
   channel_id:
     description: '배포 알림 채널 ID'
     required: true
-  member_id:
-    description: '멘션할 슬랙 멤버 ID'
-    required: true
+  group_id:
+    description: '멘션할 슬랙 그룹 ID'
+    # default: 'S03V01C0H61'
   phase:
     description: '액션 타입 (start, finish)'
     required: true

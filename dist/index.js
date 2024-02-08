@@ -41321,6 +41321,7 @@ const core = __importStar(__nccwpck_require__(9093));
 const web_api_1 = __nccwpck_require__(9691);
 const zod_1 = __nccwpck_require__(8553);
 const ts_dedent_1 = __nccwpck_require__(464);
+const MEMBERS = { w00ing: 'U02U5KJ3G7P' };
 const COLORS = {
     SUCCESS: '#2EB67D',
     PENDING: '#FFD166',
@@ -41331,7 +41332,7 @@ const InputSchema = zod_1.z.discriminatedUnion('phase', [
         service_name: zod_1.z.string(),
         channel_id: zod_1.z.string(),
         team: zod_1.z.string(),
-        member_id: zod_1.z.string(),
+        group_id: zod_1.z.string().nullish(),
         phase: zod_1.z.literal('start'),
         environment: zod_1.z.string()
     }),
@@ -41339,7 +41340,7 @@ const InputSchema = zod_1.z.discriminatedUnion('phase', [
         service_name: zod_1.z.string(),
         channel_id: zod_1.z.string(),
         team: zod_1.z.string(),
-        member_id: zod_1.z.string(),
+        group_id: zod_1.z.string().nullish(),
         phase: zod_1.z.literal('finish'),
         environment: zod_1.z.string(),
         thread_ts: zod_1.z.string()
@@ -41351,7 +41352,7 @@ async function main() {
             service_name: core.getInput('service_name', { required: true }),
             channel_id: core.getInput('channel_id', { required: true }),
             team: core.getInput('team', { required: true }),
-            member_id: core.getInput('member_id', { required: true }),
+            group_id: core.getInput('group_id'),
             phase: core.getInput('phase', { required: true }),
             environment: core.getInput('environment', { required: true }),
             thread_ts: core.getInput('thread_ts')
@@ -41360,16 +41361,19 @@ async function main() {
         const SLACKBOT_TOKEN = getEnvVariable('SLACKBOT_TOKEN');
         const githubClient = github.getOctokit(GITHUB_TOKEN);
         const slackClient = new web_api_1.WebClient(SLACKBOT_TOKEN);
+        core.info(`Github context actor: ${github.context.actor}`);
         if (inputs.phase === 'start') {
             const messageResponse = await slackClient.chat.postMessage({
                 channel: inputs.channel_id,
-                text: '배포 진행중 :loading:',
+                text: ':loading: 배포 진행중',
                 blocks: [
                     {
                         type: 'header',
                         text: {
                             type: 'plain_text',
-                            text: '배포 진행중 :loading:',
+                            text: (0, ts_dedent_1.dedent)(`
+              ${mentionGroup(inputs.group_id)}
+              :loading: 배포 진행중`),
                             emoji: true
                         }
                     }
@@ -41383,7 +41387,7 @@ async function main() {
                                 text: {
                                     type: 'mrkdwn',
                                     text: (0, ts_dedent_1.dedent)(`
-                  구분 : ${mention(inputs.member_id)}, ${inputs.team}
+                  구분 : ${mentionMember(MEMBERS[github.context.actor])}, ${inputs.team}
                   서비스 : ${inputs.service_name}
                   배포 환경 : ${inputs.environment}
                   `)
@@ -41397,17 +41401,16 @@ async function main() {
             core.info((0, ts_dedent_1.dedent)(`Start message sent Successfully: ${JSON.stringify(messageResponse, null, 2)}`));
         }
         else if (inputs.phase === 'finish') {
-            await sleep(10000);
             const updatedMessageResponse = await slackClient.chat.update({
                 channel: inputs.channel_id,
                 ts: inputs.thread_ts,
-                text: '배포 완료 ✅',
+                text: '✅ 배포 완료',
                 blocks: [
                     {
                         type: 'header',
                         text: {
                             type: 'plain_text',
-                            text: '배포 완료 ✅'
+                            text: '✅ 배포 완료'
                         }
                     }
                 ],
@@ -41420,7 +41423,7 @@ async function main() {
                                 text: {
                                     type: 'mrkdwn',
                                     text: (0, ts_dedent_1.dedent)(`
-                  구분 : ${mention(inputs.member_id)}, ${inputs.team}
+                  구분 : ${mentionMember(MEMBERS[github.context.actor])}, ${inputs.team}
                   서비스 : ${inputs.service_name}
                   배포 환경 : ${inputs.environment}
                   `)
@@ -41446,8 +41449,11 @@ async function main() {
             core.setFailed(error.message);
     }
 }
-function mention(memberId) {
+function mentionMember(memberId) {
     return `<@${memberId}>`;
+}
+function mentionGroup(groupId) {
+    return groupId ? `<!subteam^${groupId}>` : '';
 }
 function getEnvVariable(name) {
     const value = process.env[name];
@@ -41455,9 +41461,6 @@ function getEnvVariable(name) {
         throw new Error(`Env variable ${name} is missing.`);
     }
     return value;
-}
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
 }
 main();
 
