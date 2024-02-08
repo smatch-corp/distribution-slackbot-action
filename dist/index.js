@@ -41365,19 +41365,7 @@ async function main() {
         if (inputs.phase === 'start') {
             const messageResponse = await slackClient.chat.postMessage({
                 channel: inputs.channel_id,
-                text: ':loading: 배포 진행중',
-                blocks: [
-                    {
-                        type: 'header',
-                        text: {
-                            type: 'plain_text',
-                            text: (0, ts_dedent_1.dedent)(`
-              ${mentionGroup(inputs.group_id)}
-              :loading: 배포 진행중`),
-                            emoji: true
-                        }
-                    }
-                ],
+                text: '배포 진행중 :loading:',
                 attachments: [
                     {
                         color: COLORS.PENDING,
@@ -41395,6 +41383,28 @@ async function main() {
                             }
                         ]
                     }
+                ],
+                blocks: [
+                    {
+                        type: 'header',
+                        text: {
+                            type: 'plain_text',
+                            text: (0, ts_dedent_1.dedent)(`
+              ${mentionGroup(inputs.group_id)}
+              배포 진행중 :loading:`),
+                            emoji: true
+                        }
+                    },
+                    {
+                        type: 'divider'
+                    },
+                    {
+                        type: 'section',
+                        text: {
+                            type: 'mrkdwn',
+                            text: createFormattedJiraIssueLink()
+                        }
+                    }
                 ]
             });
             core.setOutput('thread_ts', messageResponse.ts);
@@ -41404,16 +41414,7 @@ async function main() {
             const updatedMessageResponse = await slackClient.chat.update({
                 channel: inputs.channel_id,
                 ts: inputs.thread_ts,
-                text: '✅ 배포 완료',
-                blocks: [
-                    {
-                        type: 'header',
-                        text: {
-                            type: 'plain_text',
-                            text: '✅ 배포 완료'
-                        }
-                    }
-                ],
+                text: '배포 완료 :ballot_box_with_check:',
                 attachments: [
                     {
                         color: COLORS.SUCCESS,
@@ -41430,6 +41431,25 @@ async function main() {
                                 }
                             }
                         ]
+                    }
+                ],
+                blocks: [
+                    {
+                        type: 'header',
+                        text: {
+                            type: 'plain_text',
+                            text: '배포 완료 :ballot_box_with_check:'
+                        }
+                    },
+                    {
+                        type: 'divider'
+                    },
+                    {
+                        type: 'section',
+                        text: {
+                            type: 'mrkdwn',
+                            text: createFormattedJiraIssueLink()
+                        }
                     }
                 ]
             });
@@ -41461,6 +41481,21 @@ function getEnvVariable(name) {
         throw new Error(`Env variable ${name} is missing.`);
     }
     return value;
+}
+function extractJiraIssueKey(title) {
+    const match = title.match(/^\[(\w+-\d+)\]/);
+    return match ? match[1] : '';
+}
+function createJiraIssueLink(issueKey) {
+    return issueKey ? `https://billynco.atlassian.net/browse/${issueKey}` : '';
+}
+function createFormattedJiraIssueLink() {
+    const title = github.context.payload.pull_request?.title;
+    if (!title)
+        return '';
+    const issueKey = extractJiraIssueKey(title);
+    const link = createJiraIssueLink(issueKey);
+    return link ? `<${link}|${title}>` : '';
 }
 main();
 
