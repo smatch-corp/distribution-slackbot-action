@@ -1,21 +1,31 @@
 import * as core from '@actions/core'
 import { WebClient } from '@slack/web-api'
 import { match } from 'ts-pattern'
+import { z } from 'zod'
 
-type Phase = 'start' | 'finish' | '' | null | undefined
+const InputSchema = z.object({
+  service_name: z.string(),
+  channel_id: z.string(),
+  member_id: z.string(),
+  phase: z.enum(['start', 'finish']),
+  environment: z.string()
+})
 
 export async function run(): Promise<void> {
-  const PHASE = core.getInput('phase') as Phase
-  const channelId = core.getInput('channel_id')
-
   try {
-    if (!channelId) {
-      throw new Error('Channel is missing.')
-    }
-    match(PHASE)
-      .with('start', () => onDistributionStart({ channel: channelId }))
+    const { phase, channel_id, environment, member_id, service_name } =
+      InputSchema.parse({
+        service_name: core.getInput('service_name'),
+        channel_id: core.getInput('channel_id'),
+        member_id: core.getInput('member_id'),
+        phase: core.getInput('phase'),
+        environment: core.getInput('environment')
+      })
+
+    match(phase)
+      .with('start', () => onDistributionStart({ channel_id }))
       .with('finish', () => {
-        onDistributionFinish({ channel: channelId })
+        onDistributionFinish({ channel_id })
         core.info('Distribution finished!')
       })
       .otherwise(() => core.setFailed('Invalid action type'))
@@ -26,7 +36,7 @@ export async function run(): Promise<void> {
 }
 
 type DistributionStartOptions = {
-  channel: string
+  channel_id: string
 }
 
 async function onDistributionStart(
@@ -45,7 +55,7 @@ async function onDistributionStart(
     core.info(`Testing env: ${SLACKBOT_TOKEN}`)
 
     const result = await slack.chat.postMessage({
-      channel: options.channel,
+      channel: options.channel_id,
       text: 'Distribution started!'
     })
     core.info('Message sent!')
@@ -56,7 +66,7 @@ async function onDistributionStart(
 }
 
 type DistributionFinishOptions = {
-  channel: string
+  channel_id: string
 }
 
 async function onDistributionFinish(
@@ -74,7 +84,7 @@ async function onDistributionFinish(
     core.info(`Testing env: ${SLACKBOT_TOKEN}`)
 
     const result = await slack.chat.postMessage({
-      channel: options.channel,
+      channel: options.channel_id,
       text: 'Distribution finished!'
     })
 

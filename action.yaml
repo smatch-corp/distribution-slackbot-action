@@ -10,23 +10,21 @@ inputs:
   team:
     description: '팀명 (ex. Front-End, Back-End, Core)'
     required: true
-    default: 테스트 팀
-  service-name:
+  service_name:
     description: '서비스명 (ex. 스매치, 스매치어드민, 패스트매치)'
     required: true
-    default: 테스트 서비스
   environment:
     description: '배포 환경 (test, stage, prod)'
     required: true
-    default: 테스트 환경
-  channel-id:
+  channel_id:
     description: '배포 알림 채널 ID'
     required: true
-    default: 'C06H62PLQNN'
+  member_id:
+    description: '멘션할 슬랙 멤버 ID'
+    required: true
   phase:
     description: '액션 타입 (start, finish)'
     required: true
-    default: finis
 
 outputs:
   time:

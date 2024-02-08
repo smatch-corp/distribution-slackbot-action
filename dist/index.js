@@ -32930,6 +32930,7 @@ async function onDistributionStart(options) {
             throw new Error('SLACKBOT_TOKEN is missing.');
         }
         const slack = new web_api_1.WebClient(SLACKBOT_TOKEN);
+        core.info('TESTING HUSKY!');
         core.info('START: Sending notification to Slack...');
         core.info(`Testing env: ${SLACKBOT_TOKEN}`);
         const result = await slack.chat.postMessage({

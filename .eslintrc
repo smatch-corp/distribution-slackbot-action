@@ -38,7 +38,7 @@
     "import/no-namespace": "off",
     "no-console": "off",
     "no-unused-vars": "off",
-    "prettier/prettier": "off",
+    "prettier/prettier": "warn",
     "semi": "off",
     "@typescript-eslint/array-type": "error",
     "@typescript-eslint/await-thenable": "error",
