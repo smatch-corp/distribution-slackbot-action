@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import { WebClient } from '@slack/web-api'
-import { match, P } from 'ts-pattern'
+import { match } from 'ts-pattern'
 
 type Phase = 'start' | 'finish' | '' | null | undefined
 
@@ -40,6 +40,7 @@ async function onDistributionStart(
     }
     const slack = new WebClient(SLACKBOT_TOKEN)
 
+    core.info('TESTING HUSKY!')
     core.info('START: Sending notification to Slack...')
     core.info(`Testing env: ${SLACKBOT_TOKEN}`)
 
