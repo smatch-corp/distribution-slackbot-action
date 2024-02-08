@@ -89,6 +89,7 @@ async function main(): Promise<void> {
         )
       )
     } else if (inputs.phase === 'finish') {
+      await sleep(10000)
       const updatedMessageResponse = await slackClient.chat.update({
         channel: inputs.channel_id,
         ts: inputs.thread_ts,
@@ -104,7 +105,7 @@ async function main(): Promise<void> {
         ],
         attachments: [
           {
-            color: COLORS.PENDING,
+            color: COLORS.SUCCESS,
             blocks: [
               {
                 type: 'section',
@@ -152,6 +153,10 @@ function getEnvVariable(name: string): string {
     throw new Error(`Env variable ${name} is missing.`)
   }
   return value
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 main()

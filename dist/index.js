@@ -41397,6 +41397,7 @@ async function main() {
             core.info((0, ts_dedent_1.dedent)(`Start message sent Successfully: ${JSON.stringify(messageResponse, null, 2)}`));
         }
         else if (inputs.phase === 'finish') {
+            await sleep(10000);
             const updatedMessageResponse = await slackClient.chat.update({
                 channel: inputs.channel_id,
                 ts: inputs.thread_ts,
@@ -41412,7 +41413,7 @@ async function main() {
                 ],
                 attachments: [
                     {
-                        color: COLORS.PENDING,
+                        color: COLORS.SUCCESS,
                         blocks: [
                             {
                                 type: 'section',
@@ -41454,6 +41455,9 @@ function getEnvVariable(name) {
         throw new Error(`Env variable ${name} is missing.`);
     }
     return value;
+}
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 main();
 
