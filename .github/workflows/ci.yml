@@ -50,8 +50,8 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
 
-      - name: Test Local Action
-        id: test-action
+      - name: Test Start Action
+        id: test-start-action
         uses: ./
         with:
           channel_id: 'C06H62PLQNN'
@@ -62,7 +62,23 @@ jobs:
           environment: dev
         env:
           SLACKBOT_TOKEN: ${{ secrets.DISTRIBUTION_SLACKBOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Print Output
-        id: output
-        run: echo "${{ steps.test-action.outputs.time }}"
+      - name: Print Start Action Output
+        id: thread_ts
+        run: echo "${{ steps.test-start-action.outputs.thread_ts }}"
+
+      - name: Test Finish Action
+        id: test-finish-action
+        uses: ./
+        with:
+          channel_id: 'C06H62PLQNN'
+          member_id: 'U02U5KJ3G7P'
+          phase: 'finish'
+          team: Front-End
+          service_name: 스매치어드민
+          environment: dev
+          thread_ts: ${{ steps.test-start-action.outputs.thread_ts }}
+        env:
+          SLACKBOT_TOKEN: ${{ secrets.DISTRIBUTION_SLACKBOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

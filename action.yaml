@@ -27,8 +27,8 @@ inputs:
     required: true
 
 outputs:
-  time:
-    description: 'Your output description here'
+  thread_ts:
+    description: Thread timestamp ('start' phase에서만 출력)
 
 runs:
   using: 'node20'
