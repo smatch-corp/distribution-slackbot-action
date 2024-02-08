@@ -41436,8 +41436,8 @@ function createThreadMessageBlocks(inputs) {
         attachments: [
             {
                 color: (0, ts_pattern_1.match)(inputs.phase)
-                    .with('start', () => COLORS.SUCCESS)
-                    .with('finish', () => COLORS.PENDING)
+                    .with('start', () => COLORS.PENDING)
+                    .with('finish', () => COLORS.SUCCESS)
                     .otherwise(() => COLORS.ERROR),
                 blocks: [
                     {
@@ -41448,11 +41448,11 @@ function createThreadMessageBlocks(inputs) {
               구분 : ${mentionMember(MEMBERS[github.context.actor])}, ${inputs.team}
               서비스 : ${inputs.service_name}
               배포 환경 : ${inputs.environment}
+              ${createFormattedJiraIssueLink() ? `Jira 티켓 : ${createFormattedJiraIssueLink()}` : ''}
               진행 상태 : ${(0, ts_pattern_1.match)(inputs.phase)
                                 .with('start', () => '배포 진행중 :loading:')
                                 .with('finish', () => '배포 완료 :ballot_box_with_check:')
                                 .otherwise(() => '')}
-              ${createFormattedJiraIssueLink() ? `Jira 티켓 : ${createFormattedJiraIssueLink()}` : ''}
               `)
                         }
                     }
