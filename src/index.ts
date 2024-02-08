@@ -1,9 +1,9 @@
 import * as github from '@actions/github'
 import * as core from '@actions/core'
-import { WebClient } from '@slack/web-api'
-import { match } from 'ts-pattern'
+import { Block, KnownBlock, MessageAttachment, WebClient } from '@slack/web-api'
 import { z } from 'zod'
 import { dedent } from 'ts-dedent'
+import { match } from 'ts-pattern'
 
 const MEMBERS: Record<string, string> = { w00ing: 'U02U5KJ3G7P' }
 
@@ -51,42 +51,11 @@ async function main(): Promise<void> {
     const githubClient = github.getOctokit(GITHUB_TOKEN)
     const slackClient = new WebClient(SLACKBOT_TOKEN)
 
-    core.info(`Github context actor: ${github.context.actor}`)
-
     if (inputs.phase === 'start') {
       const messageResponse = await slackClient.chat.postMessage({
         channel: inputs.channel_id,
-        text: ':loading: 배포 진행중',
-        blocks: [
-          {
-            type: 'header',
-            text: {
-              type: 'plain_text',
-              text: dedent(`
-              ${mentionGroup(inputs.group_id)}
-              :loading: 배포 진행중`),
-              emoji: true
-            }
-          }
-        ],
-        attachments: [
-          {
-            color: COLORS.PENDING,
-            blocks: [
-              {
-                type: 'section',
-                text: {
-                  type: 'mrkdwn',
-                  text: dedent(`
-                  구분 : ${mentionMember(MEMBERS[github.context.actor])}, ${inputs.team}
-                  서비스 : ${inputs.service_name}
-                  배포 환경 : ${inputs.environment}
-                  `)
-                }
-              }
-            ]
-          }
-        ]
+        text: '배포 진행중 :loading:',
+        ...createThreadMessageBlocks(inputs)
       })
       core.setOutput('thread_ts', messageResponse.ts)
       core.info(
@@ -98,34 +67,8 @@ async function main(): Promise<void> {
       const updatedMessageResponse = await slackClient.chat.update({
         channel: inputs.channel_id,
         ts: inputs.thread_ts,
-        text: '✅ 배포 완료',
-        blocks: [
-          {
-            type: 'header',
-            text: {
-              type: 'plain_text',
-              text: '✅ 배포 완료'
-            }
-          }
-        ],
-        attachments: [
-          {
-            color: COLORS.SUCCESS,
-            blocks: [
-              {
-                type: 'section',
-                text: {
-                  type: 'mrkdwn',
-                  text: dedent(`
-                  구분 : ${mentionMember(MEMBERS[github.context.actor])}, ${inputs.team}
-                  서비스 : ${inputs.service_name}
-                  배포 환경 : ${inputs.environment}
-                  `)
-                }
-              }
-            ]
-          }
-        ]
+        text: '배포 완료 :ballot_box_with_check:',
+        ...createThreadMessageBlocks(inputs)
       })
 
       const replyMessageResponse = await slackClient.chat.postMessage({
@@ -162,6 +105,67 @@ function getEnvVariable(name: string): string {
     throw new Error(`Env variable ${name} is missing.`)
   }
   return value
+}
+
+function extractJiraIssueKey(title: string): string {
+  const match = title.match(/^\[(\w+-\d+)\]/)
+
+  return match ? match[1] : ''
+}
+
+function createJiraIssueLink(issueKey: string): string {
+  return issueKey ? `https://billynco.atlassian.net/browse/${issueKey}` : ''
+}
+
+function createFormattedJiraIssueLink(): string {
+  const title = github.context.payload.pull_request?.title
+  if (!title) return ''
+  const issueKey = extractJiraIssueKey(title)
+  const link = createJiraIssueLink(issueKey)
+  return link ? `<${link}|${title}>` : ''
+}
+
+function createThreadMessageBlocks(inputs: z.infer<typeof InputSchema>): {
+  blocks: (KnownBlock | Block)[]
+  attachments: MessageAttachment[]
+} {
+  return {
+    blocks: [
+      {
+        type: 'section',
+        text: {
+          type: 'plain_text',
+          text: `${mentionGroup(inputs.group_id)} (임시 텍스트)`
+        }
+      }
+    ],
+    attachments: [
+      {
+        color: match(inputs.phase)
+          .with('start', () => COLORS.PENDING)
+          .with('finish', () => COLORS.SUCCESS)
+          .otherwise(() => COLORS.ERROR),
+        blocks: [
+          {
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: dedent(`
+              구분 : ${mentionMember(MEMBERS[github.context.actor])}, ${inputs.team}
+              서비스 : ${inputs.service_name}
+              배포 환경 : ${inputs.environment}
+              ${createFormattedJiraIssueLink() ? `Jira 티켓 : ${createFormattedJiraIssueLink()}` : ''}
+              진행 상태 : ${match(inputs.phase)
+                .with('start', () => '배포 진행중 :loading:')
+                .with('finish', () => '배포 완료 :ballot_box_with_check:')
+                .otherwise(() => '')}
+              `)
+            }
+          }
+        ]
+      }
+    ]
+  }
 }
 
 main()
