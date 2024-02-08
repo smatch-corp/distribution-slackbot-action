@@ -1,9 +1,9 @@
 import * as github from '@actions/github'
 import * as core from '@actions/core'
-import { WebClient } from '@slack/web-api'
-import { P, match } from 'ts-pattern'
+import { Block, KnownBlock, MessageAttachment, WebClient } from '@slack/web-api'
 import { z } from 'zod'
 import { dedent } from 'ts-dedent'
+import { match } from 'ts-pattern'
 
 const MEMBERS: Record<string, string> = { w00ing: 'U02U5KJ3G7P' }
 
@@ -57,46 +57,7 @@ async function main(): Promise<void> {
       const messageResponse = await slackClient.chat.postMessage({
         channel: inputs.channel_id,
         text: '배포 진행중 :loading:',
-        attachments: [
-          {
-            color: COLORS.PENDING,
-            blocks: [
-              {
-                type: 'section',
-                text: {
-                  type: 'mrkdwn',
-                  text: dedent(`
-                  구분 : ${mentionMember(MEMBERS[github.context.actor])}, ${inputs.team}
-                  서비스 : ${inputs.service_name}
-                  배포 환경 : ${inputs.environment}
-                  `)
-                }
-              }
-            ]
-          }
-        ],
-        blocks: [
-          {
-            type: 'header',
-            text: {
-              type: 'plain_text',
-              text: dedent(`
-              ${mentionGroup(inputs.group_id)}
-              배포 진행중 :loading:`),
-              emoji: true
-            }
-          },
-          {
-            type: 'divider'
-          },
-          {
-            type: 'section',
-            text: {
-              type: 'mrkdwn',
-              text: createFormattedJiraIssueLink()
-            }
-          }
-        ]
+        ...createThreadMessageBlocks(inputs)
       })
       core.setOutput('thread_ts', messageResponse.ts)
       core.info(
@@ -109,43 +70,7 @@ async function main(): Promise<void> {
         channel: inputs.channel_id,
         ts: inputs.thread_ts,
         text: '배포 완료 :ballot_box_with_check:',
-        attachments: [
-          {
-            color: COLORS.SUCCESS,
-            blocks: [
-              {
-                type: 'section',
-                text: {
-                  type: 'mrkdwn',
-                  text: dedent(`
-                  구분 : ${mentionMember(MEMBERS[github.context.actor])}, ${inputs.team}
-                  서비스 : ${inputs.service_name}
-                  배포 환경 : ${inputs.environment}
-                  `)
-                }
-              }
-            ]
-          }
-        ],
-        blocks: [
-          {
-            type: 'header',
-            text: {
-              type: 'plain_text',
-              text: '배포 완료 :ballot_box_with_check:'
-            }
-          },
-          {
-            type: 'divider'
-          },
-          {
-            type: 'section',
-            text: {
-              type: 'mrkdwn',
-              text: createFormattedJiraIssueLink()
-            }
-          }
-        ]
+        ...createThreadMessageBlocks(inputs)
       })
 
       const replyMessageResponse = await slackClient.chat.postMessage({
@@ -200,6 +125,46 @@ function createFormattedJiraIssueLink(): string {
   const issueKey = extractJiraIssueKey(title)
   const link = createJiraIssueLink(issueKey)
   return link ? `<${link}|${title}>` : ''
+}
+
+function createThreadMessageBlocks(inputs: z.infer<typeof InputSchema>): {
+  blocks: (KnownBlock | Block)[]
+  attachments: MessageAttachment[]
+} {
+  return {
+    blocks: [
+      {
+        type: 'section',
+        text: {
+          type: 'plain_text',
+          text: mentionGroup(inputs.group_id)
+        }
+      }
+    ],
+    attachments: [
+      {
+        color: COLORS.PENDING,
+        blocks: [
+          {
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: dedent(`
+              구분 : ${mentionMember(MEMBERS[github.context.actor])}, ${inputs.team}
+              서비스 : ${inputs.service_name}
+              배포 환경 : ${inputs.environment}
+              진행 상태 : ${match(inputs.phase)
+                .with('start', () => '배포 진행중 :loading:')
+                .with('finish', () => '배포 완료 :ballot_box_with_check:')
+                .otherwise(() => '')}
+              ${createFormattedJiraIssueLink() ? `Jira 티켓 : ${createFormattedJiraIssueLink()}` : ''}
+              `)
+            }
+          }
+        ]
+      }
+    ]
+  }
 }
 
 main()
