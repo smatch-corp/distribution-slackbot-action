@@ -41362,7 +41362,6 @@ async function main() {
         const SLACKBOT_TOKEN = getEnvVariable('SLACKBOT_TOKEN');
         const githubClient = github.getOctokit(GITHUB_TOKEN);
         const slackClient = new web_api_1.WebClient(SLACKBOT_TOKEN);
-        core.info(`Github context actor: ${github.context.actor}`);
         if (inputs.phase === 'start') {
             const messageResponse = await slackClient.chat.postMessage({
                 channel: inputs.channel_id,
@@ -41430,13 +41429,16 @@ function createThreadMessageBlocks(inputs) {
                 type: 'section',
                 text: {
                     type: 'plain_text',
-                    text: mentionGroup(inputs.group_id)
+                    text: `${mentionGroup(inputs.group_id)} (임시 텍스트)`
                 }
             }
         ],
         attachments: [
             {
-                color: COLORS.PENDING,
+                color: (0, ts_pattern_1.match)(inputs.phase)
+                    .with('start', () => COLORS.SUCCESS)
+                    .with('finish', () => COLORS.PENDING)
+                    .otherwise(() => COLORS.ERROR),
                 blocks: [
                     {
                         type: 'section',

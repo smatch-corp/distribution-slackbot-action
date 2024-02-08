@@ -51,8 +51,6 @@ async function main(): Promise<void> {
     const githubClient = github.getOctokit(GITHUB_TOKEN)
     const slackClient = new WebClient(SLACKBOT_TOKEN)
 
-    core.info(`Github context actor: ${github.context.actor}`)
-
     if (inputs.phase === 'start') {
       const messageResponse = await slackClient.chat.postMessage({
         channel: inputs.channel_id,
@@ -137,13 +135,16 @@ function createThreadMessageBlocks(inputs: z.infer<typeof InputSchema>): {
         type: 'section',
         text: {
           type: 'plain_text',
-          text: mentionGroup(inputs.group_id)
+          text: `${mentionGroup(inputs.group_id)} (임시 텍스트)`
         }
       }
     ],
     attachments: [
       {
-        color: COLORS.PENDING,
+        color: match(inputs.phase)
+          .with('start', () => COLORS.SUCCESS)
+          .with('finish', () => COLORS.PENDING)
+          .otherwise(() => COLORS.ERROR),
         blocks: [
           {
             type: 'section',
