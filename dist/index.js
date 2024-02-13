@@ -46478,17 +46478,15 @@ async function main() {
         //   commit_sha: github.context.sha
         // })
         // if()
-        const pullRequest = await octoClient.rest.pulls.get({
-            owner: github.context.repo.owner,
-            repo: github.context.repo.repo,
-            pull_number: github.context.payload.pull_request?.number ?? 1
-        });
-        const commit = await octoClient.rest.repos.getCommit({
-            owner: github.context.repo.owner,
-            repo: github.context.repo.repo,
-            ref: pullRequest.data.head.sha
-        });
-        commit.data.commit.message;
+        if (github.context.payload.pull_request) {
+            const pr = await octoClient.rest.pulls.listCommits({
+                owner: github.context.repo.owner,
+                repo: github.context.repo.repo,
+                pull_number: github.context.payload.pull_request.number
+            });
+            const messages = pr.data.map(p => p.commit.message);
+            core.info(JSON.stringify(messages, null, 2));
+        }
         // github.context.repo.repo
         if (inputs.phase === 'start') {
             const messageResponse = await slackClient.chat.postMessage((0, messages_1.createThreadMainMessage)(inputs));
