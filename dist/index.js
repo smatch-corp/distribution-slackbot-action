@@ -46723,7 +46723,12 @@ async function createFormattedJiraIssueLinks() {
     const commitMessages = await getAssociatedCommitMessages();
     return commitMessages
         .filter(Boolean)
-        .map(message => `- ${slack_block_builder_1.Md.link(createJiraIssueLink(extractJiraIssueKey(message)), message)}`);
+        .map(message => isJiraTicket(message)
+        ? `${slack_block_builder_1.Md.link(createJiraIssueLink(extractJiraIssueKey(message)), message)}`
+        : '');
+}
+function isJiraTicket(message) {
+    return !!extractJiraIssueKey(message);
 }
 async function getAssociatedCommitMessages() {
     if (github.context.payload.pull_request) {

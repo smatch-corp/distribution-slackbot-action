@@ -80,13 +80,15 @@ async function createFormattedJiraIssueLinks() {
 
   return commitMessages
     .filter(Boolean)
-    .map(
-      message =>
-        `- ${Md.link(
-          createJiraIssueLink(extractJiraIssueKey(message)),
-          message
-        )}`
+    .map(message =>
+      isJiraTicket(message)
+        ? `${Md.link(createJiraIssueLink(extractJiraIssueKey(message)), message)}`
+        : ''
     )
+}
+
+function isJiraTicket(message: string): boolean {
+  return !!extractJiraIssueKey(message)
 }
 
 async function getAssociatedCommitMessages(): Promise<string[]> {
