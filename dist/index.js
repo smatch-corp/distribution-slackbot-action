@@ -13994,6 +13994,5137 @@ RetryOperation.prototype.mainError = function() {
 
 /***/ }),
 
+/***/ 9142:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AttachmentBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/messaging/attachments
+ * @@displayName Attachment
+ */
+class AttachmentBuilder extends base_1.BitBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackDto, {
+            blocks: helpers_1.getBuilderResults(this.props.blocks),
+        });
+    }
+}
+exports.AttachmentBuilder = AttachmentBuilder;
+helpers_1.applyMixins(AttachmentBuilder, [
+    methods_1.Blocks,
+    methods_1.Color,
+    methods_1.End,
+    methods_1.Fallback,
+]);
+
+
+/***/ }),
+
+/***/ 9134:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ConfirmationDialogBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/composition-objects#confirm
+ * @@displayName Confirmation Dialog
+ */
+class ConfirmationDialogBuilder extends base_1.BitBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackDto, {
+            text: helpers_1.getMarkdownObject(this.props.text),
+            title: helpers_1.getPlainTextObject(this.props.title),
+            confirm: helpers_1.getPlainTextObject(this.props.confirm),
+            deny: helpers_1.getPlainTextObject(this.props.deny),
+        });
+    }
+}
+exports.ConfirmationDialogBuilder = ConfirmationDialogBuilder;
+helpers_1.applyMixins(ConfirmationDialogBuilder, [
+    methods_1.Confirm,
+    methods_1.Danger,
+    methods_1.Deny,
+    methods_1.End,
+    methods_1.Primary,
+    methods_1.Text,
+    methods_1.Title,
+]);
+
+
+/***/ }),
+
+/***/ 5084:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+/* eslint-disable max-len */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Bits = exports.OptionGroup = exports.Option = exports.ConfirmationDialog = exports.Attachment = void 0;
+const attachment_1 = __nccwpck_require__(9142);
+const confirmation_dialog_1 = __nccwpck_require__(9134);
+const option_1 = __nccwpck_require__(1161);
+const option_group_1 = __nccwpck_require__(3181);
+/**
+ * Functions here do not use arrow functions stored in variables for IDE color compatibility.
+ */
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.color] Sets the color of the block quote border.
+ *
+ * {@link https://api.slack.com/reference/messaging/attachments|View in Slack API Documentation}
+ */
+function Attachment(params) {
+    return new attachment_1.AttachmentBuilder(params);
+}
+exports.Attachment = Attachment;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.title] Sets the title displayed in the confirmation dialog.
+ * @param {string} [params.text] Sets the textual content of the confirmation dialog.
+ * @param {string} [params.confirm] Sets the text for the button that confirms the action.
+ * @param {string} [params.deny]Sets the text for the button that cancels the action.
+ *
+ * {@link https://api.slack.com/reference/block-kit/composition-objects#confirm|View in Slack API Documentation}
+ */
+function ConfirmationDialog(params) {
+    return new confirmation_dialog_1.ConfirmationDialogBuilder(params);
+}
+exports.ConfirmationDialog = ConfirmationDialog;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.text] Sets the text displayed in the menu for the current option.
+ * @param {string} [params.value] Sets the value passed to your app when this OptionBuilder is clicked or submitted.
+ * @param {string} [params.description] Sets a description shown next to the option, if in a radio button input.
+ * @param {string} [params.url] Sets the URL to redirect the user to when this option is clicked, if in an overlow menu.
+ *
+ * {@link https://api.slack.com/reference/block-kit/composition-objects#option|View in Slack API Documentation}
+ */
+function Option(params) {
+    return new option_1.OptionBuilder(params);
+}
+exports.Option = Option;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.label] Sets the label shown above the group of option.
+ *
+ * {@link https://api.slack.com/reference/block-kit/composition-objects#option_group|View in Slack API Documentation}
+ */
+function OptionGroup(params) {
+    return new option_group_1.OptionGroupBuilder(params);
+}
+exports.OptionGroup = OptionGroup;
+const bits = {
+    Attachment,
+    ConfirmationDialog,
+    Option,
+    OptionGroup,
+};
+exports.Bits = bits;
+
+
+/***/ }),
+
+/***/ 3181:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.OptionGroupBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/composition-objects#option_group
+ * @@displayName Option Group
+ */
+class OptionGroupBuilder extends base_1.BitBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackDto, {
+            label: helpers_1.getPlainTextObject(this.props.label),
+            options: helpers_1.getBuilderResults(this.props.options),
+        });
+    }
+}
+exports.OptionGroupBuilder = OptionGroupBuilder;
+helpers_1.applyMixins(OptionGroupBuilder, [
+    methods_1.End,
+    methods_1.Label,
+    methods_1.Options,
+]);
+
+
+/***/ }),
+
+/***/ 1161:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.OptionBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/composition-objects#option
+ * @@displayName Option
+ */
+class OptionBuilder extends base_1.BitBuilderBase {
+    /** @internal */
+    build({ isMarkdown } = { isMarkdown: false }) {
+        return this.getResult(dto_1.SlackDto, {
+            text: isMarkdown
+                ? helpers_1.getMarkdownObject(this.props.text)
+                : helpers_1.getPlainTextObject(this.props.text),
+            description: isMarkdown
+                ? helpers_1.getMarkdownObject(this.props.description)
+                : helpers_1.getPlainTextObject(this.props.description),
+        });
+    }
+}
+exports.OptionBuilder = OptionBuilder;
+helpers_1.applyMixins(OptionBuilder, [
+    methods_1.Description,
+    methods_1.End,
+    methods_1.Text,
+    methods_1.Url,
+    methods_1.Value,
+]);
+
+
+/***/ }),
+
+/***/ 8610:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ActionsBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/blocks#actions
+ * @@displayName Actions
+ */
+class ActionsBuilder extends base_1.BlockBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackBlockDto, {
+            type: constants_1.BlockType.Actions,
+            elements: helpers_1.getBuilderResults(this.props.elements),
+        });
+    }
+}
+exports.ActionsBuilder = ActionsBuilder;
+helpers_1.applyMixins(ActionsBuilder, [
+    methods_1.BlockId,
+    methods_1.End,
+    methods_1.Elements,
+]);
+
+
+/***/ }),
+
+/***/ 9768:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ContextBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/blocks#context
+ * @@displayName Context
+ */
+class ContextBuilder extends base_1.BlockBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackBlockDto, {
+            type: constants_1.BlockType.Context,
+            elements: helpers_1.getElementsForContext(this.props.elements),
+        });
+    }
+}
+exports.ContextBuilder = ContextBuilder;
+helpers_1.applyMixins(ContextBuilder, [
+    methods_1.BlockId,
+    methods_1.Elements,
+    methods_1.End,
+]);
+
+
+/***/ }),
+
+/***/ 9938:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DividerBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/blocks#divider
+ * @@displayName Divider
+ */
+class DividerBuilder extends base_1.BlockBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackBlockDto, {
+            type: constants_1.BlockType.Divider,
+        });
+    }
+}
+exports.DividerBuilder = DividerBuilder;
+helpers_1.applyMixins(DividerBuilder, [
+    methods_1.BlockId,
+    methods_1.End,
+]);
+
+
+/***/ }),
+
+/***/ 8421:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.FileBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/blocks#file
+ * @@displayName File
+ */
+class FileBuilder extends base_1.BlockBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackBlockDto, {
+            type: constants_1.BlockType.File,
+            source: constants_1.FileType.Remote,
+        });
+    }
+}
+exports.FileBuilder = FileBuilder;
+helpers_1.applyMixins(FileBuilder, [
+    methods_1.BlockId,
+    methods_1.End,
+    methods_1.ExternalId,
+]);
+
+
+/***/ }),
+
+/***/ 8227:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.HeaderBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/blocks#header
+ * @@displayName Header
+ */
+class HeaderBuilder extends base_1.BlockBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackBlockDto, {
+            type: constants_1.BlockType.Header,
+            text: helpers_1.getPlainTextObject(this.props.text),
+        });
+    }
+}
+exports.HeaderBuilder = HeaderBuilder;
+helpers_1.applyMixins(HeaderBuilder, [
+    methods_1.BlockId,
+    methods_1.End,
+    methods_1.Text,
+]);
+
+
+/***/ }),
+
+/***/ 669:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ImageBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/blocks#image
+ * @@displayName Image
+ */
+class ImageBuilder extends base_1.BlockBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackBlockDto, {
+            type: constants_1.BlockType.Image,
+            title: helpers_1.getPlainTextObject(this.props.title),
+        });
+    }
+}
+exports.ImageBuilder = ImageBuilder;
+helpers_1.applyMixins(ImageBuilder, [
+    methods_1.AltText,
+    methods_1.BlockId,
+    methods_1.End,
+    methods_1.ImageUrl,
+    methods_1.Title,
+]);
+
+
+/***/ }),
+
+/***/ 4210:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+/* eslint-disable max-len */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Blocks = exports.Video = exports.Section = exports.Input = exports.Image = exports.Header = exports.File = exports.Divider = exports.Context = exports.Actions = void 0;
+const actions_1 = __nccwpck_require__(8610);
+const context_1 = __nccwpck_require__(9768);
+const divider_1 = __nccwpck_require__(9938);
+const file_1 = __nccwpck_require__(8421);
+const header_1 = __nccwpck_require__(8227);
+const image_1 = __nccwpck_require__(669);
+const input_1 = __nccwpck_require__(1470);
+const section_1 = __nccwpck_require__(2120);
+const video_1 = __nccwpck_require__(7876);
+/**
+ * Functions here do not use arrow functions stored in variables for IDE color compatibility.
+ */
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.blockId] Sets a string to be an identifier for any given block in a view or message. This is sent back to your app in interaction payloads and view submissions for your app to process.
+ *
+ * {@link https://api.slack.com/reference/block-kit/blocks#actions|View in Slack API Documentation}
+ */
+function Actions(params) {
+    return new actions_1.ActionsBuilder(params);
+}
+exports.Actions = Actions;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.blockId] Sets a string to be an identifier for any given block in a view or message. This is sent back to your app in interaction payloads and view submissions for your app to process.
+ *
+ * {@link https://api.slack.com/reference/block-kit/blocks#context|View in Slack API Documentation}
+ */
+function Context(params) {
+    return new context_1.ContextBuilder(params);
+}
+exports.Context = Context;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.blockId] Sets a string to be an identifier for any given block in a view or message. This is sent back to your app in interaction payloads and view submissions for your app to process.
+ *
+ * {@link https://api.slack.com/reference/block-kit/blocks#divider|View in Slack API Documentation}
+ */
+function Divider(params) {
+    return new divider_1.DividerBuilder(params);
+}
+exports.Divider = Divider;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.blockId] Sets a string to be an identifier for any given block in a view or message. This is sent back to your app in interaction payloads and view submissions for your app to process.
+ * @param {string} [params.externalId] Sets a custom identifier for the file that must be unique for all images on a per-team basis.
+ *
+ * {@link https://api.slack.com/reference/block-kit/blocks#file|View in Slack API Documentation}
+ */
+function File(params) {
+    return new file_1.FileBuilder(params);
+}
+exports.File = File;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.blockId] Sets a string to be an identifier for any given block in a view or message. This is sent back to your app in interaction payloads and view submissions for your app to process.
+ * @param {string} [params.text] Sets the text to be displayed in the header block.
+ *
+ * {@link https://api.slack.com/reference/block-kit/blocks#header|View in Slack API Documentation}
+ */
+function Header(params) {
+    return new header_1.HeaderBuilder(params);
+}
+exports.Header = Header;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.blockId] Sets a string to be an identifier for any given block in a view or message. This is sent back to your app in interaction payloads and view submissions for your app to process.
+ * @param {string} [params.imageUrl] Sets the source URL from which the image will be loaded.
+ * @param {string} [params.altText] Sets a textual summary for the image.
+ * @param {string} [params.title] Sets an optional title for the image.
+ *
+ * {@link https://api.slack.com/reference/block-kit/blocks#image|View in Slack API Documentation}
+ */
+function Image(params) {
+    return new image_1.ImageBuilder(params);
+}
+exports.Image = Image;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.blockId] Sets a string to be an identifier for any given block in a view or message. This is sent back to your app in interaction payloads and view submissions for your app to process.
+ * @param {string} [params.label] Sets the label to be displayed above the input.
+ * @param {string} [params.hint] Sets the hint to be displayed under the input.
+ *
+ * {@link https://api.slack.com/reference/block-kit/blocks#input|View in Slack API Documentation}
+ */
+function Input(params) {
+    return new input_1.InputBuilder(params);
+}
+exports.Input = Input;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.blockId] Sets a string to be an identifier for the block, that will be available in interaction payloadsSets a string to be an identifier for any given block in a view or message. This is sent back to your app in interaction payloads and view submissions for your app to process.
+ * @param {string} [params.text] Sets the text to be displayed in the section block.
+ *
+ * {@link https://api.slack.com/reference/block-kit/blocks#section|View in Slack API Documentation}
+ */
+function Section(params) {
+    return new section_1.SectionBuilder(params);
+}
+exports.Section = Section;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.blockId] Sets a string to be an identifier for the block, that will be available in interaction payloadsSets a string to be an identifier for any given block in a view or message. This is sent back to your app in interaction payloads and view submissions for your app to process.
+ * @param {string} [params.description] Sets a description for the video.
+ * @param {string} [params.providerIconUrl] Icon for the video provider - ex. YouTube or Vimeo icon.
+ * @param {string} [params.providerName] The originating application or domain of the video ex. YouTube or Vimeo.
+ * @param {string} [params.thumbnailUrl] A URL that loads the thumbnail image of the video.
+ * @param {string} [params.title] Sets the title displayed for the block, element, or confirmation dialog.
+ * @param {string} [params.titleUrl] A hyperlink for the video's title text.
+ * @param {string} [params.videoUrl] The URL of the video to embed in the Video block.
+ *
+ * {@link https://api.slack.com/reference/block-kit/blocks#section|View in Slack API Documentation}
+ */
+function Video(params) {
+    return new video_1.VideoBuilder(params);
+}
+exports.Video = Video;
+const blocks = {
+    Actions,
+    Context,
+    Divider,
+    File,
+    Header,
+    Image,
+    Input,
+    Section,
+    Video,
+};
+exports.Blocks = blocks;
+
+
+/***/ }),
+
+/***/ 1470:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.InputBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/blocks#input
+ * @@displayName Input
+ */
+class InputBuilder extends base_1.BlockBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackBlockDto, {
+            type: constants_1.BlockType.Input,
+            label: helpers_1.getPlainTextObject(this.props.label),
+            hint: helpers_1.getPlainTextObject(this.props.hint),
+            element: helpers_1.getBuilderResult(this.props.element),
+        });
+    }
+}
+exports.InputBuilder = InputBuilder;
+helpers_1.applyMixins(InputBuilder, [
+    methods_1.BlockId,
+    methods_1.DispatchAction,
+    methods_1.Element,
+    methods_1.End,
+    methods_1.Hint,
+    methods_1.Label,
+    methods_1.Optional,
+]);
+
+
+/***/ }),
+
+/***/ 2120:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SectionBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/blocks#section
+ * @@displayName Section
+ */
+class SectionBuilder extends base_1.BlockBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackBlockDto, {
+            type: constants_1.BlockType.Section,
+            text: helpers_1.getMarkdownObject(this.props.text),
+            fields: helpers_1.getFields(this.props.fields),
+            accessory: helpers_1.getBuilderResult(this.props.accessory),
+        });
+    }
+}
+exports.SectionBuilder = SectionBuilder;
+helpers_1.applyMixins(SectionBuilder, [
+    methods_1.Accessory,
+    methods_1.BlockId,
+    methods_1.End,
+    methods_1.Fields,
+    methods_1.Text,
+]);
+
+
+/***/ }),
+
+/***/ 7876:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.VideoBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/blocks#video
+ * @@displayName Video
+ */
+class VideoBuilder extends base_1.BlockBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackBlockDto, {
+            type: constants_1.BlockType.Video,
+            description: helpers_1.getPlainTextObject(this.props.description),
+            title: helpers_1.getPlainTextObject(this.props.title),
+        });
+    }
+}
+exports.VideoBuilder = VideoBuilder;
+helpers_1.applyMixins(VideoBuilder, [
+    methods_1.AltText,
+    methods_1.AuthorName,
+    methods_1.BlockId,
+    methods_1.Description,
+    methods_1.End,
+    methods_1.ProviderIconUrl,
+    methods_1.ProviderName,
+    methods_1.ThumbnailUrl,
+    methods_1.Title,
+    methods_1.TitleUrl,
+    methods_1.VideoUrl,
+]);
+
+
+/***/ }),
+
+/***/ 5880:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AccordionUIComponent = void 0;
+const blocks_1 = __nccwpck_require__(4210);
+const elements_1 = __nccwpck_require__(9739);
+const constants_1 = __nccwpck_require__(4359);
+const lib_1 = __nccwpck_require__(4281);
+class AccordionUIComponent {
+    constructor(params) {
+        this.items = params.items;
+        this.paginator = params.paginator;
+        this.expandButtonText = params.expandButtonText || constants_1.ComponentUIText.More;
+        this.collapseButtonText = params.collapseButtonText || constants_1.ComponentUIText.Close;
+        this.titleTextFunction = params.titleTextFunction;
+        this.actionIdFunction = params.actionIdFunction;
+        this.builderFunction = params.builderFunction;
+        this.isExpandableFunction = params.isExpandableFunction;
+    }
+    getBlocks() {
+        const unpruned = this.items.map((item, index) => {
+            const isExpanded = this.paginator.checkItemIsExpandedByIndex(index);
+            const section = blocks_1.Blocks.Section({ text: this.titleTextFunction({ item }) });
+            if (this.isExpandableFunction(item)) {
+                section.accessory(elements_1.Elements.Button({
+                    text: isExpanded ? this.collapseButtonText : this.expandButtonText,
+                    actionId: this.actionIdFunction({
+                        expandedItems: this.paginator.getNextStateByItemIndex(index),
+                    }),
+                }));
+            }
+            const blocks = [
+                section,
+                ...isExpanded ? this.builderFunction({ item }).flat() : [],
+            ];
+            return index === 0 ? blocks : [blocks_1.Blocks.Divider(), ...blocks];
+        }).flat();
+        return lib_1.Builder.pruneUndefinedFromArray(unpruned);
+    }
+}
+exports.AccordionUIComponent = AccordionUIComponent;
+
+
+/***/ }),
+
+/***/ 6439:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+/* eslint-disable max-len */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Components = exports.Accordion = exports.EasyPaginator = exports.Paginator = void 0;
+const paginator_ui_component_1 = __nccwpck_require__(5337);
+const accordion_ui_component_1 = __nccwpck_require__(5880);
+const internal_1 = __nccwpck_require__(6431);
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.items] An array of items to be displayed in the paginated content.
+ * @param {int} [params.page] The number of the page to display.
+ * @param {int} [params.perPage] The number of items to display on a page.
+ * @param {int} [params.totalItems] The total number of items in the data set across all pages.
+ * @param {PaginatorActionIdFn} [params.actionId] A function that receives pagination data and returns a string to set as the action IDs of the navigation buttons.
+ * @param {PaginatorBuilderFn} [params.blocksForEach] A function that receives an object with a single item and returns the blocks to create for that item.
+ * @param {string} [params.nextButtonText] The text to display on the button that moves forward in the pagination.
+ * @param {string} [params.previousButtonText] The text to display on the button that moves backward in the pagination.
+ * @param {PaginatorPageCountTextFn} [params.pageCountText] A function to create a custom page count in the UI.
+ *
+ * {@link https://www.blockbuilder.dev/#/components/paginator|View in Block Builder Documentation}
+ */
+function Paginator(params) {
+    const { page, perPage, totalItems } = params;
+    const stateManager = new internal_1.PaginatorStateManager({ page, perPage, totalItems });
+    return new paginator_ui_component_1.PaginatorUIComponent({
+        items: params.items,
+        paginator: stateManager,
+        nextButtonText: params.nextButtonText || null,
+        previousButtonText: params.previousButtonText || null,
+        pageCountTextFunction: params.pageCountText || null,
+        actionIdFunction: params.actionId,
+        builderFunction: params.blocksForEach,
+    });
+}
+exports.Paginator = Paginator;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.items] An array of items to be displayed in the paginated content.
+ * @param {int} [params.page] The number of the page to display.
+ * @param {int} [params.perPage] The number of items to display on a page.
+ * @param {PaginatorActionIdFn} [params.actionId] A function that receives pagination data and returns a string to set as the action IDs of the navigation buttons.
+ * @param {PaginatorBuilderFn} [params.blocksForEach] A function that receives an object with a single item and returns the blocks to create for that item.
+ * @param {string} [params.nextButtonText] The text to display on the button that moves forward in the pagination.
+ * @param {string} [params.previousButtonText] The text to display on the button that moves backward in the pagination.
+ * @param {PaginatorPageCountTextFn} [params.pageCountText] A function to create a custom page count in the UI.
+ *
+ * {@link https://www.blockbuilder.dev/#/components/easy-paginator|View in Block Builder Documentation}
+ */
+function EasyPaginator(params) {
+    const { page, perPage, items } = params;
+    const totalItems = items.length;
+    const paginationCalculator = new internal_1.PaginatorStateManager({ page, perPage, totalItems });
+    const extractedItems = paginationCalculator.extractItems(items);
+    return new paginator_ui_component_1.PaginatorUIComponent({
+        paginator: paginationCalculator,
+        items: extractedItems,
+        nextButtonText: params.nextButtonText || null,
+        previousButtonText: params.previousButtonText || null,
+        pageCountTextFunction: params.pageCountText || null,
+        actionIdFunction: params.actionId,
+        builderFunction: params.blocksForEach,
+    });
+}
+exports.EasyPaginator = EasyPaginator;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.items] An array of items to be displayed in the expandable/collapsable content.
+ * @param {AccordionTitleTextFn} [params.titleText] A function that receives an object with a single item and returns a string to be displayed next to the expand/collapse button.
+ * @param {AccordionActionIdFn} [params.actionId] A function that receives the accordion state data and returns a string to set as the action IDs of the expand/collapse buttons.
+ * @param {AccordionBuilderFn} [params.blocksForExpanded] A function that receives an object with a single item and returns the blocks to create for that item.
+ * @param {AccordionIsExpandableFn} [params.isExpandable] A function that receives an item and and returns a boolean that tells if the section should have an expand/collapse button.
+ * @param {string} [params.expandButtonText] The text to display on the button that expands an item in the UI.
+ * @param {string} [params.collapseButtonText] The text to display on the button that collapses an item in the UI.
+ *
+ * {@link https://www.blockbuilder.dev/#/components/accordion|View in Block Builder Documentation}
+ */
+function Accordion(params) {
+    const { items, expandedItems, collapseOnExpand } = params;
+    const stateManager = new internal_1.AccordionStateManager({ expandedItems, collapseOnExpand });
+    return new accordion_ui_component_1.AccordionUIComponent({
+        items,
+        paginator: stateManager,
+        expandButtonText: params.expandButtonText || null,
+        collapseButtonText: params.collapseButtonText || null,
+        titleTextFunction: params.titleText,
+        actionIdFunction: params.actionId,
+        builderFunction: params.blocksForExpanded,
+        isExpandableFunction: params.isExpandable || (() => true),
+    });
+}
+exports.Accordion = Accordion;
+const components = {
+    Paginator,
+    EasyPaginator,
+    Accordion,
+};
+exports.Components = components;
+
+
+/***/ }),
+
+/***/ 5337:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PaginatorUIComponent = void 0;
+const blocks_1 = __nccwpck_require__(4210);
+const elements_1 = __nccwpck_require__(9739);
+const constants_1 = __nccwpck_require__(4359);
+const lib_1 = __nccwpck_require__(4281);
+const defaultPageCountText = ({ page, totalPages }) => `Page ${page} of ${totalPages}`;
+class PaginatorUIComponent {
+    constructor(params) {
+        this.items = params.items;
+        this.paginator = params.paginator;
+        this.nextButtonText = params.nextButtonText || constants_1.ComponentUIText.Next;
+        this.previousButtonText = params.previousButtonText || constants_1.ComponentUIText.Previous;
+        this.pageCountTextFunction = params.pageCountTextFunction || defaultPageCountText;
+        this.actionIdFunction = params.actionIdFunction;
+        this.builderFunction = params.builderFunction;
+    }
+    getBlocks() {
+        const blocksForEach = [];
+        for (let i = 0; i < this.paginator.getTotalItems() && i < this.items.length; i += 1) {
+            blocksForEach.push(this.builderFunction({ item: this.items[i] }).flat());
+        }
+        const unpruned = this.paginator.getTotalPages() > 1
+            ? [
+                ...blocksForEach.flat(),
+                blocks_1.Blocks.Context().elements(this.pageCountTextFunction({
+                    page: this.paginator.getPage(),
+                    totalPages: this.paginator.getTotalPages(),
+                })),
+                blocks_1.Blocks.Divider(),
+                blocks_1.Blocks.Actions()
+                    .elements(elements_1.Elements.Button({
+                    text: this.previousButtonText,
+                    actionId: this.actionIdFunction({
+                        buttonId: constants_1.PaginatorButtonId.Previous,
+                        ...this.paginator.getPreviousPageState(),
+                    }),
+                }), elements_1.Elements.Button({
+                    text: this.nextButtonText,
+                    actionId: this.actionIdFunction({
+                        buttonId: constants_1.PaginatorButtonId.Next,
+                        ...this.paginator.getNextPageState(),
+                    }),
+                })),
+            ]
+            : blocksForEach.flat();
+        return lib_1.Builder.pruneUndefinedFromArray(unpruned);
+    }
+}
+exports.PaginatorUIComponent = PaginatorUIComponent;
+
+
+/***/ }),
+
+/***/ 2314:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.conditionals = exports.omitIfFalsy = exports.setIfFalsy = exports.omitIfTruthy = exports.setIfTruthy = void 0;
+const falsyValues = [undefined, null, false];
+const falsy = (value) => falsyValues.includes(value);
+const truthy = (value) => !falsyValues.includes(value);
+function setIfTruthy(condition, toSet) {
+    return truthy(condition) ? toSet : undefined;
+}
+exports.setIfTruthy = setIfTruthy;
+function omitIfTruthy(condition, toOmit) {
+    return truthy(condition) ? undefined : toOmit;
+}
+exports.omitIfTruthy = omitIfTruthy;
+function setIfFalsy(condition, toSet) {
+    return falsy(condition) ? toSet : undefined;
+}
+exports.setIfFalsy = setIfFalsy;
+function omitIfFalsy(condition, toOmit) {
+    return falsy(condition) ? undefined : toOmit;
+}
+exports.omitIfFalsy = omitIfFalsy;
+const conditionals = {
+    setIfTruthy,
+    omitIfTruthy,
+    setIfFalsy,
+    omitIfFalsy,
+};
+exports.conditionals = conditionals;
+
+
+/***/ }),
+
+/***/ 1806:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ButtonBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#button
+ * @@displayName Button
+ */
+class ButtonBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.Button,
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+            text: helpers_1.getPlainTextObject(this.props.text),
+        });
+    }
+}
+exports.ButtonBuilder = ButtonBuilder;
+helpers_1.applyMixins(ButtonBuilder, [
+    methods_1.AccessibilityLabel,
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.Danger,
+    methods_1.End,
+    methods_1.Primary,
+    methods_1.Text,
+    methods_1.Url,
+    methods_1.Value,
+]);
+
+
+/***/ }),
+
+/***/ 7325:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ChannelMultiSelectBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#channel_multi_select
+ * @@displayName Channel Multi-Select
+ */
+class ChannelMultiSelectBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.ChannelsMultiSelect,
+            placeholder: helpers_1.getPlainTextObject(this.props.placeholder),
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+        });
+    }
+}
+exports.ChannelMultiSelectBuilder = ChannelMultiSelectBuilder;
+helpers_1.applyMixins(ChannelMultiSelectBuilder, [
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialChannels,
+    methods_1.MaxSelectedItems,
+    methods_1.Placeholder,
+]);
+
+
+/***/ }),
+
+/***/ 2191:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ChannelSelectBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#channel_select
+ * @@displayName Channel Select
+ */
+class ChannelSelectBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.ChannelSelect,
+            placeholder: helpers_1.getPlainTextObject(this.props.placeholder),
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+        });
+    }
+}
+exports.ChannelSelectBuilder = ChannelSelectBuilder;
+helpers_1.applyMixins(ChannelSelectBuilder, [
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialChannel,
+    methods_1.Placeholder,
+    methods_1.ResponseUrlEnabled,
+]);
+
+
+/***/ }),
+
+/***/ 4861:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CheckboxesBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#checkboxes
+ * @@displayName Checkboxes
+ */
+class CheckboxesBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.Checkboxes,
+            options: helpers_1.getBuilderResults(this.props.options, { isMarkdown: true }),
+            initialOptions: helpers_1.getBuilderResults(this.props.initialOptions, { isMarkdown: true }),
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+        });
+    }
+}
+exports.CheckboxesBuilder = CheckboxesBuilder;
+helpers_1.applyMixins(CheckboxesBuilder, [
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialOptions,
+    methods_1.Options,
+]);
+
+
+/***/ }),
+
+/***/ 6596:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ConversationMultiSelectBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#conversation_multi_select
+ * @@displayName Conversation Multi-Select
+ */
+class ConversationMultiSelectBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.ConversationsMultiSelect,
+            placeholder: helpers_1.getPlainTextObject(this.props.placeholder),
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+            filter: helpers_1.getFilter(this.props),
+        });
+    }
+}
+exports.ConversationMultiSelectBuilder = ConversationMultiSelectBuilder;
+helpers_1.applyMixins(ConversationMultiSelectBuilder, [
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.DefaultToCurrentConversation,
+    methods_1.End,
+    methods_1.ExcludeBotUsers,
+    methods_1.ExcludeExternalSharedChannels,
+    methods_1.Filter,
+    methods_1.FocusOnLoad,
+    methods_1.InitialConversations,
+    methods_1.MaxSelectedItems,
+    methods_1.Placeholder,
+]);
+
+
+/***/ }),
+
+/***/ 738:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ConversationSelectBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#conversation_select
+ * @@displayName Conversation Select
+ */
+class ConversationSelectBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.ConversationSelect,
+            placeholder: helpers_1.getPlainTextObject(this.props.placeholder),
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+            filter: helpers_1.getFilter(this.props),
+        });
+    }
+}
+exports.ConversationSelectBuilder = ConversationSelectBuilder;
+helpers_1.applyMixins(ConversationSelectBuilder, [
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.DefaultToCurrentConversation,
+    methods_1.End,
+    methods_1.ExcludeBotUsers,
+    methods_1.ExcludeExternalSharedChannels,
+    methods_1.Filter,
+    methods_1.FocusOnLoad,
+    methods_1.InitialConversation,
+    methods_1.Placeholder,
+    methods_1.ResponseUrlEnabled,
+    methods_1.Placeholder,
+]);
+
+
+/***/ }),
+
+/***/ 6136:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DatePickerBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#datepicker
+ * @@displayName Date Picker
+ */
+class DatePickerBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.DatePicker,
+            placeholder: helpers_1.getPlainTextObject(this.props.placeholder),
+            initialDate: helpers_1.getFormattedDate(this.props.initialDate),
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+        });
+    }
+}
+exports.DatePickerBuilder = DatePickerBuilder;
+helpers_1.applyMixins(DatePickerBuilder, [
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialDate,
+    methods_1.Placeholder,
+]);
+
+
+/***/ }),
+
+/***/ 7693:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DateTimePickerBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#datetimepicker
+ * @@displayName Date Picker
+ */
+class DateTimePickerBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.DateTimePicker,
+            initialDateTime: helpers_1.getDateTimeIntegerFromDate(this.props.initialDateTime),
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+        });
+    }
+}
+exports.DateTimePickerBuilder = DateTimePickerBuilder;
+helpers_1.applyMixins(DateTimePickerBuilder, [
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialDateTime,
+]);
+
+
+/***/ }),
+
+/***/ 390:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.EmailInputBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#email
+ * @@displayName Email Input
+ */
+class EmailInputBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.EmailInput,
+            placeholder: helpers_1.getPlainTextObject(this.props.placeholder),
+            dispatchActionConfig: helpers_1.getDispatchActionsConfigurationObject(this.props),
+        });
+    }
+}
+exports.EmailInputBuilder = EmailInputBuilder;
+helpers_1.applyMixins(EmailInputBuilder, [
+    methods_1.ActionId,
+    methods_1.DispatchActionOnCharacterEntered,
+    methods_1.DispatchActionOnEnterPressed,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialValue,
+    methods_1.Placeholder,
+]);
+
+
+/***/ }),
+
+/***/ 3460:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ExternalMultiSelectBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#external_multi_select
+ * @@displayName External Multi-Select
+ */
+class ExternalMultiSelectBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.ExternalMultiSelect,
+            placeholder: helpers_1.getPlainTextObject(this.props.placeholder),
+            initialOptions: helpers_1.getBuilderResults(this.props.initialOptions),
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+        });
+    }
+}
+exports.ExternalMultiSelectBuilder = ExternalMultiSelectBuilder;
+helpers_1.applyMixins(ExternalMultiSelectBuilder, [
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialOptions,
+    methods_1.MaxSelectedItems,
+    methods_1.MinQueryLength,
+    methods_1.Placeholder,
+]);
+
+
+/***/ }),
+
+/***/ 171:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ExternalSelectBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#external_select
+ * @@displayName External Select
+ */
+class ExternalSelectBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.ExternalSelect,
+            placeholder: helpers_1.getPlainTextObject(this.props.placeholder),
+            initialOption: helpers_1.getBuilderResult(this.props.initialOption),
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+        });
+    }
+}
+exports.ExternalSelectBuilder = ExternalSelectBuilder;
+helpers_1.applyMixins(ExternalSelectBuilder, [
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialOption,
+    methods_1.MinQueryLength,
+    methods_1.Placeholder,
+]);
+
+
+/***/ }),
+
+/***/ 2945:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.FileInputBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#file_input
+ * @@displayName File Input Builder
+ */
+class FileInputBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.FileInput,
+        });
+    }
+}
+exports.FileInputBuilder = FileInputBuilder;
+helpers_1.applyMixins(FileInputBuilder, [
+    methods_1.ActionId,
+    methods_1.Filetypes,
+    methods_1.MaxFiles,
+    methods_1.End,
+]);
+
+
+/***/ }),
+
+/***/ 9706:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ImgBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#image
+ * @@displayName Image
+ */
+class ImgBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.Image,
+        });
+    }
+}
+exports.ImgBuilder = ImgBuilder;
+helpers_1.applyMixins(ImgBuilder, [
+    methods_1.AltText,
+    methods_1.ImageUrl,
+    methods_1.End,
+]);
+
+
+/***/ }),
+
+/***/ 9739:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+/* eslint-disable max-len */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Elements = exports.UserSelect = exports.UserMultiSelect = exports.URLInput = exports.TimePicker = exports.TextInput = exports.StaticSelect = exports.StaticMultiSelect = exports.RadioButtons = exports.OverflowMenu = exports.NumberInput = exports.FileInput = exports.Img = exports.ExternalSelect = exports.ExternalMultiSelect = exports.EmailInput = exports.DateTimePicker = exports.DatePicker = exports.ConversationSelect = exports.ConversationMultiSelect = exports.Checkboxes = exports.ChannelSelect = exports.ChannelMultiSelect = exports.Button = void 0;
+const button_1 = __nccwpck_require__(1806);
+const channel_multi_select_1 = __nccwpck_require__(7325);
+const channel_select_1 = __nccwpck_require__(2191);
+const checkboxes_1 = __nccwpck_require__(4861);
+const conversation_multi_select_1 = __nccwpck_require__(6596);
+const conversation_select_1 = __nccwpck_require__(738);
+const date_picker_1 = __nccwpck_require__(6136);
+const date_time_picker_1 = __nccwpck_require__(7693);
+const email_input_1 = __nccwpck_require__(390);
+const external_multi_select_1 = __nccwpck_require__(3460);
+const external_select_1 = __nccwpck_require__(171);
+const file_input_1 = __nccwpck_require__(2945);
+const img_1 = __nccwpck_require__(9706);
+const number_input_1 = __nccwpck_require__(1064);
+const overflow_menu_1 = __nccwpck_require__(9386);
+const radio_buttons_1 = __nccwpck_require__(4051);
+const static_multi_select_1 = __nccwpck_require__(5508);
+const static_select_1 = __nccwpck_require__(1301);
+const text_input_1 = __nccwpck_require__(6899);
+const timepicker_1 = __nccwpck_require__(350);
+const url_input_1 = __nccwpck_require__(4632);
+const user_multi_select_1 = __nccwpck_require__(2573);
+const user_select_1 = __nccwpck_require__(5681);
+/**
+ * Functions here do not use arrow functions stored in variables for IDE color compatibility.
+ */
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.accessibilityLabel] Sets a longer descriptive text that will be read out by screen readers instead of the button text object.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.text] Sets the display text for the button.
+ * @param {string} [params.url] Sets the URL to redirect the user to when this button is clicked.
+ * @param {string} [params.value] Sets the value to be passed to your app when this button is clicked.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#button|View in Slack API Documentation}
+ */
+function Button(params) {
+    return new button_1.ButtonBuilder(params);
+}
+exports.Button = Button;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.placeholder] Adds the text in place of the input before selected or interacted with.
+ * @param {int} [params.maxSelectedItems] Sets a limit to how many items the user can select.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#channel_multi_select|View in Slack API Documentation}
+ */
+function ChannelMultiSelect(params) {
+    return new channel_multi_select_1.ChannelMultiSelectBuilder(params);
+}
+exports.ChannelMultiSelect = ChannelMultiSelect;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.placeholder] Adds the text in place of the input before selected or interacted with.
+ * @param {string} [params.initialChannel] Sets the default selected item in the menu.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#channel_select|View in Slack API Documentation}
+ */
+function ChannelSelect(params) {
+    return new channel_select_1.ChannelSelectBuilder(params);
+}
+exports.ChannelSelect = ChannelSelect;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#checkboxes|View in Slack API Documentation}
+ */
+function Checkboxes(params) {
+    return new checkboxes_1.CheckboxesBuilder(params);
+}
+exports.Checkboxes = Checkboxes;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.placeholder] Adds the text in place of the input before selected or interacted with.
+ * @param {int} [params.maxSelectedItems] Sets a limit to how many items the user can select.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#conversation_multi_select|View in Slack API Documentation}
+ */
+function ConversationMultiSelect(params) {
+    return new conversation_multi_select_1.ConversationMultiSelectBuilder(params);
+}
+exports.ConversationMultiSelect = ConversationMultiSelect;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.placeholder] Adds the text in place of the input before selected or interacted with.
+ * @param {string} [params.initialConversation] Sets the default selected item in the menu.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#conversation_multi_select|View in Slack API Documentation}
+ */
+function ConversationSelect(params) {
+    return new conversation_select_1.ConversationSelectBuilder(params);
+}
+exports.ConversationSelect = ConversationSelect;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.placeholder] Adds the text in place of the input before selected or interacted with.
+ * @param {string} [params.initialDate] Sets the default selected date in the menu.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#datepicker|View in Slack API Documentation}
+ */
+function DatePicker(params) {
+    return new date_picker_1.DatePickerBuilder(params);
+}
+exports.DatePicker = DatePicker;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.initialDateTime] Sets the default selected date and time for the date time picker.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#datetimepicker|View in Slack API Documentation}
+ */
+function DateTimePicker(params) {
+    return new date_time_picker_1.DateTimePickerBuilder(params);
+}
+exports.DateTimePicker = DateTimePicker;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.placeholder] Adds the text in place of the input before selected or interacted with.
+ * @param {string} [params.initialValue] Sets the default email entered into the Email input at modal render.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#email|View in Slack API Documentation}
+ */
+function EmailInput(params) {
+    return new email_input_1.EmailInputBuilder(params);
+}
+exports.EmailInput = EmailInput;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.placeholder] Adds the text in place of the input before selected or interacted with.
+ * @param {int} [params.maxSelectedItems] Sets a limit to how many items the user can select.
+ * @param {int} [params.minQueryLength] Sets a minimum number of characters types before querying your options URL.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#external_multi_select|View in Slack API Documentation}
+ */
+function ExternalMultiSelect(params) {
+    return new external_multi_select_1.ExternalMultiSelectBuilder(params);
+}
+exports.ExternalMultiSelect = ExternalMultiSelect;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.placeholder] Adds the text in place of the input before selected or interacted with.
+ * @param {int} [params.minQueryLength] Sets a minimum number of characters types before querying your options URL.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#external_select|View in Slack API Documentation}
+ */
+function ExternalSelect(params) {
+    return new external_select_1.ExternalSelectBuilder(params);
+}
+exports.ExternalSelect = ExternalSelect;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.imageUrl] Sets the source URL from which the image will be loaded.
+ * @param {string} [params.altText] Sets the textual summary of the image.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#image|View in Slack API Documentation}
+ */
+function Img(params) {
+    return new img_1.ImgBuilder(params);
+}
+exports.Img = Img;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.filetypes] Sets the accepted filetypes.
+ * @param {string} [params.maxFiles] Sets the maximum number of files to upload.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#file_input|View in Slack API Documentation}
+ */
+function FileInput(params) {
+    return new file_input_1.FileInputBuilder(params);
+}
+exports.FileInput = FileInput;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {boolean} [params.isDecimalAllowed] Dicates whether a decimal is allowed for the value entered into the number input.
+ * @param {string} [params.placeholder] Adds the text in place of the input before selected or interacted with.
+ * @param {string} [params.initialValue] Sets the default text entered into the text input at modal render.
+ * @param {int} [params.minValue] Sets a minimum value for the number input.
+ * @param {int} [params.maxValue] Sets a maximum value for the number input.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#number|View in Slack API Documentation}
+ */
+function NumberInput(params) {
+    return new number_input_1.NumberInputBuilder(params);
+}
+exports.NumberInput = NumberInput;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#overflow|View in Slack API Documentation}
+ */
+function OverflowMenu(params) {
+    return new overflow_menu_1.OverflowMenuBuilder(params);
+}
+exports.OverflowMenu = OverflowMenu;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#radio|View in Slack API Documentation}
+ */
+function RadioButtons(params) {
+    return new radio_buttons_1.RadioButtonsBuilder(params);
+}
+exports.RadioButtons = RadioButtons;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.placeholder] Adds the text in place of the input before selected or interacted with.
+ * @param {int} [params.maxSelectedItems] Sets a limit to how many items the user can select.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#static_multi_select|View in Slack API Documentation}
+ */
+function StaticMultiSelect(params) {
+    return new static_multi_select_1.StaticMultiSelectBuilder(params);
+}
+exports.StaticMultiSelect = StaticMultiSelect;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.placeholder] Adds the text in place of the input before selected or interacted with.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#static_select|View in Slack API Documentation}
+ */
+function StaticSelect(params) {
+    return new static_select_1.StaticSelectBuilder(params);
+}
+exports.StaticSelect = StaticSelect;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.placeholder] Adds the text in place of the input before selected or interacted with.
+ * @param {string} [params.initialValue] Sets the default text entered into the text input at modal render.
+ * @param {boolean} [params.multiline] Sets whether the input will be a single line or a larger text area.
+ * @param {int} [params.minLength] Sets a minimum character count in order for the user to submit the form.
+ * @param {int} [params.maxLength] Sets a maximum character count allowed to send the form.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#input|View in Slack API Documentation}
+ */
+function TextInput(params) {
+    return new text_input_1.TextInputBuilder(params);
+}
+exports.TextInput = TextInput;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.placeholder] Adds the text in place of the input before selected or interacted with.
+ * @param {string} [params.initialTime] Sets the default selected time in the menu.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#timepicker|View in Slack API Documentation}
+ */
+function TimePicker(params) {
+    return new timepicker_1.TimePickerBuilder(params);
+}
+exports.TimePicker = TimePicker;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.placeholder] Adds the text in place of the input before selected or interacted with.
+ * @param {string} [params.initialValue] Sets the default URL entered into the URL input at modal render.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#url|View in Slack API Documentation}
+ */
+function URLInput(params) {
+    return new url_input_1.URLInputBuilder(params);
+}
+exports.URLInput = URLInput;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.placeholder] Adds the text in place of the input before selected or interacted with.
+ * @param {int} [params.maxSelectedItems] Sets a limit to how many items the user can select.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#users_multi_select|View in Slack API Documentation}
+ */
+function UserMultiSelect(params) {
+    return new user_multi_select_1.UserMultiSelectBuilder(params);
+}
+exports.UserMultiSelect = UserMultiSelect;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.actionId] Sets a string to be an identifier for the source of an action in interaction payloads.
+ * @param {string} [params.placeholder] Adds the text in place of the input before selected or interacted with.
+ * @param {string} [params.initialUser] Setts the default selected user in the menu.
+ *
+ * {@link https://api.slack.com/reference/block-kit/block-elements#users_select|View in Slack API Documentation}
+ */
+function UserSelect(params) {
+    return new user_select_1.UserSelectBuilder(params);
+}
+exports.UserSelect = UserSelect;
+const elements = {
+    Button,
+    ChannelMultiSelect,
+    ChannelSelect,
+    Checkboxes,
+    ConversationMultiSelect,
+    ConversationSelect,
+    DatePicker,
+    DateTimePicker,
+    EmailInput,
+    ExternalMultiSelect,
+    ExternalSelect,
+    Img,
+    NumberInput,
+    OverflowMenu,
+    RadioButtons,
+    StaticMultiSelect,
+    StaticSelect,
+    TextInput,
+    TimePicker,
+    URLInput,
+    UserMultiSelect,
+    UserSelect,
+    FileInput,
+};
+exports.Elements = elements;
+
+
+/***/ }),
+
+/***/ 1064:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.NumberInputBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#number
+ * @@displayName Email Input
+ */
+class NumberInputBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.NumberInput,
+            initialValue: helpers_1.getStringFromNumber(this.props.initialValue),
+            maxValue: helpers_1.getStringFromNumber(this.props.maxValue),
+            minValue: helpers_1.getStringFromNumber(this.props.minValue),
+            placeholder: helpers_1.getPlainTextObject(this.props.placeholder),
+            dispatchActionConfig: helpers_1.getDispatchActionsConfigurationObject(this.props),
+        });
+    }
+}
+exports.NumberInputBuilder = NumberInputBuilder;
+helpers_1.applyMixins(NumberInputBuilder, [
+    methods_1.ActionId,
+    methods_1.DispatchActionOnCharacterEntered,
+    methods_1.DispatchActionOnEnterPressed,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialValue,
+    methods_1.IsDecimalAllowed,
+    methods_1.MaxValue,
+    methods_1.MinValue,
+    methods_1.Placeholder,
+]);
+
+
+/***/ }),
+
+/***/ 9386:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.OverflowMenuBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#overflow
+ * @@displayName Overflow Menu
+ */
+class OverflowMenuBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.Overflow,
+            options: helpers_1.getBuilderResults(this.props.options),
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+        });
+    }
+}
+exports.OverflowMenuBuilder = OverflowMenuBuilder;
+helpers_1.applyMixins(OverflowMenuBuilder, [
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.End,
+    methods_1.Options,
+]);
+
+
+/***/ }),
+
+/***/ 4051:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.RadioButtonsBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#radio
+ * @@displayName Radio Buttons
+ */
+class RadioButtonsBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.RadioButtons,
+            options: helpers_1.getBuilderResults(this.props.options, { isMarkdown: true }),
+            initialOption: helpers_1.getBuilderResult(this.props.initialOption, { isMarkdown: true }),
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+        });
+    }
+}
+exports.RadioButtonsBuilder = RadioButtonsBuilder;
+helpers_1.applyMixins(RadioButtonsBuilder, [
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialOption,
+    methods_1.Options,
+]);
+
+
+/***/ }),
+
+/***/ 5508:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.StaticMultiSelectBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+class StaticMultiSelectBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.StaticMultiSelect,
+            placeholder: helpers_1.getPlainTextObject(this.props.placeholder),
+            options: helpers_1.getBuilderResults(this.props.options),
+            initialOptions: helpers_1.getBuilderResults(this.props.initialOptions),
+            optionGroups: helpers_1.getBuilderResults(this.props.optionGroups),
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+        });
+    }
+}
+exports.StaticMultiSelectBuilder = StaticMultiSelectBuilder;
+helpers_1.applyMixins(StaticMultiSelectBuilder, [
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialOptions,
+    methods_1.MaxSelectedItems,
+    methods_1.OptionGroups,
+    methods_1.Options,
+    methods_1.Placeholder,
+]);
+
+
+/***/ }),
+
+/***/ 1301:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.StaticSelectBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#static_select
+ * @@displayName Static Select
+ */
+class StaticSelectBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.StaticSelect,
+            placeholder: helpers_1.getPlainTextObject(this.props.placeholder),
+            options: helpers_1.getBuilderResults(this.props.options),
+            optionGroups: helpers_1.getBuilderResults(this.props.optionGroups),
+            initialOption: helpers_1.getBuilderResult(this.props.initialOption),
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+        });
+    }
+}
+exports.StaticSelectBuilder = StaticSelectBuilder;
+helpers_1.applyMixins(StaticSelectBuilder, [
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialOption,
+    methods_1.OptionGroups,
+    methods_1.Options,
+    methods_1.Placeholder,
+]);
+
+
+/***/ }),
+
+/***/ 6899:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TextInputBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#input
+ * @@displayName Plain-Text Input
+ */
+class TextInputBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.TextInput,
+            placeholder: helpers_1.getPlainTextObject(this.props.placeholder),
+            dispatchActionConfig: helpers_1.getDispatchActionsConfigurationObject(this.props),
+        });
+    }
+}
+exports.TextInputBuilder = TextInputBuilder;
+helpers_1.applyMixins(TextInputBuilder, [
+    methods_1.ActionId,
+    methods_1.DispatchActionOnCharacterEntered,
+    methods_1.DispatchActionOnEnterPressed,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialValue,
+    methods_1.MaxLength,
+    methods_1.MinLength,
+    methods_1.Multiline,
+    methods_1.Placeholder,
+]);
+
+
+/***/ }),
+
+/***/ 350:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TimePickerBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#timepicker
+ * @@displayName Time Picker
+ */
+class TimePickerBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.TimePicker,
+            placeholder: helpers_1.getPlainTextObject(this.props.placeholder),
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+        });
+    }
+}
+exports.TimePickerBuilder = TimePickerBuilder;
+helpers_1.applyMixins(TimePickerBuilder, [
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialTime,
+    methods_1.Placeholder,
+]);
+
+
+/***/ }),
+
+/***/ 4632:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.URLInputBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#url
+ * @@displayName URL Input
+ */
+class URLInputBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.URLInput,
+            placeholder: helpers_1.getPlainTextObject(this.props.placeholder),
+            dispatchActionConfig: helpers_1.getDispatchActionsConfigurationObject(this.props),
+        });
+    }
+}
+exports.URLInputBuilder = URLInputBuilder;
+helpers_1.applyMixins(URLInputBuilder, [
+    methods_1.ActionId,
+    methods_1.DispatchActionOnCharacterEntered,
+    methods_1.DispatchActionOnEnterPressed,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialValue,
+    methods_1.Placeholder,
+]);
+
+
+/***/ }),
+
+/***/ 2573:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.UserMultiSelectBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#users_multi_select
+ * @@displayName User Multi-Select
+ */
+class UserMultiSelectBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.UserMultiSelect,
+            placeholder: helpers_1.getPlainTextObject(this.props.placeholder),
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+        });
+    }
+}
+exports.UserMultiSelectBuilder = UserMultiSelectBuilder;
+helpers_1.applyMixins(UserMultiSelectBuilder, [
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialUsers,
+    methods_1.MaxSelectedItems,
+    methods_1.Placeholder,
+]);
+
+
+/***/ }),
+
+/***/ 5681:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.UserSelectBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/block-kit/block-elements#users_select
+ * @@displayName User Select
+ */
+class UserSelectBuilder extends base_1.ElementBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackElementDto, {
+            type: constants_1.ElementType.UserSelect,
+            placeholder: helpers_1.getPlainTextObject(this.props.placeholder),
+            confirm: helpers_1.getBuilderResult(this.props.confirm),
+        });
+    }
+}
+exports.UserSelectBuilder = UserSelectBuilder;
+helpers_1.applyMixins(UserSelectBuilder, [
+    methods_1.ActionId,
+    methods_1.Confirm,
+    methods_1.End,
+    methods_1.FocusOnLoad,
+    methods_1.InitialUser,
+    methods_1.Placeholder,
+]);
+
+
+/***/ }),
+
+/***/ 6758:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__nccwpck_require__(5084), exports);
+__exportStar(__nccwpck_require__(4210), exports);
+__exportStar(__nccwpck_require__(6439), exports);
+__exportStar(__nccwpck_require__(2314), exports);
+__exportStar(__nccwpck_require__(9739), exports);
+__exportStar(__nccwpck_require__(6361), exports);
+__exportStar(__nccwpck_require__(7613), exports);
+__exportStar(__nccwpck_require__(540), exports);
+
+
+/***/ }),
+
+/***/ 3252:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.BitBuilderBase = void 0;
+const builder_1 = __nccwpck_require__(3296);
+class BitBuilderBase extends builder_1.Builder {
+}
+exports.BitBuilderBase = BitBuilderBase;
+
+
+/***/ }),
+
+/***/ 5883:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.BlockBuilderBase = void 0;
+const builder_1 = __nccwpck_require__(3296);
+class BlockBuilderBase extends builder_1.Builder {
+}
+exports.BlockBuilderBase = BlockBuilderBase;
+
+
+/***/ }),
+
+/***/ 2107:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CompositionObjectBase = void 0;
+class CompositionObjectBase {
+}
+exports.CompositionObjectBase = CompositionObjectBase;
+
+
+/***/ }),
+
+/***/ 6611:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ElementBuilderBase = void 0;
+const builder_1 = __nccwpck_require__(3296);
+class ElementBuilderBase extends builder_1.Builder {
+}
+exports.ElementBuilderBase = ElementBuilderBase;
+
+
+/***/ }),
+
+/***/ 3409:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__nccwpck_require__(3252), exports);
+__exportStar(__nccwpck_require__(5883), exports);
+__exportStar(__nccwpck_require__(2107), exports);
+__exportStar(__nccwpck_require__(6611), exports);
+__exportStar(__nccwpck_require__(1604), exports);
+
+
+/***/ }),
+
+/***/ 1604:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SurfaceBuilderBase = void 0;
+const builder_1 = __nccwpck_require__(3296);
+class SurfaceBuilderBase extends builder_1.Builder {
+}
+exports.SurfaceBuilderBase = SurfaceBuilderBase;
+
+
+/***/ }),
+
+/***/ 8628:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.BlockType = void 0;
+var BlockType;
+(function (BlockType) {
+    BlockType["Section"] = "section";
+    BlockType["Actions"] = "actions";
+    BlockType["Context"] = "context";
+    BlockType["Input"] = "input";
+    BlockType["File"] = "file";
+    BlockType["Divider"] = "divider";
+    BlockType["Image"] = "image";
+    BlockType["Header"] = "header";
+    BlockType["Video"] = "video";
+})(BlockType = exports.BlockType || (exports.BlockType = {}));
+
+
+/***/ }),
+
+/***/ 2251:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ButtonStyle = void 0;
+var ButtonStyle;
+(function (ButtonStyle) {
+    ButtonStyle["Danger"] = "danger";
+    ButtonStyle["Primary"] = "primary";
+})(ButtonStyle = exports.ButtonStyle || (exports.ButtonStyle = {}));
+
+
+/***/ }),
+
+/***/ 9819:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ComponentUIText = void 0;
+var ComponentUIText;
+(function (ComponentUIText) {
+    ComponentUIText["Next"] = "Next";
+    ComponentUIText["Previous"] = "Previous";
+    ComponentUIText["More"] = "More";
+    ComponentUIText["Close"] = "Close";
+})(ComponentUIText = exports.ComponentUIText || (exports.ComponentUIText = {}));
+
+
+/***/ }),
+
+/***/ 4484:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DispatchOnType = void 0;
+var DispatchOnType;
+(function (DispatchOnType) {
+    DispatchOnType["OnEnterPressed"] = "on_enter_pressed";
+    DispatchOnType["OnCharacterEntered"] = "on_character_entered";
+})(DispatchOnType = exports.DispatchOnType || (exports.DispatchOnType = {}));
+
+
+/***/ }),
+
+/***/ 4284:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ElementType = void 0;
+var ElementType;
+(function (ElementType) {
+    ElementType["Button"] = "button";
+    ElementType["Checkboxes"] = "checkboxes";
+    ElementType["DatePicker"] = "datepicker";
+    ElementType["DateTimePicker"] = "datetimepicker";
+    ElementType["TimePicker"] = "timepicker";
+    ElementType["Image"] = "image";
+    ElementType["Overflow"] = "overflow";
+    ElementType["TextInput"] = "plain_text_input";
+    ElementType["RadioButtons"] = "radio_buttons";
+    ElementType["StaticSelect"] = "static_select";
+    ElementType["ExternalSelect"] = "external_select";
+    ElementType["UserSelect"] = "users_select";
+    ElementType["ConversationSelect"] = "conversations_select";
+    ElementType["ChannelSelect"] = "channels_select";
+    ElementType["StaticMultiSelect"] = "multi_static_select";
+    ElementType["ExternalMultiSelect"] = "multi_external_select";
+    ElementType["UserMultiSelect"] = "multi_users_select";
+    ElementType["ConversationsMultiSelect"] = "multi_conversations_select";
+    ElementType["ChannelsMultiSelect"] = "multi_channels_select";
+    ElementType["URLInput"] = "url_text_input";
+    ElementType["EmailInput"] = "email_text_input";
+    ElementType["NumberInput"] = "number_input";
+    ElementType["FileInput"] = "file_input";
+})(ElementType = exports.ElementType || (exports.ElementType = {}));
+
+
+/***/ }),
+
+/***/ 187:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.FileType = void 0;
+var FileType;
+(function (FileType) {
+    FileType["Remote"] = "remote";
+})(FileType = exports.FileType || (exports.FileType = {}));
+
+
+/***/ }),
+
+/***/ 6293:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.FilterType = void 0;
+var FilterType;
+(function (FilterType) {
+    FilterType["Im"] = "im";
+    FilterType["Mpim"] = "mpim";
+    FilterType["Private"] = "private";
+    FilterType["Public"] = "public";
+})(FilterType = exports.FilterType || (exports.FilterType = {}));
+
+
+/***/ }),
+
+/***/ 4359:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__nccwpck_require__(8628), exports);
+__exportStar(__nccwpck_require__(2251), exports);
+__exportStar(__nccwpck_require__(9819), exports);
+__exportStar(__nccwpck_require__(4484), exports);
+__exportStar(__nccwpck_require__(4284), exports);
+__exportStar(__nccwpck_require__(187), exports);
+__exportStar(__nccwpck_require__(6293), exports);
+__exportStar(__nccwpck_require__(7696), exports);
+__exportStar(__nccwpck_require__(9753), exports);
+__exportStar(__nccwpck_require__(1872), exports);
+__exportStar(__nccwpck_require__(5035), exports);
+__exportStar(__nccwpck_require__(4157), exports);
+
+
+/***/ }),
+
+/***/ 7696:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ObjectType = void 0;
+var ObjectType;
+(function (ObjectType) {
+    ObjectType["Text"] = "plain_text";
+    ObjectType["Markdown"] = "mrkdwn";
+})(ObjectType = exports.ObjectType || (exports.ObjectType = {}));
+
+
+/***/ }),
+
+/***/ 9753:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PaginatorButtonId = void 0;
+var PaginatorButtonId;
+(function (PaginatorButtonId) {
+    PaginatorButtonId["Next"] = "next";
+    PaginatorButtonId["Previous"] = "previous";
+})(PaginatorButtonId = exports.PaginatorButtonId || (exports.PaginatorButtonId = {}));
+
+
+/***/ }),
+
+/***/ 1872:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Prop = void 0;
+var Prop;
+(function (Prop) {
+    Prop["AuthorName"] = "authorName";
+    Prop["Blocks"] = "blocks";
+    Prop["Elements"] = "elements";
+    Prop["BlockId"] = "blockId";
+    Prop["ExternalId"] = "externalId";
+    Prop["Label"] = "label";
+    Prop["Element"] = "element";
+    Prop["Hint"] = "hint";
+    Prop["Optional"] = "optional";
+    Prop["Fields"] = "fields";
+    Prop["Accessory"] = "accessory";
+    Prop["ActionId"] = "actionId";
+    Prop["Url"] = "url";
+    Prop["Style"] = "style";
+    Prop["Value"] = "value";
+    Prop["Option"] = "option";
+    Prop["Confirm"] = "confirm";
+    Prop["ImageUrl"] = "imageUrl";
+    Prop["AltText"] = "altText";
+    Prop["Options"] = "options";
+    Prop["InitialOptions"] = "initialOptions";
+    Prop["InitialOption"] = "initialOption";
+    Prop["Placeholder"] = "placeholder";
+    Prop["InitialDate"] = "initialDate";
+    Prop["InitialDateTime"] = "initialDateTime";
+    Prop["InitialValue"] = "initialValue";
+    Prop["IsDecimalAllowed"] = "isDecimalAllowed";
+    Prop["Multiline"] = "multiline";
+    Prop["MinLength"] = "minLength";
+    Prop["MaxLength"] = "maxLength";
+    Prop["MinValue"] = "minValue";
+    Prop["MaxValue"] = "maxValue";
+    Prop["InitialChannel"] = "initialChannel";
+    Prop["InitialChannels"] = "initialChannels";
+    Prop["InitialConversation"] = "initialConversation";
+    Prop["InitialConversations"] = "initialConversations";
+    Prop["ResponseUrlEnabled"] = "responseUrlEnabled";
+    Prop["DefaultToCurrentConversation"] = "defaultToCurrentConversation";
+    Prop["Filter"] = "filter";
+    Prop["MinQueryLength"] = "minQueryLength";
+    Prop["OptionGroups"] = "optionGroups";
+    Prop["InitialUser"] = "initialUser";
+    Prop["InitialUsers"] = "initialUsers";
+    Prop["MaxSelectedItems"] = "maxSelectedItems";
+    Prop["Title"] = "title";
+    Prop["Submit"] = "submit";
+    Prop["Close"] = "close";
+    Prop["Deny"] = "deny";
+    Prop["ExcludeExternalSharedChannels"] = "excludeExternalSharedChannels";
+    Prop["ExcludeBotUsers"] = "excludeBotUsers";
+    Prop["Text"] = "text";
+    Prop["PrivateMetaData"] = "privateMetaData";
+    Prop["CallbackId"] = "callbackId";
+    Prop["Channel"] = "channel";
+    Prop["ClearOnClose"] = "clearOnClose";
+    Prop["NotifyOnClose"] = "notifyOnClose";
+    Prop["Description"] = "description";
+    Prop["Danger"] = "danger";
+    Prop["Primary"] = "primary";
+    Prop["AsUser"] = "asUser";
+    Prop["ThreadTs"] = "threadTs";
+    Prop["ReplaceOriginal"] = "replaceOriginal";
+    Prop["DeleteOriginal"] = "deleteOriginal";
+    Prop["ResponseType"] = "responseType";
+    Prop["PostAt"] = "postAt";
+    Prop["Ephemeral"] = "ephemeral";
+    Prop["InChannel"] = "inChannel";
+    Prop["Ts"] = "ts";
+    Prop["Color"] = "color";
+    Prop["Fallback"] = "fallback";
+    Prop["Attachments"] = "attachments";
+    Prop["DispatchAction"] = "dispatchAction";
+    Prop["DispatchActionConfig"] = "dispatchActionConfig";
+    Prop["OnEnterPressed"] = "onEnterPressed";
+    Prop["OnCharacterEntered"] = "onCharacterEntered";
+    Prop["DispatchActionOnEnterPressed"] = "dispatchActionOnEnterPressed";
+    Prop["DispatchActionOnCharacterEntered"] = "dispatchActionOnCharacterEntered";
+    Prop["InitialTime"] = "initialTime";
+    Prop["Mrkdwn"] = "mrkdwn";
+    Prop["IgnoreMarkdown"] = "ignoreMarkdown";
+    Prop["SubmitDisabled"] = "submitDisabled";
+    Prop["FocusOnLoad"] = "focusOnLoad";
+    Prop["AccessibilityLabel"] = "accessibilityLabel";
+    Prop["ProviderIconUrl"] = "providerIconUrl";
+    Prop["ProviderName"] = "providerName";
+    Prop["TitleUrl"] = "titleUrl";
+    Prop["ThumbnailUrl"] = "thumbnailUrl";
+    Prop["VideoUrl"] = "videoUrl";
+    Prop["MaxFiles"] = "maxFiles";
+    Prop["Filetypes"] = "filetypes";
+})(Prop = exports.Prop || (exports.Prop = {}));
+
+
+/***/ }),
+
+/***/ 5035:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ResponseType = void 0;
+var ResponseType;
+(function (ResponseType) {
+    ResponseType["Ephemeral"] = "ephemeral";
+    ResponseType["InChannel"] = "in_channel";
+})(ResponseType = exports.ResponseType || (exports.ResponseType = {}));
+
+
+/***/ }),
+
+/***/ 4157:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SurfaceType = void 0;
+var SurfaceType;
+(function (SurfaceType) {
+    SurfaceType["HomeTab"] = "home";
+    SurfaceType["Modal"] = "modal";
+    SurfaceType["WorkflowStep"] = "workflow_step";
+})(SurfaceType = exports.SurfaceType || (exports.SurfaceType = {}));
+
+
+/***/ }),
+
+/***/ 6834:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__nccwpck_require__(1378), exports);
+
+
+/***/ }),
+
+/***/ 1378:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+/* eslint-disable max-classes-per-file */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SlackElementDto = exports.SlackBlockDto = exports.SlackWorkflowStepDto = exports.SlackModalDto = exports.SlackHomeTabDto = exports.SlackMessageDto = exports.SlackDto = exports.Param = void 0;
+const constants_1 = __nccwpck_require__(4359);
+var Param;
+(function (Param) {
+    Param["actionId"] = "action_id";
+    Param["blocks"] = "blocks";
+    Param["blockId"] = "block_id";
+    Param["maxSelectedItems"] = "max_selected_items";
+    Param["title"] = "title";
+    Param["text"] = "text";
+    Param["confirm"] = "confirm";
+    Param["deny"] = "deny";
+    Param["style"] = "style";
+    Param["danger"] = "danger";
+    Param["label"] = "label";
+    Param["options"] = "options";
+    Param["value"] = "value";
+    Param["description"] = "description";
+    Param["url"] = "url";
+    Param["elements"] = "elements";
+    Param["externalId"] = "external_id";
+    Param["imageUrl"] = "image_url";
+    Param["altText"] = "alt_text";
+    Param["element"] = "element";
+    Param["hint"] = "hint";
+    Param["optional"] = "optional";
+    Param["fields"] = "fields";
+    Param["accessory"] = "accessory";
+    Param["initialChannels"] = "initial_channels";
+    Param["initialChannel"] = "initial_channel";
+    Param["responseUrlEnabled"] = "response_url_enabled";
+    Param["initialOptions"] = "initial_options";
+    Param["initialConversations"] = "initial_conversations";
+    Param["defaultToCurrentConversation"] = "default_to_current_conversation";
+    Param["filter"] = "filter";
+    Param["initialConversation"] = "initial_conversation";
+    Param["initialDate"] = "initial_date";
+    Param["initialDateTime"] = "initial_date_time";
+    Param["isDecimalAllowed"] = "is_decimal_allowed";
+    Param["minQueryLength"] = "min_query_length";
+    Param["initialOption"] = "initial_option";
+    Param["optionGroups"] = "option_groups";
+    Param["placeholder"] = "placeholder";
+    Param["initialValue"] = "initial_value";
+    Param["multiline"] = "multiline";
+    Param["minLength"] = "min_length";
+    Param["maxLength"] = "max_length";
+    Param["initialUsers"] = "initial_users";
+    Param["initialUser"] = "initial_user";
+    Param["channel"] = "channel";
+    Param["close"] = "close";
+    Param["submit"] = "submit";
+    Param["clearOnClose"] = "clear_on_close";
+    Param["notifyOnClose"] = "notify_on_close";
+    Param["privateMetaData"] = "private_metadata";
+    Param["callbackId"] = "callback_id";
+    Param["asUser"] = "as_user";
+    Param["ts"] = "ts";
+    Param["threadTs"] = "thread_ts";
+    Param["replaceOriginal"] = "replace_original";
+    Param["deleteOriginal"] = "delete_original";
+    Param["responseType"] = "response_type";
+    Param["postAt"] = "post_at";
+    Param["color"] = "color";
+    Param["fallback"] = "fallback";
+    Param["attachments"] = "attachments";
+    Param["dispatchAction"] = "dispatch_action";
+    Param["dispatchActionConfig"] = "dispatch_action_config";
+    Param["initialTime"] = "initial_time";
+    Param["mrkdwn"] = "mrkdwn";
+    Param["submitDisabled"] = "submit_disabled";
+    Param["type"] = "type";
+    Param["focusOnLoad"] = "focus_on_load";
+    Param["accessibilityLabel"] = "accessibility_label";
+    Param["authorName"] = "author_name";
+    Param["providerIconUrl"] = "provider_icon_url";
+    Param["providerName"] = "provider_name";
+    Param["titleUrl"] = "title_url";
+    Param["thumbnailUrl"] = "thumbnail_url";
+    Param["videoUrl"] = "video_url";
+    Param["minValue"] = "min_value";
+    Param["maxValue"] = "max_value";
+    Param["maxFiles"] = "max_files";
+    Param["filetypes"] = "filetypes";
+    Param["source"] = "source";
+})(Param = exports.Param || (exports.Param = {}));
+class SlackDto {
+    constructor(params) {
+        Object.keys(params).forEach((paramName) => {
+            const mappedParam = SlackDto.mapParam(paramName);
+            if (params[paramName] !== undefined && mappedParam !== undefined) {
+                // @ts-ignore -- Dynamically created class
+                this[mappedParam] = params[paramName];
+            }
+        });
+    }
+    static mapParam(param) {
+        // @ts-ignore -- Dynamically created class
+        return Param[param];
+    }
+}
+exports.SlackDto = SlackDto;
+class SlackMessageDto extends SlackDto {
+}
+exports.SlackMessageDto = SlackMessageDto;
+class SlackHomeTabDto extends SlackDto {
+    constructor() {
+        super(...arguments);
+        this.type = constants_1.SurfaceType.HomeTab;
+    }
+}
+exports.SlackHomeTabDto = SlackHomeTabDto;
+class SlackModalDto extends SlackDto {
+    constructor() {
+        super(...arguments);
+        this.type = constants_1.SurfaceType.Modal;
+    }
+}
+exports.SlackModalDto = SlackModalDto;
+class SlackWorkflowStepDto extends SlackDto {
+    constructor() {
+        super(...arguments);
+        this.type = constants_1.SurfaceType.WorkflowStep;
+    }
+}
+exports.SlackWorkflowStepDto = SlackWorkflowStepDto;
+class SlackBlockDto extends SlackDto {
+}
+exports.SlackBlockDto = SlackBlockDto;
+class SlackElementDto extends SlackDto {
+}
+exports.SlackElementDto = SlackElementDto;
+
+
+/***/ }),
+
+/***/ 1350:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.BlockBuilderError = void 0;
+class BlockBuilderError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'BlockBuilderError';
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+exports.BlockBuilderError = BlockBuilderError;
+
+
+/***/ }),
+
+/***/ 9852:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__nccwpck_require__(1350), exports);
+
+
+/***/ }),
+
+/***/ 8831:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+/*
+eslint-disable
+@typescript-eslint/explicit-module-boundary-types,
+@typescript-eslint/no-explicit-any
+*/
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.applyMixins = void 0;
+function applyMixins(derivedCtor, baseCtors) {
+    const { constructor } = derivedCtor.prototype;
+    baseCtors.forEach((baseCtor) => {
+        Object.getOwnPropertyNames(baseCtor.prototype).forEach((name) => {
+            const descriptor = Object.getOwnPropertyDescriptor(baseCtor.prototype, name);
+            Object.defineProperty(derivedCtor.prototype, name, descriptor);
+        });
+    });
+    derivedCtor.prototype.constructor = constructor; // eslint-disable-line no-param-reassign
+}
+exports.applyMixins = applyMixins;
+
+
+/***/ }),
+
+/***/ 8799:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getDispatchActionsConfigurationObject = exports.getFilter = exports.getDateTimeIntegerFromDate = exports.getFormattedDate = exports.getFields = exports.getElementsForContext = exports.getMarkdownObject = exports.getStringFromNumber = exports.getPlainTextObject = exports.getBuilderResults = exports.getBuilderResult = void 0;
+const objects_1 = __nccwpck_require__(1045);
+const defaultParams = {
+    isMarkdown: false,
+};
+const valueOrUndefined = (value) => (value === undefined ? undefined : value);
+const valuesOrUndefined = (values) => {
+    if (values.filter((value) => value !== undefined).length === 0) {
+        return undefined;
+    }
+    return values;
+};
+function getBuilderResult(builder, params = defaultParams) {
+    return valueOrUndefined(builder) && builder.build(params);
+}
+exports.getBuilderResult = getBuilderResult;
+function getBuilderResults(builders, params = defaultParams) {
+    return valueOrUndefined(builders) && builders
+        .map((builder) => getBuilderResult(builder, params));
+}
+exports.getBuilderResults = getBuilderResults;
+function getPlainTextObject(text) {
+    return valueOrUndefined(text) ? new objects_1.PlainTextObject(text) : undefined;
+}
+exports.getPlainTextObject = getPlainTextObject;
+function getStringFromNumber(value) {
+    return valueOrUndefined(value) ? value.toString() : undefined;
+}
+exports.getStringFromNumber = getStringFromNumber;
+function getMarkdownObject(text) {
+    return valueOrUndefined(text) ? new objects_1.MarkdownObject(text) : undefined;
+}
+exports.getMarkdownObject = getMarkdownObject;
+function getElementsForContext(elements) {
+    return valueOrUndefined(elements) && elements.map((element) => (typeof element === 'string'
+        ? new objects_1.MarkdownObject(element)
+        : element.build()));
+}
+exports.getElementsForContext = getElementsForContext;
+function getFields(fields) {
+    return valueOrUndefined(fields) && fields.map((field) => new objects_1.MarkdownObject(field));
+}
+exports.getFields = getFields;
+function getFormattedDate(date) {
+    return valueOrUndefined(date) && date.toISOString().split('T')[0];
+}
+exports.getFormattedDate = getFormattedDate;
+function getDateTimeIntegerFromDate(date) {
+    return valueOrUndefined(date) && Math.floor(date.getTime() / 1000);
+}
+exports.getDateTimeIntegerFromDate = getDateTimeIntegerFromDate;
+function getFilter({ filter, excludeBotUsers, excludeExternalSharedChannels }) {
+    return valuesOrUndefined([filter, excludeBotUsers, excludeExternalSharedChannels])
+        && new objects_1.FilterObject({ filter, excludeBotUsers, excludeExternalSharedChannels });
+}
+exports.getFilter = getFilter;
+function getDispatchActionsConfigurationObject({ onEnterPressed, onCharacterEntered }) {
+    return valuesOrUndefined([onEnterPressed, onCharacterEntered])
+        && new objects_1.DispatchActionsConfigurationObject([onEnterPressed, onCharacterEntered]
+            .filter(Boolean));
+}
+exports.getDispatchActionsConfigurationObject = getDispatchActionsConfigurationObject;
+
+
+/***/ }),
+
+/***/ 6405:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__nccwpck_require__(8831), exports);
+__exportStar(__nccwpck_require__(8799), exports);
+
+
+/***/ }),
+
+/***/ 6431:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__nccwpck_require__(3409), exports);
+__exportStar(__nccwpck_require__(4359), exports);
+__exportStar(__nccwpck_require__(6834), exports);
+__exportStar(__nccwpck_require__(9852), exports);
+__exportStar(__nccwpck_require__(6405), exports);
+__exportStar(__nccwpck_require__(4281), exports);
+__exportStar(__nccwpck_require__(9392), exports);
+__exportStar(__nccwpck_require__(1045), exports);
+__exportStar(__nccwpck_require__(111), exports);
+
+
+/***/ }),
+
+/***/ 5391:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AccordionStateManager = void 0;
+class AccordionStateManager {
+    constructor(params) {
+        this.expandedItems = params.expandedItems || [];
+        this.collapseOnExpand = params.collapseOnExpand || false;
+    }
+    checkItemIsExpandedByIndex(index) {
+        return this.expandedItems.includes(index);
+    }
+    getNextStateByItemIndex(index) {
+        if (index === undefined) {
+            return this.expandedItems;
+        }
+        const isExpanded = this.checkItemIsExpandedByIndex(index);
+        if (isExpanded) {
+            const nextState = [...this.expandedItems];
+            const expandedItemsIndex = this.expandedItems
+                .findIndex((expandedItem) => expandedItem === index);
+            nextState.splice(expandedItemsIndex, 1);
+            return nextState;
+        }
+        return this.collapseOnExpand
+            ? [index]
+            : [...this.expandedItems, index];
+    }
+}
+exports.AccordionStateManager = AccordionStateManager;
+
+
+/***/ }),
+
+/***/ 3296:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Builder = void 0;
+const exception_1 = __nccwpck_require__(9852);
+class Builder {
+    constructor(params) {
+        this.props = params ? { ...params } : {};
+        Object.keys(this.props)
+            .forEach((prop) => this.props[prop] === undefined
+            && delete this.props[prop]);
+        Object.seal(this);
+    }
+    set(value, prop) {
+        if (this.props[prop] !== undefined) {
+            throw new exception_1.BlockBuilderError(`Property ${prop} can only be assigned once.`);
+        }
+        if (value !== undefined) {
+            this.props[prop] = value;
+        }
+        return this;
+    }
+    append(value, prop) {
+        const prunedValue = Builder.pruneUndefinedFromArray(value);
+        if (prunedValue.length > 0) {
+            this.props[prop] = this.props[prop] === undefined
+                ? prunedValue
+                : this.props[prop].concat(prunedValue);
+        }
+        return this;
+    }
+    getResult(Clazz, overrideProps) {
+        const result = new Clazz({ ...this.props, ...overrideProps });
+        return Object.freeze(result);
+    }
+    /** @internal */
+    // eslint-disable-next-line max-len
+    // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars, @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+    build(params) {
+        throw new exception_1.BlockBuilderError('Builder must have a declared \'build\' method');
+    }
+    static pruneUndefinedFromArray(array) {
+        return array.filter((value) => (value !== undefined ? value : false));
+    }
+}
+exports.Builder = Builder;
+
+
+/***/ }),
+
+/***/ 4281:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__nccwpck_require__(5391), exports);
+__exportStar(__nccwpck_require__(3296), exports);
+__exportStar(__nccwpck_require__(1253), exports);
+
+
+/***/ }),
+
+/***/ 1253:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PaginatorStateManager = void 0;
+class PaginatorStateManager {
+    constructor(params) {
+        const state = PaginatorStateManager.calculateState({
+            page: Math.floor(params.page) || 1,
+            totalItems: Math.floor(params.totalItems) || 1,
+            perPage: Math.floor(params.perPage),
+        });
+        this.page = state.page;
+        this.perPage = state.perPage;
+        this.totalItems = state.totalItems;
+        this.totalPages = state.totalPages;
+        this.offset = state.offset;
+    }
+    static calculateState(params) {
+        const { page, totalItems, perPage } = params;
+        const totalPages = Math.ceil(totalItems / perPage);
+        const calculatedPage = PaginatorStateManager.calculatePage(page, totalPages);
+        const offset = (calculatedPage - 1) * perPage;
+        return {
+            totalItems,
+            perPage,
+            totalPages,
+            offset,
+            page: calculatedPage,
+        };
+    }
+    static calculatePage(page, totalPages) {
+        if (page < 1) {
+            return totalPages;
+        }
+        return page > totalPages ? 1 : page;
+    }
+    getPage() {
+        return this.page;
+    }
+    getTotalPages() {
+        return this.totalPages;
+    }
+    getTotalItems() {
+        return this.totalItems;
+    }
+    getStateByPage(page) {
+        return PaginatorStateManager.calculateState({
+            page,
+            perPage: this.perPage,
+            totalItems: this.totalItems,
+        });
+    }
+    getNextPageState() {
+        return this.getStateByPage(this.page + 1);
+    }
+    getPreviousPageState() {
+        return this.getStateByPage(this.page - 1);
+    }
+    extractItems(items) {
+        const beginning = this.offset;
+        const end = beginning + this.perPage;
+        return items.slice(beginning, end);
+    }
+}
+exports.PaginatorStateManager = PaginatorStateManager;
+
+
+/***/ }),
+
+/***/ 3602:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+/* eslint-disable max-classes-per-file */
+/* eslint-disable max-len */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Options = exports.OptionGroups = exports.InitialUsers = exports.InitialOptions = exports.InitialConversations = exports.InitialChannels = exports.Filter = exports.Fields = exports.Elements = exports.Blocks = exports.Attachments = void 0;
+const lib_1 = __nccwpck_require__(4281);
+const constants_1 = __nccwpck_require__(4359);
+class Attachments extends lib_1.Builder {
+    /**
+     * @description Adds attachments to your message.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    attachments(...attachments) {
+        return this.append(attachments.flat(), constants_1.Prop.Attachments);
+    }
+}
+exports.Attachments = Attachments;
+class Blocks extends lib_1.Builder {
+    /**
+     * @description Adds blocks to your view or message.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * **Required for modals, home tabs, and workflow steps** ⚠
+     *    * Maximum of 100 blocks.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    blocks(...blocks) {
+        return this.append(blocks.flat(), constants_1.Prop.Blocks);
+    }
+}
+exports.Blocks = Blocks;
+class Elements extends lib_1.Builder {
+    /**
+     * @description Adds elements to the actions block.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * **Required** ⚠
+     *    * Maximum of 5 elements.
+     *    * Supported elements are buttons, select and overflow menus, and date pickers.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    elements(...elements) {
+        return this.append(elements.flat(), constants_1.Prop.Elements);
+    }
+}
+exports.Elements = Elements;
+class Fields extends lib_1.Builder {
+    /**
+     * @description Adds text fields to the section block, in two columns, side-by-side.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * **Required if the text property is undefined** ⚠
+     *    * Maximum of 10 items.
+     *    * Maximum of 2000 characters for each field.
+     *    * Markdown supported.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    fields(...fields) {
+        return this.append(fields.flat(), constants_1.Prop.Fields);
+    }
+}
+exports.Fields = Fields;
+class Filter extends lib_1.Builder {
+    /**
+     * @description Defines which conversations should be included in the list.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Possible values are *im*, *impm*, *private*, and *public*.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    filter(...filters) {
+        return this.append(filters.flat(), constants_1.Prop.Filter);
+    }
+}
+exports.Filter = Filter;
+class InitialChannels extends lib_1.Builder {
+    /**
+     * @description Pre-populates the menu with selected, default channels.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    initialChannels(...channelIds) {
+        return this.append(channelIds.flat(), constants_1.Prop.InitialChannels);
+    }
+}
+exports.InitialChannels = InitialChannels;
+class InitialConversations extends lib_1.Builder {
+    /**
+     * @description Pre-populates the menu with selected, default conversations.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    initialConversations(...conversationIds) {
+        return this.append(conversationIds.flat(), constants_1.Prop.InitialConversations);
+    }
+}
+exports.InitialConversations = InitialConversations;
+class InitialOptions extends lib_1.Builder {
+    /**
+     * @description Pre-populates the menu or checkbox input with selected, default options.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Must be exact matches to options in the menu.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    initialOptions(...options) {
+        return this.append(options.flat(), constants_1.Prop.InitialOptions);
+    }
+}
+exports.InitialOptions = InitialOptions;
+class InitialUsers extends lib_1.Builder {
+    /**
+     * @description Pre-populates the menu with selected, default users.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    initialUsers(...userIds) {
+        return this.append(userIds.flat(), constants_1.Prop.InitialUsers);
+    }
+}
+exports.InitialUsers = InitialUsers;
+class OptionGroups extends lib_1.Builder {
+    /**
+     * @description Adds organized groups of options to the select or multi-select menu, each with its own label or title.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Maximum of 100 options.
+     *    * Both options and options groups cannot be defined at the same time for any element.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    optionGroups(...optionGroups) {
+        return this.append(optionGroups.flat(), constants_1.Prop.OptionGroups);
+    }
+}
+exports.OptionGroups = OptionGroups;
+class Options extends lib_1.Builder {
+    /**
+     * @description Adds options to the select or multi-select menu.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * **Required** ⚠
+     *    * Maximum of 100 options.
+     *    * Both options and options groups cannot be defined at the same time for any element.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    options(...options) {
+        return this.append(options.flat(), constants_1.Prop.Options);
+    }
+}
+exports.Options = Options;
+
+
+/***/ }),
+
+/***/ 2507:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+/* eslint-disable max-classes-per-file */
+/* eslint-disable max-len */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SubmitDisabled = exports.ResponseUrlEnabled = exports.ReplaceOriginal = exports.Primary = exports.Optional = exports.NotifyOnClose = exports.Multiline = exports.InChannel = exports.IgnoreMarkdown = exports.FocusOnLoad = exports.ExcludeBotUsers = exports.ExcludeExternalSharedChannels = exports.Ephemeral = exports.DispatchActionOnEnterPressed = exports.DispatchActionOnCharacterEntered = exports.DispatchAction = exports.DeleteOriginal = exports.DefaultToCurrentConversation = exports.Danger = exports.ClearOnClose = exports.AsUser = void 0;
+const lib_1 = __nccwpck_require__(4281);
+const constants_1 = __nccwpck_require__(4359);
+class AsUser extends lib_1.Builder {
+    /**
+     * @description Sets the message to be sent as either the user whose auth token is being used or as the bot user associated with your app.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    asUser(boolean = true) {
+        return this.set(boolean, constants_1.Prop.AsUser);
+    }
+}
+exports.AsUser = AsUser;
+class ClearOnClose extends lib_1.Builder {
+    /**
+     * @description Instructs the Slack API to close all open views in the view stack when this particular view is closed.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    clearOnClose(boolean = true) {
+        return this.set(boolean, constants_1.Prop.ClearOnClose);
+    }
+}
+exports.ClearOnClose = ClearOnClose;
+class Danger extends lib_1.Builder {
+    /**
+     * @description For a button element, this changes the color to red. For confirmation dialogs, this sets the main button in the bottom right corner to red, indicating that an action is potentially destructive.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    danger(boolean = true) {
+        return boolean ? this.set(constants_1.ButtonStyle.Danger, constants_1.Prop.Style) : this;
+    }
+}
+exports.Danger = Danger;
+class DefaultToCurrentConversation extends lib_1.Builder {
+    /**
+     * @description Pre-populates the select menu with the conversation that the user was viewing when they opened the modal, if available.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * If initial conversations are provided, this option is ignored.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    defaultToCurrentConversation(boolean = true) {
+        return this.set(boolean, constants_1.Prop.DefaultToCurrentConversation);
+    }
+}
+exports.DefaultToCurrentConversation = DefaultToCurrentConversation;
+class DeleteOriginal extends lib_1.Builder {
+    /**
+     * @description Instructs the Slack API to delete the message from which the interaction originated when sending the current message.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    deleteOriginal(boolean = true) {
+        return this.set(boolean, constants_1.Prop.DeleteOriginal);
+    }
+}
+exports.DeleteOriginal = DeleteOriginal;
+class DispatchAction extends lib_1.Builder {
+    /**
+     * @description Instructs the Slack API to send an interaction event to your app when the element in the input block has been interacted with.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    dispatchAction(boolean = true) {
+        return this.set(boolean, constants_1.Prop.DispatchAction);
+    }
+}
+exports.DispatchAction = DispatchAction;
+class DispatchActionOnCharacterEntered extends lib_1.Builder {
+    /**
+     * @description Instructs the Slack API to dispatch an interaction payload to your app when the user enters or deletes a character in the input.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    dispatchActionOnCharacterEntered(boolean = true) {
+        return boolean ? this.set(constants_1.DispatchOnType.OnCharacterEntered, constants_1.Prop.OnCharacterEntered) : this;
+    }
+}
+exports.DispatchActionOnCharacterEntered = DispatchActionOnCharacterEntered;
+class DispatchActionOnEnterPressed extends lib_1.Builder {
+    /**
+     * @description Instructs the Slack API to dispatch an interaction payload to your app when the user presses the enter key while the input is in focus.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    dispatchActionOnEnterPressed(boolean = true) {
+        return boolean ? this.set(constants_1.DispatchOnType.OnEnterPressed, constants_1.Prop.OnEnterPressed) : this;
+    }
+}
+exports.DispatchActionOnEnterPressed = DispatchActionOnEnterPressed;
+class Ephemeral extends lib_1.Builder {
+    /**
+     * @description Instructs the Slack API to display the message only to the user who invoked the interaction payload or slash command.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    ephemeral(boolean = true) {
+        return boolean ? this.set(constants_1.ResponseType.Ephemeral, constants_1.Prop.ResponseType) : this;
+    }
+}
+exports.Ephemeral = Ephemeral;
+class ExcludeExternalSharedChannels extends lib_1.Builder {
+    /**
+     * @description Excludes conversations shared with external organizations from the menu's options.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    excludeExternalSharedChannels(boolean = true) {
+        return this.set(boolean, constants_1.Prop.ExcludeExternalSharedChannels);
+    }
+}
+exports.ExcludeExternalSharedChannels = ExcludeExternalSharedChannels;
+class ExcludeBotUsers extends lib_1.Builder {
+    /**
+     * @description Excludes conversations with bot users from the menu's options.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    excludeBotUsers(boolean = true) {
+        return this.set(boolean, constants_1.Prop.ExcludeBotUsers);
+    }
+}
+exports.ExcludeBotUsers = ExcludeBotUsers;
+class FocusOnLoad extends lib_1.Builder {
+    /**
+     * @description Sets an element to have auto focus on opening the view
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    focusOnLoad(boolean = true) {
+        return this.set(boolean, constants_1.Prop.FocusOnLoad);
+    }
+}
+exports.FocusOnLoad = FocusOnLoad;
+class IgnoreMarkdown extends lib_1.Builder {
+    /**
+     * @description Instructs the Slack API to ignore any markdown in the text property of the message.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    ignoreMarkdown(boolean = false) {
+        return this.set(boolean, constants_1.Prop.Mrkdwn);
+    }
+}
+exports.IgnoreMarkdown = IgnoreMarkdown;
+class InChannel extends lib_1.Builder {
+    /**
+     * @description Instructs the Slack API to make the message visible to everyone in the channel from which the interaction payload or slash command originated.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    inChannel(boolean = true) {
+        return boolean ? this.set(constants_1.ResponseType.InChannel, constants_1.Prop.ResponseType) : this;
+    }
+}
+exports.InChannel = InChannel;
+class Multiline extends lib_1.Builder {
+    /**
+     * @description Sets the text input to be a larger, multi-line input for larger portions of text.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    multiline(boolean = true) {
+        return this.set(boolean, constants_1.Prop.Multiline);
+    }
+}
+exports.Multiline = Multiline;
+class NotifyOnClose extends lib_1.Builder {
+    /**
+     * @description Instructs the Slack API to send an interaction payload to your app when the view is closed.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    notifyOnClose(boolean = true) {
+        return this.set(boolean, constants_1.Prop.NotifyOnClose);
+    }
+}
+exports.NotifyOnClose = NotifyOnClose;
+class Optional extends lib_1.Builder {
+    /**
+     * @description Lets the Slack API know that inputting data in the the input is not required for the view to be successfully submitted.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    optional(boolean = true) {
+        return this.set(boolean, constants_1.Prop.Optional);
+    }
+}
+exports.Optional = Optional;
+class Primary extends lib_1.Builder {
+    /**
+     * @description For a button element, this changes the color to green. For confirmation dialogs, this sets the main button in the bottom right corner to green, which is meant to confirm the action.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    primary(boolean = true) {
+        return boolean ? this.set(constants_1.ButtonStyle.Primary, constants_1.Prop.Style) : this;
+    }
+}
+exports.Primary = Primary;
+class ReplaceOriginal extends lib_1.Builder {
+    /**
+     * @description Instructs the Slack API to replace the original message, from which the interaction payload originated, with the current message.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    replaceOriginal(boolean = true) {
+        return this.set(boolean, constants_1.Prop.ReplaceOriginal);
+    }
+}
+exports.ReplaceOriginal = ReplaceOriginal;
+class ResponseUrlEnabled extends lib_1.Builder {
+    /**
+     * @description Instructs the Slack API to provide a response URL at view submission.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Only available in views with input blocks.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    responseUrlEnabled(boolean = true) {
+        return this.set(boolean, constants_1.Prop.ResponseUrlEnabled);
+    }
+}
+exports.ResponseUrlEnabled = ResponseUrlEnabled;
+class SubmitDisabled extends lib_1.Builder {
+    /**
+     * @description Configures the workflow step to have a disabled submit button until the user has input data into one or more inputs.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    submitDisabled(boolean = true) {
+        return this.set(boolean, constants_1.Prop.SubmitDisabled);
+    }
+}
+exports.SubmitDisabled = SubmitDisabled;
+
+
+/***/ }),
+
+/***/ 9392:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__nccwpck_require__(3602), exports);
+__exportStar(__nccwpck_require__(2507), exports);
+__exportStar(__nccwpck_require__(7818), exports);
+__exportStar(__nccwpck_require__(2116), exports);
+
+
+/***/ }),
+
+/***/ 7818:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+/* eslint-disable max-classes-per-file */
+/* eslint-disable max-len */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PrintPreviewUrl = exports.GetPreviewUrl = exports.GetBlocks = exports.GetAttachments = exports.End = exports.BuildToObject = exports.BuildToJSON = void 0;
+const lib_1 = __nccwpck_require__(4281);
+class BuildToJSON extends lib_1.Builder {
+    /**
+     * @description Builds the view and returns it as a Slack API-compatible JSON string.
+     */
+    buildToJSON() {
+        const result = this.build();
+        return JSON.stringify(result);
+    }
+}
+exports.BuildToJSON = BuildToJSON;
+class BuildToObject extends lib_1.Builder {
+    /**
+     * @description Builds the view and returns it as a Slack API-compatible object.
+     */
+    buildToObject() {
+        return this.build();
+    }
+}
+exports.BuildToObject = BuildToObject;
+class End extends lib_1.Builder {
+    /**
+     * @description Performs no alterations to the object on which it is called. It is meant to simulate a closing HTML tag for those who prefer to have an explicit end declared for an object.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    end() {
+        return this;
+    }
+}
+exports.End = End;
+class GetAttachments extends lib_1.Builder {
+    /**
+     * @description Builds the view and returns a Slack API-compatible array of attachments.
+     *
+     * {@link https://api.slack.com/reference/messaging/attachments|View in Slack API Documentation}
+     */
+    getAttachments() {
+        return this.build().attachments;
+    }
+}
+exports.GetAttachments = GetAttachments;
+class GetBlocks extends lib_1.Builder {
+    /**
+     * @description Builds the view and returns a Slack API-compatible array of blocks.
+     *
+     * {@link https://api.slack.com/block-kit|View in Slack API Documentation}
+     */
+    getBlocks() {
+        this.build();
+        return this.build().blocks;
+    }
+}
+exports.GetBlocks = GetBlocks;
+class GetPreviewUrl extends lib_1.Builder {
+    /**
+     * @description Builds the view and returns the preview URL in order to open and preview the view on Slack's Block Kit Builder web application.
+     */
+    getPreviewUrl() {
+        const result = this.build();
+        const baseUri = 'https://app.slack.com/block-kit-builder/#';
+        const stringifiedBlocks = result.type
+            ? JSON.stringify(result)
+            : JSON.stringify({ blocks: result.blocks, attachments: result.attachments });
+        return encodeURI(`${baseUri}${stringifiedBlocks}`).replace(/[!'()*]/g, escape);
+    }
+}
+exports.GetPreviewUrl = GetPreviewUrl;
+class PrintPreviewUrl extends GetPreviewUrl {
+    /**
+     * @description Calls getPreviewUrl to build the preview URL and log it to the console.
+     */
+    printPreviewUrl() {
+        // eslint-disable-next-line no-console
+        console.log(this.getPreviewUrl());
+    }
+}
+exports.PrintPreviewUrl = PrintPreviewUrl;
+
+
+/***/ }),
+
+/***/ 2116:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+/* eslint-disable max-classes-per-file */
+/* eslint-disable max-len */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MaxFiles = exports.VideoUrl = exports.Value = exports.Url = exports.Ts = exports.TitleUrl = exports.Title = exports.ThumbnailUrl = exports.ThreadTs = exports.Text = exports.Submit = exports.ProviderName = exports.ProviderIconUrl = exports.PrivateMetaData = exports.PostAt = exports.Placeholder = exports.MinValue = exports.MinLength = exports.MinQueryLength = exports.MaxValue = exports.MaxSelectedItems = exports.MaxLength = exports.Label = exports.IsDecimalAllowed = exports.InitialValue = exports.InitialUser = exports.InitialTime = exports.InitialOption = exports.InitialDateTime = exports.InitialDate = exports.InitialConversation = exports.InitialChannel = exports.ImageUrl = exports.Hint = exports.Fallback = exports.ExternalId = exports.Element = exports.Description = exports.Deny = exports.Confirm = exports.Color = exports.Close = exports.Channel = exports.CallbackId = exports.BlockId = exports.AuthorName = exports.AltText = exports.ActionId = exports.Accessory = exports.AccessibilityLabel = void 0;
+exports.Filetypes = void 0;
+const lib_1 = __nccwpck_require__(4281);
+const constants_1 = __nccwpck_require__(4359);
+class AccessibilityLabel extends lib_1.Builder {
+    /**
+     * @description A label for longer descriptive text about a button element. This label will be read out by screen readers instead of the button text object.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Maximum of 75 characters.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    accessibilityLabel(label) {
+        return this.set(label, constants_1.Prop.AccessibilityLabel);
+    }
+}
+exports.AccessibilityLabel = AccessibilityLabel;
+class Accessory extends lib_1.Builder {
+    /**
+     * @description Adds an element to the section block of your view or message.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Maximum of 1 element.
+     *    * Can be any one of the elements.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    accessory(element) {
+        return this.set(element, constants_1.Prop.Accessory);
+    }
+}
+exports.Accessory = Accessory;
+class ActionId extends lib_1.Builder {
+    /**
+     * @description Sets a string to be an identifier for the action taken by the user. It is sent back to your app in the interaction payload when the element is interacted or when the view is submitted.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * **Required** ⚠
+     *    * Each element in a view or message must have its own unique action ID.
+     *    * Maximum of 255 characters.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    actionId(actionId) {
+        return this.set(actionId, constants_1.Prop.ActionId);
+    }
+}
+exports.ActionId = ActionId;
+class AltText extends lib_1.Builder {
+    /**
+     * @description This a plain-text summary of the image element or block.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * **Required** ⚠
+     *    * Should not contain any markup.
+     *    * Maximum of 2000 characters.
+     *
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    altText(altText) {
+        return this.set(altText, constants_1.Prop.AltText);
+    }
+}
+exports.AltText = AltText;
+class AuthorName extends lib_1.Builder {
+    /**
+     * @description This a plain-text representation of the author of a video.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Maximum of 50 characters.
+     *
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    authorName(authorName) {
+        return this.set(authorName, constants_1.Prop.AuthorName);
+    }
+}
+exports.AuthorName = AuthorName;
+class BlockId extends lib_1.Builder {
+    /**
+     * @description Sets a string to be an identifier for any given block in a view or message. This is sent back to your app in interaction payloads and view submissions for your app to process.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Maximum of 255 characters.
+     *    * Each block in a view or message must have its own unique action ID.
+     *    * If the contents of a block is updated, the block ID should also be updated.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    blockId(blockId) {
+        return this.set(blockId, constants_1.Prop.BlockId);
+    }
+}
+exports.BlockId = BlockId;
+class CallbackId extends lib_1.Builder {
+    /**
+     * @description Sets a string for your view that is sent back to your server in all of the interaction payloads and view submissions. Used to identify the view from which the interaction payload is generated.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Maximum of 255 characters.
+     *    * It is recommended that sensitive data not be stored in the callback ID. Instead, use the `privateMetaData()` method.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    callbackId(callbackId) {
+        return this.set(callbackId, constants_1.Prop.CallbackId);
+    }
+}
+exports.CallbackId = CallbackId;
+class Channel extends lib_1.Builder {
+    /**
+     * @description Sets the Slack channel ID to which the message will be sent via the API.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    channel(channel) {
+        return this.set(channel, constants_1.Prop.Channel);
+    }
+}
+exports.Channel = Channel;
+class Close extends lib_1.Builder {
+    /**
+     * @description Sets the text displayed on the button that closes the view.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Maximum of 24 characters.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    close(closeButtonText) {
+        return this.set(closeButtonText, constants_1.Prop.Close);
+    }
+}
+exports.Close = Close;
+class Color extends lib_1.Builder {
+    /**
+     * @description Sets the color for the blockquote border to the left of the attachment.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    color(color) {
+        return this.set(color, constants_1.Prop.Color);
+    }
+}
+exports.Color = Color;
+class Confirm extends lib_1.Builder {
+    /**
+     * @description For confirmation dialogs, sets the text of the button that confirms the action to which the confirmation dialog has been added. For elements, adds a confirmation dialog that is displayed when the user interacts with the element to confirm the selection or action.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    confirm(value) {
+        return this.set(value, constants_1.Prop.Confirm);
+    }
+}
+exports.Confirm = Confirm;
+class Deny extends lib_1.Builder {
+    /**
+     * @description Sets the text of the button that is meant to cancel the action or which the confirmation dialog was called.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * **Required** ⚠
+     *    * Maximum of 30 characters.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    deny(text) {
+        return this.set(text, constants_1.Prop.Deny);
+    }
+}
+exports.Deny = Deny;
+class Description extends lib_1.Builder {
+    /**
+     * @description Sets the descriptive text displayed below the text field of the option or for a video, if creating a Video block.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Maximum of 75 characters.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    description(description) {
+        return this.set(description, constants_1.Prop.Description);
+    }
+}
+exports.Description = Description;
+class Element extends lib_1.Builder {
+    /**
+     * @description Adds a user input element to the input block for gathering information from the user.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * **Required** ⚠
+     *    * Maximum of 1 element.
+     *    * Supports text inputs, select and multi-select menus, as well as date pickers and checkbox inputs.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    element(element) {
+        return this.set(element, constants_1.Prop.Element);
+    }
+}
+exports.Element = Element;
+class ExternalId extends lib_1.Builder {
+    /**
+     * @description Sets a custom identifier for a view or file that must be unique for all views on a per-team basis.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Maximum of 255 characters.
+     *    * When used, an external ID must be unique to a certain view.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    externalId(externalId) {
+        return this.set(externalId, constants_1.Prop.ExternalId);
+    }
+}
+exports.ExternalId = ExternalId;
+class Fallback extends lib_1.Builder {
+    /**
+     * @description Sets the plain text summary of the attachment used in clients that can't display formatted text (eg. IRC, mobile notifications).
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    fallback(text) {
+        return this.set(text, constants_1.Prop.Fallback);
+    }
+}
+exports.Fallback = Fallback;
+class Hint extends lib_1.Builder {
+    /**
+     * @description Adds a hint below the input block to provide users with more context or instructions for using the input.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Maximum of 2000 characters.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    hint(hint) {
+        return this.set(hint, constants_1.Prop.Hint);
+    }
+}
+exports.Hint = Hint;
+class ImageUrl extends lib_1.Builder {
+    /**
+     * @description Sets the source URL for the image block or element that you wish to include in your view or message.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * **Required** ⚠
+     *    * Maximum of 2000 characters.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    imageUrl(url) {
+        return this.set(url, constants_1.Prop.ImageUrl);
+    }
+}
+exports.ImageUrl = ImageUrl;
+class InitialChannel extends lib_1.Builder {
+    /**
+     * @description Pre-populates the menu with a selected, default channel.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    initialChannel(channelId) {
+        return this.set(channelId, constants_1.Prop.InitialChannel);
+    }
+}
+exports.InitialChannel = InitialChannel;
+class InitialConversation extends lib_1.Builder {
+    /**
+     * @description Pre-populates the menu with a selected, default conversation.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    initialConversation(conversationId) {
+        return this.set(conversationId, constants_1.Prop.InitialConversation);
+    }
+}
+exports.InitialConversation = InitialConversation;
+class InitialDate extends lib_1.Builder {
+    /**
+     * @description Pre-populates the date picker with a selected, default date.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    initialDate(date) {
+        return this.set(date, constants_1.Prop.InitialDate);
+    }
+}
+exports.InitialDate = InitialDate;
+class InitialDateTime extends lib_1.Builder {
+    /**
+     * @description Pre-populates the date time picker with a selected, default date and time.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    initialDateTime(date) {
+        return this.set(date, constants_1.Prop.InitialDateTime);
+    }
+}
+exports.InitialDateTime = InitialDateTime;
+class InitialOption extends lib_1.Builder {
+    /**
+     * @description Pre-populates the menu or date picker with a selected, default option.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Must be an exact match for one of the options in the menu.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    initialOption(option) {
+        return this.set(option, constants_1.Prop.InitialOption);
+    }
+}
+exports.InitialOption = InitialOption;
+class InitialTime extends lib_1.Builder {
+    /**
+     * @description Pre-populates the time picker with a selected, default time.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Set in HH:mm format, where HH is 24-hour hour format and mm is minutes with a leading zero.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    initialTime(time) {
+        return this.set(time, constants_1.Prop.InitialTime);
+    }
+}
+exports.InitialTime = InitialTime;
+class InitialUser extends lib_1.Builder {
+    /**
+     * @description Pre-populates the menu with a selected, default user.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    initialUser(userId) {
+        return this.set(userId, constants_1.Prop.InitialUser);
+    }
+}
+exports.InitialUser = InitialUser;
+class InitialValue extends lib_1.Builder {
+    /**
+     * @description Pre-populates the input with a default value.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    initialValue(value) {
+        return this.set(value, constants_1.Prop.InitialValue);
+    }
+}
+exports.InitialValue = InitialValue;
+class IsDecimalAllowed extends lib_1.Builder {
+    /**
+     * @description Dicates whether a decimal is allowed for the value entered into the number input.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * **Required** ⚠
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    isDecimalAllowed(value) {
+        return this.set(value, constants_1.Prop.IsDecimalAllowed);
+    }
+}
+exports.IsDecimalAllowed = IsDecimalAllowed;
+class Label extends lib_1.Builder {
+    /**
+     * @description For input blocks, this sets the text displayed in the label for the input. For an option group, it defines the text displayed as a title for the group.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * **Required** ⚠
+     *    * For input blocks, maximum of 2000 characters.
+     *    * For option groups, maximum of 75 characters.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    label(label) {
+        return this.set(label, constants_1.Prop.Label);
+    }
+}
+exports.Label = Label;
+class MaxLength extends lib_1.Builder {
+    /**
+     * @description Sets a maximum character count allowed in the given text input.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    maxLength(length) {
+        return this.set(length, constants_1.Prop.MaxLength);
+    }
+}
+exports.MaxLength = MaxLength;
+class MaxSelectedItems extends lib_1.Builder {
+    /**
+     * @description Sets a limit to how many items the user can select in the multi-select menu.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    maxSelectedItems(quantity) {
+        return this.set(quantity, constants_1.Prop.MaxSelectedItems);
+    }
+}
+exports.MaxSelectedItems = MaxSelectedItems;
+class MaxValue extends lib_1.Builder {
+    /**
+     * @description Sets a maximum value for the number input.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Cannot be less than the minimum value.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    maxValue(value) {
+        return this.set(value, constants_1.Prop.MaxValue);
+    }
+}
+exports.MaxValue = MaxValue;
+class MinQueryLength extends lib_1.Builder {
+    /**
+     * @description Sets a minimum number of characters required before Slack queries your app for a list of options.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * If not set, the request will be sent on every character entered or removed.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    minQueryLength(length) {
+        return this.set(length, constants_1.Prop.MinQueryLength);
+    }
+}
+exports.MinQueryLength = MinQueryLength;
+class MinLength extends lib_1.Builder {
+    /**
+     * @description Sets a minimum character count required for the given text input before the user can submit the view.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Maximum 3000 characters.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    minLength(length) {
+        return this.set(length, constants_1.Prop.MinLength);
+    }
+}
+exports.MinLength = MinLength;
+class MinValue extends lib_1.Builder {
+    /**
+     * @description Sets a minimum value for the number input.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Cannot be less than the maximum value.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    minValue(value) {
+        return this.set(value, constants_1.Prop.MinValue);
+    }
+}
+exports.MinValue = MinValue;
+class Placeholder extends lib_1.Builder {
+    /**
+     * @description Defines the text displayed as a placeholder in the empty input element.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Maximum of 150 characters.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    placeholder(placeholder) {
+        return this.set(placeholder, constants_1.Prop.Placeholder);
+    }
+}
+exports.Placeholder = Placeholder;
+class PostAt extends lib_1.Builder {
+    /**
+     * @description Sets a time in the future for the message to be sent to the channel or user, as a scheduled message.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    postAt(timestamp) {
+        return this.set(timestamp, constants_1.Prop.PostAt);
+    }
+}
+exports.PostAt = PostAt;
+class PrivateMetaData extends lib_1.Builder {
+    /**
+     * @description Defines a string sent back to your server with view and interaction payloads.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Maximum 3000 characters.
+     *    * Typically used to persist data or store context between views.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    privateMetaData(privateMetaData) {
+        return this.set(privateMetaData, constants_1.Prop.PrivateMetaData);
+    }
+}
+exports.PrivateMetaData = PrivateMetaData;
+class ProviderIconUrl extends lib_1.Builder {
+    /**
+     * @description Icon for the video provider - ex. YouTube or Vimeo icon.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    providerIconUrl(providerIconUrl) {
+        return this.set(providerIconUrl, constants_1.Prop.ProviderIconUrl);
+    }
+}
+exports.ProviderIconUrl = ProviderIconUrl;
+class ProviderName extends lib_1.Builder {
+    /**
+     * @description The originating application or domain of the video ex. YouTube or Vimeo.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    providerName(providerName) {
+        return this.set(providerName, constants_1.Prop.ProviderName);
+    }
+}
+exports.ProviderName = ProviderName;
+class Submit extends lib_1.Builder {
+    /**
+     * @description Sets the text displayed on the button that submits the view.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Maximum of 24 characters.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    submit(text) {
+        return this.set(text, constants_1.Prop.Submit);
+    }
+}
+exports.Submit = Submit;
+class Text extends lib_1.Builder {
+    /**
+     * @description Sets the text displayed for buttons, headers, confirmation dialogs, sections, context blocks, and options.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * **Required for buttons, headers, confirmation dialogs, and option** ⚠
+     *    * **Required for sections if fields are not defined** ⚠
+     *    * For buttons and options, maximum of 75 characters.
+     *    * For confirmation dialogs, maximum of 75 characters.
+     *    * For section and header blocks, maximum of 3000 characters.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    text(text) {
+        return this.set(text, constants_1.Prop.Text);
+    }
+}
+exports.Text = Text;
+class ThreadTs extends lib_1.Builder {
+    /**
+     * @description Instructs the Slack API to send the message to the thread of the message associated with the timestamp.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    threadTs(threadTs) {
+        return this.set(threadTs, constants_1.Prop.ThreadTs);
+    }
+}
+exports.ThreadTs = ThreadTs;
+class ThumbnailUrl extends lib_1.Builder {
+    /**
+     * @description A URL that loads the thumbnail image of the video.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * **Required property for Video blocks** ⚠
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    thumbnailUrl(thumbnailUrl) {
+        return this.set(thumbnailUrl, constants_1.Prop.ThumbnailUrl);
+    }
+}
+exports.ThumbnailUrl = ThumbnailUrl;
+class Title extends lib_1.Builder {
+    /**
+     * @description Sets the title displayed for the block, element, or confirmation dialog.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * **Required for views and confirmation dialogs** ⚠
+     *    * For views, maximum of 24 characters.
+     *    * For images, maximum of 2000 characters.
+     *    * For confirmation dialogs, maximum of 100 characters.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    title(title) {
+        return this.set(title, constants_1.Prop.Title);
+    }
+}
+exports.Title = Title;
+class TitleUrl extends lib_1.Builder {
+    /**
+     * @description A hyperlink for the video's title text.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Must correspond to the non-embeddable URL for the video.
+     *    * Must go to an HTTPS URL.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    titleUrl(titleUrl) {
+        return this.set(titleUrl, constants_1.Prop.TitleUrl);
+    }
+}
+exports.TitleUrl = TitleUrl;
+class Ts extends lib_1.Builder {
+    /**
+     * @description Instructs the Slack API to use the message to replaced an existing message.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    ts(ts) {
+        return this.set(ts, constants_1.Prop.Ts);
+    }
+}
+exports.Ts = Ts;
+class Url extends lib_1.Builder {
+    /**
+     * @description Sets the URL to which the user is redirected when interacting with a button or option.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * Maximum of 3000 characters.
+     *    * For options, it is only supported for options in an overflow menu.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    url(url) {
+        return this.set(url, constants_1.Prop.Url);
+    }
+}
+exports.Url = Url;
+class Value extends lib_1.Builder {
+    /**
+     * @description Sets a value to be sent to your app when a user interacts with a button or option.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * For buttons, maximum of 2000 characters.
+     *    * For options, maximum of 75 characters.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    value(value) {
+        return this.set(value, constants_1.Prop.Value);
+    }
+}
+exports.Value = Value;
+class VideoUrl extends lib_1.Builder {
+    /**
+     * @description The URL of the video to embed in the Video block.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * **Required property for Video blocks** ⚠
+     *    * Must match any existing unfurl domains within the app.
+     *    * Must point to an HTTPS URL.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    videoUrl(videoUrl) {
+        return this.set(videoUrl, constants_1.Prop.VideoUrl);
+    }
+}
+exports.VideoUrl = VideoUrl;
+class MaxFiles extends lib_1.Builder {
+    /**
+     * @description Maximum number of files that can be uploaded for this file_input element. Minimum of 1, maximum of 10. Defaults to 10 if not specified.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    maxFiles(maxFiles = 10) {
+        return this.set(maxFiles, constants_1.Prop.MaxFiles);
+    }
+}
+exports.MaxFiles = MaxFiles;
+class Filetypes extends lib_1.Builder {
+    /**
+     * @description An array of valid file extensions that will be accepted for this element. All file extensions will be accepted if filetypes is not specified.
+     *
+     * **Slack Validation Rules and Tips:**
+     *    * **Required if the text property is undefined** ⚠
+     *    * Maximum of 10 items.
+     *    * Maximum of 2000 characters for each field.
+     *    * Markdown supported.
+     *
+     * {@link https://api.slack.com/block-kit|Open Official Slack Block Kit Documentation}
+     * {@link https://www.blockbuilder.dev|Open Block Builder Documentation}
+     */
+    filetypes(filetypes = []) {
+        return this.set(filetypes.flat(), constants_1.Prop.Filetypes);
+    }
+}
+exports.Filetypes = Filetypes;
+
+
+/***/ }),
+
+/***/ 7883:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DispatchActionsConfigurationObject = void 0;
+const base_1 = __nccwpck_require__(3409);
+class DispatchActionsConfigurationObject extends base_1.CompositionObjectBase {
+    constructor(params) {
+        super();
+        this.trigger_actions_on = params;
+    }
+}
+exports.DispatchActionsConfigurationObject = DispatchActionsConfigurationObject;
+
+
+/***/ }),
+
+/***/ 6477:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.FilterObject = void 0;
+const base_1 = __nccwpck_require__(3409);
+class FilterObject extends base_1.CompositionObjectBase {
+    constructor(params) {
+        super();
+        this.include = params.filter;
+        this.exclude_external_shared_channels = params.excludeExternalSharedChannels;
+        this.exclude_bot_users = params.excludeBotUsers;
+    }
+}
+exports.FilterObject = FilterObject;
+
+
+/***/ }),
+
+/***/ 1045:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__nccwpck_require__(7883), exports);
+__exportStar(__nccwpck_require__(6477), exports);
+__exportStar(__nccwpck_require__(565), exports);
+__exportStar(__nccwpck_require__(1356), exports);
+
+
+/***/ }),
+
+/***/ 565:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MarkdownObject = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+class MarkdownObject extends base_1.CompositionObjectBase {
+    constructor(text) {
+        super();
+        this.type = constants_1.ObjectType.Markdown;
+        this.text = text;
+    }
+}
+exports.MarkdownObject = MarkdownObject;
+
+
+/***/ }),
+
+/***/ 1356:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PlainTextObject = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+class PlainTextObject extends base_1.CompositionObjectBase {
+    constructor(text) {
+        super();
+        this.type = constants_1.ObjectType.Text;
+        this.text = text;
+    }
+}
+exports.PlainTextObject = PlainTextObject;
+
+
+/***/ }),
+
+/***/ 111:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+
+
+/***/ }),
+
+/***/ 6361:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+/**
+ * @description Wraps a string in quotation marks.
+ */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Md = exports.group = exports.channel = exports.user = exports.emoji = exports.mailto = exports.link = exports.listBullet = exports.listDash = exports.codeBlock = exports.codeInline = exports.strike = exports.italic = exports.bold = exports.blockquote = exports.quote = void 0;
+function quote(string) {
+    return `"${string}"`;
+}
+exports.quote = quote;
+/**
+ * @description Makes a string a block quote.
+ */
+function blockquote(string) {
+    return string.split('\n')
+        .map((value) => `>${value}`)
+        .join('\n');
+}
+exports.blockquote = blockquote;
+/**
+ * @description Makes a string bold.
+ */
+function bold(string) {
+    return `*${string}*`;
+}
+exports.bold = bold;
+/**
+ * @description Makes a string italic.
+ */
+function italic(string) {
+    return `_${string}_`;
+}
+exports.italic = italic;
+/**
+ * @description Strikes out a string.
+ */
+function strike(string) {
+    return `~${string}~`;
+}
+exports.strike = strike;
+/**
+ * @description Turns a string into an inline block of code.
+ */
+function codeInline(string) {
+    return `\`${string}\``;
+}
+exports.codeInline = codeInline;
+/**
+ * @description Turns a string into a multi-line block of code.
+ */
+function codeBlock(string) {
+    return `\`\`\`${string}\`\`\``;
+}
+exports.codeBlock = codeBlock;
+/**
+ * @description Formats multiple strings into a dashed list.
+ */
+function listDash(...items) {
+    return items.flat()
+        .map((string) => `- ${string}`)
+        .join('\n');
+}
+exports.listDash = listDash;
+/**
+ * @description Formats multiple strings into a bulleted list.
+ */
+function listBullet(...items) {
+    return items.flat()
+        .map((string) => `• ${string}`)
+        .join('\n');
+}
+exports.listBullet = listBullet;
+/**
+ * @description Formats a URL into a clickable link, with an optional alias.
+ */
+function link(url, alias) {
+    return alias
+        ? `<${url}|${alias}>`
+        : `<${url}>`;
+}
+exports.link = link;
+/**
+ * @description Formats an email address into a clickable link.
+ */
+function mailto(email, alias) {
+    return `<mailto:${email}|${alias}>`;
+}
+exports.mailto = mailto;
+/**
+ * @description Creates a named emoji in the colon format.
+ */
+function emoji(name) {
+    return `:${name}:`;
+}
+exports.emoji = emoji;
+/**
+ * @description Mentions a user in a channel.
+ */
+function user(id) {
+    return `<@${id}>`;
+}
+exports.user = user;
+/**
+ * @description Creates a clickable link to a channel.
+ */
+function channel(id) {
+    return `<#${id}>`;
+}
+exports.channel = channel;
+/**
+ * @description Mentions a Slack user group.
+ */
+function group(id) {
+    return `<!subteam^${id}>`;
+}
+exports.group = group;
+const md = {
+    quote,
+    blockquote,
+    bold,
+    italic,
+    strike,
+    codeInline,
+    codeBlock,
+    listDash,
+    listBullet,
+    link,
+    mailto,
+    emoji,
+    user,
+    channel,
+    group,
+};
+exports.Md = md;
+
+
+/***/ }),
+
+/***/ 7398:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.HomeTabBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/surfaces/views
+ * @@displayName Home Tab
+ */
+class HomeTabBuilder extends base_1.SurfaceBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackHomeTabDto, {
+            type: constants_1.SurfaceType.HomeTab,
+            blocks: helpers_1.getBuilderResults(this.props.blocks),
+        });
+    }
+}
+exports.HomeTabBuilder = HomeTabBuilder;
+helpers_1.applyMixins(HomeTabBuilder, [
+    methods_1.Blocks,
+    methods_1.CallbackId,
+    methods_1.ExternalId,
+    methods_1.PrivateMetaData,
+    methods_1.BuildToJSON,
+    methods_1.BuildToObject,
+    methods_1.GetBlocks,
+    methods_1.GetPreviewUrl,
+    methods_1.PrintPreviewUrl,
+]);
+
+
+/***/ }),
+
+/***/ 7613:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+/* eslint-disable max-len */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Surfaces = exports.WorkflowStep = exports.Modal = exports.Message = exports.HomeTab = void 0;
+const home_tab_1 = __nccwpck_require__(7398);
+const message_1 = __nccwpck_require__(4839);
+const modal_1 = __nccwpck_require__(4168);
+const workflow_step_1 = __nccwpck_require__(5941);
+/**
+ * Functions here do not use arrow functions stored in variables for IDE color compatibility.
+ */
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.callbackId] Sets a string sent back to your server together with all action and submission events.
+ * @param {string} [params.externalId] Sets a custom identifier that must be unique for all views on a per-team basis.
+ * @param {string} [params.privateMetaData] Sets a string sent back to your server together with all action and submission events.
+ *
+ * {@link https://api.slack.com/surfaces/tabs|View in Slack API Documentation}
+ */
+function HomeTab(params) {
+    return new home_tab_1.HomeTabBuilder(params);
+}
+exports.HomeTab = HomeTab;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.channel] The Slack channel ID to which the message is to be sent.
+ * @param {string} [params.text] Text to be displayed in the notification on the Message, or in the body, if there are no Blocks available.
+ * @param {timestamp} [params.threadTs] Sets the message to be a reply in a thread to the message whose timestamp is passed.
+ * @param {timestamp} [params.postAt] Sets a time for the message to be posted, as a scheduled message.
+ *
+ * {@link https://api.slack.com/messaging/composing|View in Slack API Documentation}
+ */
+function Message(params) {
+    return new message_1.MessageBuilder(params);
+}
+exports.Message = Message;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.title] Sets a title for your modal.
+ * @param {string} [params.close] Sets the text for the close button.
+ * @param {string} [params.submit] Sets the text for the submit button.
+ * @param {string} [params.callbackId] Sets a string sent back to your server together with all action and submission events.
+ * @param {string} [params.externalId] Sets a custom identifier that must be unique for all views on a per-team basis.
+ * @param {string} [params.privateMetaData] Sets a string sent back to your server together with all action and submission events.
+ *
+ * {@link https://api.slack.com/reference/surfaces/views|View in Slack API Documentation}
+ */
+function Modal(params) {
+    return new modal_1.ModalBuilder(params);
+}
+exports.Modal = Modal;
+/**
+ * @param {Object} [params] Parameters passed to the constructor.
+ * @param {string} [params.callbackId] Sets a string sent back to your server together with all action and submission events.
+ * @param {string} [params.privateMetaData] Sets a string sent back to your server together with all action and submission events.
+ *
+ * {@link https://api.slack.com/reference/surfaces/views|View in Slack API Documentation}
+ */
+function WorkflowStep(params) {
+    return new workflow_step_1.WorkflowStepBuilder(params);
+}
+exports.WorkflowStep = WorkflowStep;
+const surfaces = {
+    HomeTab,
+    Message,
+    Modal,
+    WorkflowStep,
+};
+exports.Surfaces = surfaces;
+
+
+/***/ }),
+
+/***/ 4839:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MessageBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/messaging/composing
+ * @@displayName Message
+ */
+class MessageBuilder extends base_1.SurfaceBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackMessageDto, {
+            blocks: helpers_1.getBuilderResults(this.props.blocks),
+            attachments: helpers_1.getBuilderResults(this.props.attachments),
+        });
+    }
+}
+exports.MessageBuilder = MessageBuilder;
+helpers_1.applyMixins(MessageBuilder, [
+    methods_1.AsUser,
+    methods_1.Attachments,
+    methods_1.Blocks,
+    methods_1.Channel,
+    methods_1.DeleteOriginal,
+    methods_1.Ephemeral,
+    methods_1.IgnoreMarkdown,
+    methods_1.InChannel,
+    methods_1.PostAt,
+    methods_1.ReplaceOriginal,
+    methods_1.Text,
+    methods_1.ThreadTs,
+    methods_1.Ts,
+    methods_1.BuildToJSON,
+    methods_1.BuildToObject,
+    methods_1.GetAttachments,
+    methods_1.GetBlocks,
+    methods_1.GetPreviewUrl,
+    methods_1.PrintPreviewUrl,
+]);
+
+
+/***/ }),
+
+/***/ 4168:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ModalBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/surfaces/views
+ * @@displayName Modal
+ */
+class ModalBuilder extends base_1.SurfaceBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackModalDto, {
+            type: constants_1.SurfaceType.Modal,
+            title: helpers_1.getPlainTextObject(this.props.title),
+            blocks: helpers_1.getBuilderResults(this.props.blocks),
+            close: helpers_1.getPlainTextObject(this.props.close),
+            submit: helpers_1.getPlainTextObject(this.props.submit),
+        });
+    }
+}
+exports.ModalBuilder = ModalBuilder;
+helpers_1.applyMixins(ModalBuilder, [
+    methods_1.Blocks,
+    methods_1.CallbackId,
+    methods_1.ClearOnClose,
+    methods_1.Close,
+    methods_1.ExternalId,
+    methods_1.NotifyOnClose,
+    methods_1.PrivateMetaData,
+    methods_1.Submit,
+    methods_1.Title,
+    methods_1.BuildToJSON,
+    methods_1.BuildToObject,
+    methods_1.GetBlocks,
+    methods_1.GetPreviewUrl,
+    methods_1.PrintPreviewUrl,
+]);
+
+
+/***/ }),
+
+/***/ 5941:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.WorkflowStepBuilder = void 0;
+const base_1 = __nccwpck_require__(3409);
+const constants_1 = __nccwpck_require__(4359);
+const dto_1 = __nccwpck_require__(6834);
+const helpers_1 = __nccwpck_require__(6405);
+const methods_1 = __nccwpck_require__(9392);
+/**
+ * @@link https://api.slack.com/reference/workflows/configuration-view
+ * @@displayName Workflow Step
+ */
+class WorkflowStepBuilder extends base_1.SurfaceBuilderBase {
+    /** @internal */
+    build() {
+        return this.getResult(dto_1.SlackWorkflowStepDto, {
+            type: constants_1.SurfaceType.WorkflowStep,
+            title: helpers_1.getPlainTextObject(this.props.title),
+            blocks: helpers_1.getBuilderResults(this.props.blocks),
+            close: helpers_1.getPlainTextObject(this.props.close),
+            submit: helpers_1.getPlainTextObject(this.props.submit),
+        });
+    }
+}
+exports.WorkflowStepBuilder = WorkflowStepBuilder;
+helpers_1.applyMixins(WorkflowStepBuilder, [
+    methods_1.Blocks,
+    methods_1.CallbackId,
+    methods_1.PrivateMetaData,
+    methods_1.SubmitDisabled,
+    methods_1.BuildToJSON,
+    methods_1.BuildToObject,
+    methods_1.GetBlocks,
+    methods_1.GetPreviewUrl,
+    methods_1.PrintPreviewUrl,
+]);
+
+
+/***/ }),
+
+/***/ 540:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+/* eslint-disable max-len */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Utilities = exports.buildBlocks = exports.buildBlock = exports.OptionGroupCollection = exports.OptionCollection = exports.AttachmentCollection = exports.BlockCollection = void 0;
+const lib_1 = __nccwpck_require__(4281);
+const getBuiltCollection = (...builders) => lib_1.Builder.pruneUndefinedFromArray(builders.flat())
+    .map((builder) => builder && builder.build());
+/**
+ * @description Creates and returns an array of built blocks. Behaves in the same way as all appending methods, such as Surface.blocks().
+ */
+function BlockCollection(...blocks) {
+    return getBuiltCollection(...blocks);
+}
+exports.BlockCollection = BlockCollection;
+/**
+ * @description Creates and returns an array of built attachments. Behaves in the same way as all appending methods, such as Message.attachments().
+ */
+function AttachmentCollection(...attachments) {
+    return getBuiltCollection(...attachments);
+}
+exports.AttachmentCollection = AttachmentCollection;
+function OptionCollection(...options) {
+    return getBuiltCollection(...options);
+}
+exports.OptionCollection = OptionCollection;
+function OptionGroupCollection(...optionGroups) {
+    return getBuiltCollection(...optionGroups);
+}
+exports.OptionGroupCollection = OptionGroupCollection;
+/**
+ * @description Returns the block passed into the function as a built block, an object that conforms to the Slack API.
+ */
+function buildBlock(block) {
+    return block.build();
+}
+exports.buildBlock = buildBlock;
+/**
+ * @description Creates and returns an array of built blocks. Behaves in the same way as all appending methods, such as Surface.blocks().
+ */
+function buildBlocks(...blocks) {
+    return getBuiltCollection(...blocks);
+}
+exports.buildBlocks = buildBlocks;
+const utilities = {
+    AttachmentCollection,
+    BlockCollection,
+    OptionCollection,
+    OptionGroupCollection,
+    buildBlock,
+    buildBlocks,
+};
+exports.Utilities = utilities;
+
+
+/***/ }),
+
 /***/ 8516:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
@@ -41287,6 +46418,23 @@ exports.NEVER = parseUtil_1.INVALID;
 
 /***/ }),
 
+/***/ 8926:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.COLORS = exports.MEMBERS = void 0;
+exports.MEMBERS = { w00ing: 'U02U5KJ3G7P' };
+exports.COLORS = {
+    SUCCESS: '#2EB67D',
+    PENDING: '#FFD166',
+    ERROR: '#DE005B'
+};
+
+
+/***/ }),
+
 /***/ 2694:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -41317,18 +46465,126 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(9093));
+const ts_dedent_1 = __nccwpck_require__(464);
+const initialize_1 = __nccwpck_require__(6296);
+const messages_1 = __nccwpck_require__(8073);
+async function main() {
+    try {
+        const { inputs, octoClient, slackClient } = (0, initialize_1.initialize)();
+        if (inputs.phase === 'start') {
+            const messageResponse = await slackClient.chat.postMessage((0, messages_1.createThreadMainMessage)(inputs));
+            core.setOutput('thread_ts', messageResponse.ts);
+            core.info((0, ts_dedent_1.dedent)(`Start message sent Successfully: ${JSON.stringify(messageResponse, null, 2)}`));
+            if (messageResponse.ts) {
+                const permaLink = await slackClient.chat.getPermalink({
+                    channel: inputs.channel_id,
+                    message_ts: messageResponse.ts
+                });
+                const directMessage = (0, messages_1.createDirectMessageToActor)(permaLink.permalink);
+                const directMessageResponse = await slackClient.chat.postMessage(directMessage);
+                core.info((0, ts_dedent_1.dedent)(`Direct message sent Successfully: ${JSON.stringify(directMessageResponse, null, 2)}`));
+            }
+        }
+        else if (inputs.phase === 'finish') {
+            const updatedMessageResponse = await slackClient.chat.update((0, messages_1.createThreadMainMessage)(inputs));
+            const replyMessageResponse = await slackClient.chat.postMessage({
+                channel: inputs.channel_id,
+                thread_ts: inputs.thread_ts,
+                text: (0, ts_dedent_1.dedent)(`배포 완료되었습니다.`)
+            });
+            core.info((0, ts_dedent_1.dedent)(`Finish message sent Successfully: ${JSON.stringify(replyMessageResponse, null, 2)}
+           Message updated Successfully: ${JSON.stringify(updatedMessageResponse, null, 2)}
+          `));
+        }
+    }
+    catch (error) {
+        // Fail the workflow run if an error occurs
+        if (error instanceof Error)
+            core.setFailed(error.message);
+    }
+}
+main();
+
+
+/***/ }),
+
+/***/ 6296:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.initialize = void 0;
 const github = __importStar(__nccwpck_require__(5942));
 const web_api_1 = __nccwpck_require__(9691);
-const ts_dedent_1 = __nccwpck_require__(464);
-const ts_pattern_1 = __nccwpck_require__(4502);
-const zod_1 = __nccwpck_require__(8553);
-const MEMBERS = { w00ing: 'U02U5KJ3G7P' };
-const COLORS = {
-    SUCCESS: '#2EB67D',
-    PENDING: '#FFD166',
-    ERROR: '#DE005B'
+const inputs_1 = __nccwpck_require__(5164);
+function initialize() {
+    const { inputs, GITHUB_TOKEN, SLACKBOT_TOKEN } = (0, inputs_1.parseInputs)();
+    const octoClient = github.getOctokit(GITHUB_TOKEN);
+    const slackClient = new web_api_1.WebClient(SLACKBOT_TOKEN);
+    return { inputs, octoClient, slackClient };
+}
+exports.initialize = initialize;
+
+
+/***/ }),
+
+/***/ 5164:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
-const InputSchema = zod_1.z.discriminatedUnion('phase', [
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.parseInputs = exports.getEnvVariable = exports.InputSchema = void 0;
+const core = __importStar(__nccwpck_require__(9093));
+const zod_1 = __nccwpck_require__(8553);
+exports.InputSchema = zod_1.z.discriminatedUnion('phase', [
     zod_1.z.object({
         service_name: zod_1.z.string(),
         channel_id: zod_1.z.string(),
@@ -41347,72 +46603,119 @@ const InputSchema = zod_1.z.discriminatedUnion('phase', [
         thread_ts: zod_1.z.string()
     })
 ]);
-async function main() {
-    try {
-        const inputs = InputSchema.parse({
-            service_name: core.getInput('service_name', { required: true }),
-            channel_id: core.getInput('channel_id', { required: true }),
-            team: core.getInput('team', { required: true }),
-            group_id: core.getInput('group_id'),
-            phase: core.getInput('phase', { required: true }),
-            environment: core.getInput('environment', { required: true }),
-            thread_ts: core.getInput('thread_ts')
-        });
-        const GITHUB_TOKEN = getEnvVariable('GITHUB_TOKEN');
-        const SLACKBOT_TOKEN = getEnvVariable('SLACKBOT_TOKEN');
-        const octoClient = github.getOctokit(GITHUB_TOKEN);
-        const slackClient = new web_api_1.WebClient(SLACKBOT_TOKEN);
-        if (inputs.phase === 'start') {
-            const messageResponse = await slackClient.chat.postMessage({
-                channel: inputs.channel_id,
-                text: '배포 진행중 :loading:',
-                ...createThreadMessageBlocks(inputs)
-            });
-            core.setOutput('thread_ts', messageResponse.ts);
-            core.info((0, ts_dedent_1.dedent)(`Start message sent Successfully: ${JSON.stringify(messageResponse, null, 2)}`));
-            if (messageResponse.ts) {
-                const permaLink = await slackClient.chat.getPermalink({
-                    channel: inputs.channel_id,
-                    message_ts: messageResponse.ts
-                });
-                await sendDirectMessageToActor(slackClient, permaLink.permalink);
-            }
-        }
-        else if (inputs.phase === 'finish') {
-            const updatedMessageResponse = await slackClient.chat.update({
-                channel: inputs.channel_id,
-                ts: inputs.thread_ts,
-                text: '배포 완료 :ballot_box_with_check:',
-                ...createThreadMessageBlocks(inputs)
-            });
-            const replyMessageResponse = await slackClient.chat.postMessage({
-                channel: inputs.channel_id,
-                thread_ts: inputs.thread_ts,
-                text: (0, ts_dedent_1.dedent)(`배포 완료되었습니다.`)
-            });
-            core.info((0, ts_dedent_1.dedent)(`Finish message sent Successfully: ${JSON.stringify(replyMessageResponse, null, 2)}
-           Message updated Successfully: ${JSON.stringify(updatedMessageResponse, null, 2)}
-          `));
-        }
-    }
-    catch (error) {
-        // Fail the workflow run if an error occurs
-        if (error instanceof Error)
-            core.setFailed(error.message);
-    }
-}
-function mentionMember(memberId) {
-    return `<@${memberId}>`;
-}
-function mentionGroup(groupId) {
-    return groupId ? `<!subteam^${groupId}>` : '';
-}
 function getEnvVariable(name) {
     const value = process.env[name];
     if (!value) {
         throw new Error(`Env variable ${name} is missing.`);
     }
     return value;
+}
+exports.getEnvVariable = getEnvVariable;
+function parseInputs() {
+    const inputs = exports.InputSchema.parse({
+        service_name: core.getInput('service_name', { required: true }),
+        channel_id: core.getInput('channel_id', { required: true }),
+        team: core.getInput('team', { required: true }),
+        group_id: core.getInput('group_id'),
+        phase: core.getInput('phase', { required: true }),
+        environment: core.getInput('environment', { required: true }),
+        thread_ts: core.getInput('thread_ts')
+    });
+    const GITHUB_TOKEN = getEnvVariable('GITHUB_TOKEN');
+    const SLACKBOT_TOKEN = getEnvVariable('SLACKBOT_TOKEN');
+    return { inputs, GITHUB_TOKEN, SLACKBOT_TOKEN };
+}
+exports.parseInputs = parseInputs;
+
+
+/***/ }),
+
+/***/ 8073:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.createDirectMessageToActor = exports.createThreadMainMessage = void 0;
+const github = __importStar(__nccwpck_require__(5942));
+const slack_block_builder_1 = __nccwpck_require__(6758);
+const ts_dedent_1 = __nccwpck_require__(464);
+const ts_pattern_1 = __nccwpck_require__(4502);
+const constants_1 = __nccwpck_require__(8926);
+function createThreadMainMessage(inputs) {
+    const message = (0, slack_block_builder_1.Message)({
+        channel: inputs.channel_id,
+        text: (0, ts_pattern_1.match)(inputs.phase)
+            .with('start', () => '배포 진행중 :loading:')
+            .with('finish', () => '배포 완료 :ballot_box_with_check:')
+            .otherwise(() => ''),
+        ts: (0, ts_pattern_1.match)(inputs)
+            .with({ phase: 'finish' }, ({ thread_ts }) => thread_ts)
+            .otherwise(() => undefined)
+    })
+        .blocks(slack_block_builder_1.Blocks.Section({
+        text: `${mentionGroup(inputs.group_id)} (임시 텍스트)`
+    }))
+        .attachments(slack_block_builder_1.Bits.Attachment({
+        color: (0, ts_pattern_1.match)(inputs.phase)
+            .with('start', () => constants_1.COLORS.PENDING)
+            .with('finish', () => constants_1.COLORS.SUCCESS)
+            .otherwise(() => constants_1.COLORS.ERROR)
+    }).blocks(slack_block_builder_1.Blocks.Section({
+        text: (0, ts_dedent_1.dedent)(`
+          구분 : ${mentionMember(constants_1.MEMBERS[github.context.actor])}, ${inputs.team}
+          서비스 : ${inputs.service_name}
+          배포 환경 : ${inputs.environment}
+          진행 상태 : ${(0, ts_pattern_1.match)(inputs.phase)
+            .with('start', () => '배포 진행중 :loading:')
+            .with('finish', () => '배포 완료 :ballot_box_with_check:')
+            .otherwise(() => '')}
+          변경 사항 : ${createFormattedJiraIssueLink()}}
+          `)
+    })))
+        .buildToObject();
+    return message;
+}
+exports.createThreadMainMessage = createThreadMainMessage;
+function createDirectMessageToActor(permaLink) {
+    if (!permaLink)
+        throw new Error('permaLink is missing');
+    const message = (0, slack_block_builder_1.Message)({ channel: constants_1.MEMBERS[github.context.actor] })
+        .blocks(slack_block_builder_1.Blocks.Section({
+        text: (0, ts_dedent_1.dedent)(`배포가 시작되었습니다. 변경 사항을 입력해주세요. ${createFormattedLink(permaLink, '스레드로 가기&gt;&gt;')}`)
+    }))
+        .buildToObject();
+    return message;
+}
+exports.createDirectMessageToActor = createDirectMessageToActor;
+function mentionMember(memberId) {
+    return `<@${memberId}>`;
+}
+function mentionGroup(groupId) {
+    return groupId ? `<!subteam^${groupId}>` : '';
 }
 function extractJiraIssueKey(title) {
     const match = title.match(/^\[(\w+-\d+)\]/);
@@ -41432,63 +46735,6 @@ function createFormattedJiraIssueLink() {
 function createFormattedLink(link, text) {
     return link ? `<${link}|${text}>` : '';
 }
-function createThreadMessageBlocks(inputs) {
-    return {
-        blocks: [
-            {
-                type: 'section',
-                text: {
-                    type: 'plain_text',
-                    text: `${mentionGroup(inputs.group_id)} (임시 텍스트)`
-                }
-            }
-        ],
-        attachments: [
-            {
-                color: (0, ts_pattern_1.match)(inputs.phase)
-                    .with('start', () => COLORS.PENDING)
-                    .with('finish', () => COLORS.SUCCESS)
-                    .otherwise(() => COLORS.ERROR),
-                blocks: [
-                    {
-                        type: 'section',
-                        text: {
-                            type: 'mrkdwn',
-                            text: (0, ts_dedent_1.dedent)(`
-              구분 : ${mentionMember(MEMBERS[github.context.actor])}, ${inputs.team}
-              서비스 : ${inputs.service_name}
-              배포 환경 : ${inputs.environment}
-              ${createFormattedJiraIssueLink() ? `Jira 티켓 : ${createFormattedJiraIssueLink()}` : ''}
-              진행 상태 : ${(0, ts_pattern_1.match)(inputs.phase)
-                                .with('start', () => '배포 진행중 :loading:')
-                                .with('finish', () => '배포 완료 :ballot_box_with_check:')
-                                .otherwise(() => '')}
-              `)
-                        }
-                    }
-                ]
-            }
-        ]
-    };
-}
-async function sendDirectMessageToActor(slackClient, permaLink) {
-    if (!permaLink)
-        return;
-    const dm = await slackClient.chat.postMessage({
-        channel: MEMBERS[github.context.actor],
-        blocks: [
-            {
-                type: 'section',
-                text: {
-                    type: 'mrkdwn',
-                    text: (0, ts_dedent_1.dedent)(`배포가 시작되었습니다. 변경 사항을 입력해주세요. ${createFormattedLink(permaLink, '스레드로 가기>>')}`)
-                }
-            }
-        ]
-    });
-    core.info((0, ts_dedent_1.dedent)(`Encouragement message sent Successfully: ${JSON.stringify(dm, null, 2)}`));
-}
-main();
 
 
 /***/ }),

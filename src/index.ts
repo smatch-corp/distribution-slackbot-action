@@ -1,62 +1,16 @@
 import * as core from '@actions/core'
-import * as github from '@actions/github'
-import { Block, KnownBlock, MessageAttachment, WebClient } from '@slack/web-api'
 import { dedent } from 'ts-dedent'
-import { match } from 'ts-pattern'
-import { z } from 'zod'
-
-const MEMBERS: Record<string, string> = { w00ing: 'U02U5KJ3G7P' }
-
-const COLORS = {
-  SUCCESS: '#2EB67D',
-  PENDING: '#FFD166',
-  ERROR: '#DE005B'
-} as const
-
-const InputSchema = z.discriminatedUnion('phase', [
-  z.object({
-    service_name: z.string(),
-    channel_id: z.string(),
-    team: z.string(),
-    group_id: z.string().nullish(),
-    phase: z.literal('start'),
-    environment: z.string()
-  }),
-  z.object({
-    service_name: z.string(),
-    channel_id: z.string(),
-    team: z.string(),
-    group_id: z.string().nullish(),
-    phase: z.literal('finish'),
-    environment: z.string(),
-    thread_ts: z.string()
-  })
-])
+import { initialize } from './initialize'
+import { createDirectMessageToActor, createThreadMainMessage } from './messages'
 
 async function main(): Promise<void> {
   try {
-    const inputs = InputSchema.parse({
-      service_name: core.getInput('service_name', { required: true }),
-      channel_id: core.getInput('channel_id', { required: true }),
-      team: core.getInput('team', { required: true }),
-      group_id: core.getInput('group_id'),
-      phase: core.getInput('phase', { required: true }),
-      environment: core.getInput('environment', { required: true }),
-      thread_ts: core.getInput('thread_ts')
-    })
-
-    const GITHUB_TOKEN = getEnvVariable('GITHUB_TOKEN')
-    const SLACKBOT_TOKEN = getEnvVariable('SLACKBOT_TOKEN')
-
-    const octoClient = github.getOctokit(GITHUB_TOKEN)
-    const slackClient = new WebClient(SLACKBOT_TOKEN)
+    const { inputs, octoClient, slackClient } = initialize()
 
     if (inputs.phase === 'start') {
-      const messageResponse = await slackClient.chat.postMessage({
-        channel: inputs.channel_id,
-        text: '배포 진행중 :loading:',
-        ...createThreadMessageBlocks(inputs)
-      })
+      const messageResponse = await slackClient.chat.postMessage(
+        createThreadMainMessage(inputs)
+      )
       core.setOutput('thread_ts', messageResponse.ts)
       core.info(
         dedent(
@@ -69,15 +23,21 @@ async function main(): Promise<void> {
           channel: inputs.channel_id,
           message_ts: messageResponse.ts
         })
-        await sendDirectMessageToActor(slackClient, permaLink.permalink)
+
+        const directMessage = createDirectMessageToActor(permaLink.permalink)
+        const directMessageResponse =
+          await slackClient.chat.postMessage(directMessage)
+
+        core.info(
+          dedent(
+            `Direct message sent Successfully: ${JSON.stringify(directMessageResponse, null, 2)}`
+          )
+        )
       }
     } else if (inputs.phase === 'finish') {
-      const updatedMessageResponse = await slackClient.chat.update({
-        channel: inputs.channel_id,
-        ts: inputs.thread_ts,
-        text: '배포 완료 :ballot_box_with_check:',
-        ...createThreadMessageBlocks(inputs)
-      })
+      const updatedMessageResponse = await slackClient.chat.update(
+        createThreadMainMessage(inputs)
+      )
 
       const replyMessageResponse = await slackClient.chat.postMessage({
         channel: inputs.channel_id,
@@ -97,113 +57,6 @@ async function main(): Promise<void> {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
   }
-}
-
-function mentionMember(memberId: string): string {
-  return `<@${memberId}>`
-}
-
-function mentionGroup(groupId: string | null | undefined): string {
-  return groupId ? `<!subteam^${groupId}>` : ''
-}
-
-function getEnvVariable(name: string): string {
-  const value = process.env[name]
-  if (!value) {
-    throw new Error(`Env variable ${name} is missing.`)
-  }
-  return value
-}
-
-function extractJiraIssueKey(title: string): string {
-  const match = title.match(/^\[(\w+-\d+)\]/)
-
-  return match ? match[1] : ''
-}
-
-function createJiraIssueLink(issueKey: string): string {
-  return issueKey ? `https://billynco.atlassian.net/browse/${issueKey}` : ''
-}
-
-function createFormattedJiraIssueLink(): string {
-  const title = github.context.payload.pull_request?.title
-  if (!title) return ''
-  const issueKey = extractJiraIssueKey(title)
-  const link = createJiraIssueLink(issueKey)
-  return createFormattedLink(link, issueKey)
-}
-
-function createFormattedLink(link: string, text: string): string {
-  return link ? `<${link}|${text}>` : ''
-}
-
-function createThreadMessageBlocks(inputs: z.infer<typeof InputSchema>): {
-  blocks: (KnownBlock | Block)[]
-  attachments: MessageAttachment[]
-} {
-  return {
-    blocks: [
-      {
-        type: 'section',
-        text: {
-          type: 'plain_text',
-          text: `${mentionGroup(inputs.group_id)} (임시 텍스트)`
-        }
-      }
-    ],
-    attachments: [
-      {
-        color: match(inputs.phase)
-          .with('start', () => COLORS.PENDING)
-          .with('finish', () => COLORS.SUCCESS)
-          .otherwise(() => COLORS.ERROR),
-        blocks: [
-          {
-            type: 'section',
-            text: {
-              type: 'mrkdwn',
-              text: dedent(`
-              구분 : ${mentionMember(MEMBERS[github.context.actor])}, ${inputs.team}
-              서비스 : ${inputs.service_name}
-              배포 환경 : ${inputs.environment}
-              ${createFormattedJiraIssueLink() ? `Jira 티켓 : ${createFormattedJiraIssueLink()}` : ''}
-              진행 상태 : ${match(inputs.phase)
-                .with('start', () => '배포 진행중 :loading:')
-                .with('finish', () => '배포 완료 :ballot_box_with_check:')
-                .otherwise(() => '')}
-              `)
-            }
-          }
-        ]
-      }
-    ]
-  }
-}
-
-async function sendDirectMessageToActor(
-  slackClient: WebClient,
-  permaLink: string | undefined
-): Promise<void> {
-  if (!permaLink) return
-  const dm = await slackClient.chat.postMessage({
-    channel: MEMBERS[github.context.actor],
-    blocks: [
-      {
-        type: 'section',
-        text: {
-          type: 'mrkdwn',
-          text: dedent(
-            `배포가 시작되었습니다. 변경 사항을 입력해주세요. ${createFormattedLink(permaLink, '스레드로 가기>>')}`
-          )
-        }
-      }
-    ]
-  })
-  core.info(
-    dedent(
-      `Encouragement message sent Successfully: ${JSON.stringify(dm, null, 2)}`
-    )
-  )
 }
 
 main()
