@@ -46696,7 +46696,7 @@ async function createThreadMainMessage(inputs) {
             .with('start', () => '배포 진행중 :loading:')
             .with('finish', () => '배포 완료 :ballot_box_with_check:')
             .otherwise(() => '')}
-          변경 사항 : ${createFormattedJiraIssueLinks()}
+          변경 사항 : ${await createFormattedJiraIssueLinks()}
           `)
     })))
         .buildToObject();
