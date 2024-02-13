@@ -85,6 +85,7 @@ async function createFormattedJiraIssueLinks() {
         ? `${Md.link(createJiraIssueLink(extractJiraIssueKey(message)), message)}`
         : ''
     )
+    .join('\n')
 }
 
 function isJiraTicket(message: string): boolean {

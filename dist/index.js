@@ -46725,7 +46725,8 @@ async function createFormattedJiraIssueLinks() {
         .filter(Boolean)
         .map(message => isJiraTicket(message)
         ? `${slack_block_builder_1.Md.link(createJiraIssueLink(extractJiraIssueKey(message)), message)}`
-        : '');
+        : '')
+        .join('\n');
 }
 function isJiraTicket(message) {
     return !!extractJiraIssueKey(message);
