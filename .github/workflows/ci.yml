@@ -56,6 +56,7 @@ jobs:
         with:
           channel_id: 'C06H62PLQNN'
           # group_id: 'S03V01C0H61'
+          group_id: 'U02U5KJ3G7P'
           phase: 'start'
           team: Front-End
           service_name: 스매치어드민
