@@ -85,12 +85,16 @@ function extractJiraIssueKey(title: string): string {
 async function createFormattedJiraIssueLinks() {
   const commitMessages = await getAssociatedCommitMessages()
 
-  return commitMessages.map(message =>
-    createFormattedLink(
-      createJiraIssueLink(extractJiraIssueKey(message)),
-      message
+  return commitMessages
+    .filter(Boolean)
+    .map(
+      message =>
+        `- ${createFormattedLink(
+          createJiraIssueLink(extractJiraIssueKey(message)),
+          message
+        )}`
     )
-  )
+    .join('\n')
 }
 
 async function getAssociatedCommitMessages(): Promise<string[]> {
