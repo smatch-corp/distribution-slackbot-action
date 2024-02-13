@@ -79,7 +79,6 @@ function mentionGroup(groupId: string | null | undefined): string {
 
 function extractJiraIssueKey(title: string): string {
   const match = title.match(/^\[(\w+-\d+)\]/)
-
   return match ? match[1] : ''
 }
 
