@@ -46465,12 +46465,31 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(9093));
+const github = __importStar(__nccwpck_require__(5942));
 const ts_dedent_1 = __nccwpck_require__(464);
 const initialize_1 = __nccwpck_require__(6296);
 const messages_1 = __nccwpck_require__(8073);
 async function main() {
     try {
         const { inputs, octoClient, slackClient } = (0, initialize_1.initialize)();
+        // const commit =await octoClient.rest.git.getCommit({
+        //   owner: github.context.repo.owner,
+        //   repo: github.context.repo.repo,
+        //   commit_sha: github.context.sha
+        // })
+        // if()
+        const pullRequest = await octoClient.rest.pulls.get({
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo,
+            pull_number: github.context.payload.pull_request?.number ?? 1
+        });
+        const commit = await octoClient.rest.repos.getCommit({
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo,
+            ref: pullRequest.data.head.sha
+        });
+        commit.data.commit.message;
+        // github.context.repo.repo
         if (inputs.phase === 'start') {
             const messageResponse = await slackClient.chat.postMessage((0, messages_1.createThreadMainMessage)(inputs));
             core.setOutput('thread_ts', messageResponse.ts);
@@ -46693,7 +46712,7 @@ function createThreadMainMessage(inputs) {
             .with('start', () => '배포 진행중 :loading:')
             .with('finish', () => '배포 완료 :ballot_box_with_check:')
             .otherwise(() => '')}
-          변경 사항 : ${createFormattedJiraIssueLink()}}
+            ${createFormattedJiraIssueLink() ? `변경 사항 : ${createFormattedJiraIssueLink()}` : ''}
           `)
     })))
         .buildToObject();

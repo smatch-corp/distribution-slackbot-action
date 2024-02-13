@@ -1,4 +1,5 @@
 import * as core from '@actions/core'
+import * as github from '@actions/github'
 import { dedent } from 'ts-dedent'
 import { initialize } from './initialize'
 import { createDirectMessageToActor, createThreadMainMessage } from './messages'
@@ -6,6 +7,28 @@ import { createDirectMessageToActor, createThreadMainMessage } from './messages'
 async function main(): Promise<void> {
   try {
     const { inputs, octoClient, slackClient } = initialize()
+
+    // const commit =await octoClient.rest.git.getCommit({
+    //   owner: github.context.repo.owner,
+    //   repo: github.context.repo.repo,
+    //   commit_sha: github.context.sha
+    // })
+    // if()
+    const pullRequest = await octoClient.rest.pulls.get({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      pull_number: github.context.payload.pull_request?.number ?? 1
+    })
+
+    const commit = await octoClient.rest.repos.getCommit({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      ref: pullRequest.data.head.sha
+    })
+
+    commit.data.commit.message
+
+    // github.context.repo.repo
 
     if (inputs.phase === 'start') {
       const messageResponse = await slackClient.chat.postMessage(

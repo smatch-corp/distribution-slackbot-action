@@ -40,7 +40,7 @@ export function createThreadMainMessage(
             .with('start', () => '배포 진행중 :loading:')
             .with('finish', () => '배포 완료 :ballot_box_with_check:')
             .otherwise(() => '')}
-          변경 사항 : ${createFormattedJiraIssueLink()}}
+            ${createFormattedJiraIssueLink() ? `변경 사항 : ${createFormattedJiraIssueLink()}` : ''}
           `)
         })
       )
