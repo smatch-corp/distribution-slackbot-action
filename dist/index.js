@@ -46680,8 +46680,8 @@ async function createThreadMainMessage(inputs) {
             .otherwise(() => undefined)
     })
         .blocks(slack_block_builder_1.Blocks.Section({
-        text: (0, ts_dedent_1.dedent)(`${slack_block_builder_1.Md.group(inputs.group_id)} (임시 텍스트)
-        ${slack_block_builder_1.Md.listBullet(await createFormattedJiraIssueLinks())}
+        text: (0, ts_dedent_1.dedent)(`${slack_block_builder_1.Md.group(inputs.group_id)}
+        ${await createFormattedJiraIssueLinks()}
         `)
     }))
         .attachments(slack_block_builder_1.Bits.Attachment({
@@ -46709,7 +46709,7 @@ function createDirectMessageToActor(permaLink) {
         throw new Error('permaLink is missing');
     const message = (0, slack_block_builder_1.Message)({ channel: constants_1.MEMBERS[github.context.actor] })
         .blocks(slack_block_builder_1.Blocks.Section({
-        text: (0, ts_dedent_1.dedent)(`배포가 시작되었습니다. 변경 사항을 입력해주세요. ${slack_block_builder_1.Md.link(permaLink, '스레드로 가기&gt;&gt;')}`)
+        text: (0, ts_dedent_1.dedent)(`배포가 시작되었습니다. 변경 사항을 확인해주세요. ${slack_block_builder_1.Md.link(permaLink, '스레드로 가기&gt;&gt;')}`)
     }))
         .buildToObject();
     return message;

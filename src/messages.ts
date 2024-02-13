@@ -23,8 +23,8 @@ export async function createThreadMainMessage(
   })
     .blocks(
       Blocks.Section({
-        text: dedent(`${Md.group(inputs.group_id)} (임시 텍스트)
-        ${Md.listBullet(await createFormattedJiraIssueLinks())}
+        text: dedent(`${Md.group(inputs.group_id)}
+        ${await createFormattedJiraIssueLinks()}
         `)
       })
     )
@@ -61,7 +61,7 @@ export function createDirectMessageToActor(
     .blocks(
       Blocks.Section({
         text: dedent(
-          `배포가 시작되었습니다. 변경 사항을 입력해주세요. ${Md.link(permaLink, '스레드로 가기&gt;&gt;')}`
+          `배포가 시작되었습니다. 변경 사항을 확인해주세요. ${Md.link(permaLink, '스레드로 가기&gt;&gt;')}`
         )
       })
     )
