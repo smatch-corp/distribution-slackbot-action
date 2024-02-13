@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import { Bits, Blocks, Message, SlackMessageDto } from 'slack-block-builder'
+import { Bits, Blocks, Md, Message, SlackMessageDto } from 'slack-block-builder'
 import { dedent } from 'ts-dedent'
 import { match } from 'ts-pattern'
 import { z } from 'zod'
@@ -23,7 +23,9 @@ export async function createThreadMainMessage(
   })
     .blocks(
       Blocks.Section({
-        text: `${mentionGroup(inputs.group_id)} (임시 텍스트)`
+        text: dedent(`${Md.group(inputs.group_id)} (임시 텍스트)
+        ${Md.listBullet(await createFormattedJiraIssueLinks())}
+        `)
       })
     )
     .attachments(
@@ -35,15 +37,13 @@ export async function createThreadMainMessage(
       }).blocks(
         Blocks.Section({
           text: dedent(`
-          구분 : ${mentionMember(MEMBERS[github.context.actor])}, ${inputs.team}
+          구분 : ${Md.user(MEMBERS[github.context.actor])}, ${inputs.team}
           서비스 : ${inputs.service_name}
           배포 환경 : ${inputs.environment}
           진행 상태 : ${match(inputs.phase)
             .with('start', () => '배포 진행중 :loading:')
             .with('finish', () => '배포 완료 :ballot_box_with_check:')
             .otherwise(() => '')}
-          변경 사항 :
-          ${await createFormattedJiraIssueLinks()}
           `)
         })
       )
@@ -61,21 +61,13 @@ export function createDirectMessageToActor(
     .blocks(
       Blocks.Section({
         text: dedent(
-          `배포가 시작되었습니다. 변경 사항을 입력해주세요. ${createFormattedLink(permaLink, '스레드로 가기&gt;&gt;')}`
+          `배포가 시작되었습니다. 변경 사항을 입력해주세요. ${Md.link(permaLink, '스레드로 가기&gt;&gt;')}`
         )
       })
     )
     .buildToObject()
 
   return message
-}
-
-function mentionMember(memberId: string): string {
-  return `<@${memberId}>`
-}
-
-function mentionGroup(groupId: string | null | undefined): string {
-  return groupId ? `<!subteam^${groupId}>` : ''
 }
 
 function extractJiraIssueKey(title: string): string {
@@ -90,12 +82,11 @@ async function createFormattedJiraIssueLinks() {
     .filter(Boolean)
     .map(
       message =>
-        `- ${createFormattedLink(
+        `- ${Md.link(
           createJiraIssueLink(extractJiraIssueKey(message)),
           message
         )}`
     )
-    .join('\n')
 }
 
 async function getAssociatedCommitMessages(): Promise<string[]> {
@@ -114,8 +105,4 @@ async function getAssociatedCommitMessages(): Promise<string[]> {
 
 function createJiraIssueLink(issueKey: string): string {
   return issueKey ? `https://billynco.atlassian.net/browse/${issueKey}` : ''
-}
-
-function createFormattedLink(link: string, text: string): string {
-  return link ? `<${link}|${text}>` : ''
 }

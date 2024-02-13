@@ -46594,7 +46594,7 @@ exports.InputSchema = zod_1.z.discriminatedUnion('phase', [
         service_name: zod_1.z.string(),
         channel_id: zod_1.z.string(),
         team: zod_1.z.string(),
-        group_id: zod_1.z.string().nullish(),
+        group_id: zod_1.z.string(),
         phase: zod_1.z.literal('start'),
         environment: zod_1.z.string()
     }),
@@ -46602,7 +46602,7 @@ exports.InputSchema = zod_1.z.discriminatedUnion('phase', [
         service_name: zod_1.z.string(),
         channel_id: zod_1.z.string(),
         team: zod_1.z.string(),
-        group_id: zod_1.z.string().nullish(),
+        group_id: zod_1.z.string(),
         phase: zod_1.z.literal('finish'),
         environment: zod_1.z.string(),
         thread_ts: zod_1.z.string()
@@ -46621,7 +46621,7 @@ function parseInputs() {
         service_name: core.getInput('service_name', { required: true }),
         channel_id: core.getInput('channel_id', { required: true }),
         team: core.getInput('team', { required: true }),
-        group_id: core.getInput('group_id'),
+        group_id: core.getInput('group_id', { required: true }),
         phase: core.getInput('phase', { required: true }),
         environment: core.getInput('environment', { required: true }),
         thread_ts: core.getInput('thread_ts')
@@ -46680,7 +46680,9 @@ async function createThreadMainMessage(inputs) {
             .otherwise(() => undefined)
     })
         .blocks(slack_block_builder_1.Blocks.Section({
-        text: `${mentionGroup(inputs.group_id)} (임시 텍스트)`
+        text: (0, ts_dedent_1.dedent)(`${slack_block_builder_1.Md.group(inputs.group_id)} (임시 텍스트)
+        ${slack_block_builder_1.Md.listBullet(await createFormattedJiraIssueLinks())}
+        `)
     }))
         .attachments(slack_block_builder_1.Bits.Attachment({
         color: (0, ts_pattern_1.match)(inputs.phase)
@@ -46689,15 +46691,13 @@ async function createThreadMainMessage(inputs) {
             .otherwise(() => constants_1.COLORS.ERROR)
     }).blocks(slack_block_builder_1.Blocks.Section({
         text: (0, ts_dedent_1.dedent)(`
-          구분 : ${mentionMember(constants_1.MEMBERS[github.context.actor])}, ${inputs.team}
+          구분 : ${slack_block_builder_1.Md.user(constants_1.MEMBERS[github.context.actor])}, ${inputs.team}
           서비스 : ${inputs.service_name}
           배포 환경 : ${inputs.environment}
           진행 상태 : ${(0, ts_pattern_1.match)(inputs.phase)
             .with('start', () => '배포 진행중 :loading:')
             .with('finish', () => '배포 완료 :ballot_box_with_check:')
             .otherwise(() => '')}
-          변경 사항 :
-          ${await createFormattedJiraIssueLinks()}
           `)
     })))
         .buildToObject();
@@ -46709,18 +46709,12 @@ function createDirectMessageToActor(permaLink) {
         throw new Error('permaLink is missing');
     const message = (0, slack_block_builder_1.Message)({ channel: constants_1.MEMBERS[github.context.actor] })
         .blocks(slack_block_builder_1.Blocks.Section({
-        text: (0, ts_dedent_1.dedent)(`배포가 시작되었습니다. 변경 사항을 입력해주세요. ${createFormattedLink(permaLink, '스레드로 가기&gt;&gt;')}`)
+        text: (0, ts_dedent_1.dedent)(`배포가 시작되었습니다. 변경 사항을 입력해주세요. ${slack_block_builder_1.Md.link(permaLink, '스레드로 가기&gt;&gt;')}`)
     }))
         .buildToObject();
     return message;
 }
 exports.createDirectMessageToActor = createDirectMessageToActor;
-function mentionMember(memberId) {
-    return `<@${memberId}>`;
-}
-function mentionGroup(groupId) {
-    return groupId ? `<!subteam^${groupId}>` : '';
-}
 function extractJiraIssueKey(title) {
     const match = title.match(/^\[(\w+-\d+)\]/);
     return match ? match[1] : '';
@@ -46729,8 +46723,7 @@ async function createFormattedJiraIssueLinks() {
     const commitMessages = await getAssociatedCommitMessages();
     return commitMessages
         .filter(Boolean)
-        .map(message => `- ${createFormattedLink(createJiraIssueLink(extractJiraIssueKey(message)), message)}`)
-        .join('\n');
+        .map(message => `- ${slack_block_builder_1.Md.link(createJiraIssueLink(extractJiraIssueKey(message)), message)}`);
 }
 async function getAssociatedCommitMessages() {
     if (github.context.payload.pull_request) {
@@ -46746,9 +46739,6 @@ async function getAssociatedCommitMessages() {
 }
 function createJiraIssueLink(issueKey) {
     return issueKey ? `https://billynco.atlassian.net/browse/${issueKey}` : '';
-}
-function createFormattedLink(link, text) {
-    return link ? `<${link}|${text}>` : '';
 }
 
 

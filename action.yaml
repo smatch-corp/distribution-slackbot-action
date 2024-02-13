@@ -21,6 +21,7 @@ inputs:
     required: true
   group_id:
     description: '멘션할 슬랙 그룹 ID'
+    required: true
     # default: 'S03V01C0H61'
   phase:
     description: '액션 타입 (start, finish)'

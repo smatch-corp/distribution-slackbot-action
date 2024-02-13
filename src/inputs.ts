@@ -6,7 +6,7 @@ export const InputSchema = z.discriminatedUnion('phase', [
     service_name: z.string(),
     channel_id: z.string(),
     team: z.string(),
-    group_id: z.string().nullish(),
+    group_id: z.string(),
     phase: z.literal('start'),
     environment: z.string()
   }),
@@ -14,7 +14,7 @@ export const InputSchema = z.discriminatedUnion('phase', [
     service_name: z.string(),
     channel_id: z.string(),
     team: z.string(),
-    group_id: z.string().nullish(),
+    group_id: z.string(),
     phase: z.literal('finish'),
     environment: z.string(),
     thread_ts: z.string()
@@ -34,7 +34,7 @@ export function parseInputs() {
     service_name: core.getInput('service_name', { required: true }),
     channel_id: core.getInput('channel_id', { required: true }),
     team: core.getInput('team', { required: true }),
-    group_id: core.getInput('group_id'),
+    group_id: core.getInput('group_id', { required: true }),
     phase: core.getInput('phase', { required: true }),
     environment: core.getInput('environment', { required: true }),
     thread_ts: core.getInput('thread_ts')
