@@ -1,9 +1,9 @@
-import * as github from '@actions/github'
 import * as core from '@actions/core'
+import * as github from '@actions/github'
 import { Block, KnownBlock, MessageAttachment, WebClient } from '@slack/web-api'
-import { z } from 'zod'
 import { dedent } from 'ts-dedent'
 import { match } from 'ts-pattern'
+import { z } from 'zod'
 
 const MEMBERS: Record<string, string> = { w00ing: 'U02U5KJ3G7P' }
 
@@ -48,7 +48,7 @@ async function main(): Promise<void> {
     const GITHUB_TOKEN = getEnvVariable('GITHUB_TOKEN')
     const SLACKBOT_TOKEN = getEnvVariable('SLACKBOT_TOKEN')
 
-    const githubClient = github.getOctokit(GITHUB_TOKEN)
+    const octoClient = github.getOctokit(GITHUB_TOKEN)
     const slackClient = new WebClient(SLACKBOT_TOKEN)
 
     if (inputs.phase === 'start') {
@@ -63,6 +63,14 @@ async function main(): Promise<void> {
           `Start message sent Successfully: ${JSON.stringify(messageResponse, null, 2)}`
         )
       )
+
+      if (messageResponse.ts) {
+        const permaLink = await slackClient.chat.getPermalink({
+          channel: inputs.channel_id,
+          message_ts: messageResponse.ts
+        })
+        await sendDirectMessageToActor(slackClient, permaLink.permalink)
+      }
     } else if (inputs.phase === 'finish') {
       const updatedMessageResponse = await slackClient.chat.update({
         channel: inputs.channel_id,
@@ -122,7 +130,11 @@ function createFormattedJiraIssueLink(): string {
   if (!title) return ''
   const issueKey = extractJiraIssueKey(title)
   const link = createJiraIssueLink(issueKey)
-  return link ? `<${link}|${title}>` : ''
+  return createFormattedLink(link, issueKey)
+}
+
+function createFormattedLink(link: string, text: string): string {
+  return link ? `<${link}|${text}>` : ''
 }
 
 function createThreadMessageBlocks(inputs: z.infer<typeof InputSchema>): {
@@ -166,6 +178,32 @@ function createThreadMessageBlocks(inputs: z.infer<typeof InputSchema>): {
       }
     ]
   }
+}
+
+async function sendDirectMessageToActor(
+  slackClient: WebClient,
+  permaLink: string | undefined
+): Promise<void> {
+  if (!permaLink) return
+  const dm = await slackClient.chat.postMessage({
+    channel: MEMBERS[github.context.actor],
+    blocks: [
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: dedent(
+            `배포가 시작되었습니다. 변경 사항을 입력해주세요. ${createFormattedLink(permaLink, '스레드로 가기>>')}`
+          )
+        }
+      }
+    ]
+  })
+  core.info(
+    dedent(
+      `Encouragement message sent Successfully: ${JSON.stringify(dm, null, 2)}`
+    )
+  )
 }
 
 main()

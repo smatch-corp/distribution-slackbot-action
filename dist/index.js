@@ -41316,12 +41316,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const github = __importStar(__nccwpck_require__(5942));
 const core = __importStar(__nccwpck_require__(9093));
+const github = __importStar(__nccwpck_require__(5942));
 const web_api_1 = __nccwpck_require__(9691);
-const zod_1 = __nccwpck_require__(8553);
 const ts_dedent_1 = __nccwpck_require__(464);
 const ts_pattern_1 = __nccwpck_require__(4502);
+const zod_1 = __nccwpck_require__(8553);
 const MEMBERS = { w00ing: 'U02U5KJ3G7P' };
 const COLORS = {
     SUCCESS: '#2EB67D',
@@ -41360,7 +41360,7 @@ async function main() {
         });
         const GITHUB_TOKEN = getEnvVariable('GITHUB_TOKEN');
         const SLACKBOT_TOKEN = getEnvVariable('SLACKBOT_TOKEN');
-        const githubClient = github.getOctokit(GITHUB_TOKEN);
+        const octoClient = github.getOctokit(GITHUB_TOKEN);
         const slackClient = new web_api_1.WebClient(SLACKBOT_TOKEN);
         if (inputs.phase === 'start') {
             const messageResponse = await slackClient.chat.postMessage({
@@ -41370,6 +41370,13 @@ async function main() {
             });
             core.setOutput('thread_ts', messageResponse.ts);
             core.info((0, ts_dedent_1.dedent)(`Start message sent Successfully: ${JSON.stringify(messageResponse, null, 2)}`));
+            if (messageResponse.ts) {
+                const permaLink = await slackClient.chat.getPermalink({
+                    channel: inputs.channel_id,
+                    message_ts: messageResponse.ts
+                });
+                await sendDirectMessageToActor(slackClient, permaLink.permalink);
+            }
         }
         else if (inputs.phase === 'finish') {
             const updatedMessageResponse = await slackClient.chat.update({
@@ -41420,7 +41427,10 @@ function createFormattedJiraIssueLink() {
         return '';
     const issueKey = extractJiraIssueKey(title);
     const link = createJiraIssueLink(issueKey);
-    return link ? `<${link}|${title}>` : '';
+    return createFormattedLink(link, issueKey);
+}
+function createFormattedLink(link, text) {
+    return link ? `<${link}|${text}>` : '';
 }
 function createThreadMessageBlocks(inputs) {
     return {
@@ -41460,6 +41470,23 @@ function createThreadMessageBlocks(inputs) {
             }
         ]
     };
+}
+async function sendDirectMessageToActor(slackClient, permaLink) {
+    if (!permaLink)
+        return;
+    const dm = await slackClient.chat.postMessage({
+        channel: MEMBERS[github.context.actor],
+        blocks: [
+            {
+                type: 'section',
+                text: {
+                    type: 'mrkdwn',
+                    text: (0, ts_dedent_1.dedent)(`배포가 시작되었습니다. 변경 사항을 입력해주세요. ${createFormattedLink(permaLink, '스레드로 가기>>')}`)
+                }
+            }
+        ]
+    });
+    core.info((0, ts_dedent_1.dedent)(`Encouragement message sent Successfully: ${JSON.stringify(dm, null, 2)}`));
 }
 main();
 
