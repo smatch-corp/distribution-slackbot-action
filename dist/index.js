@@ -5816,7 +5816,7 @@ ConsoleLogger.severity = {
 
 /***/ }),
 
-/***/ 2896:
+/***/ 9436:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -5909,7 +5909,7 @@ __exportStar(__nccwpck_require__(5507), exports);
 __exportStar(__nccwpck_require__(409), exports);
 __exportStar(__nccwpck_require__(6586), exports);
 __exportStar(__nccwpck_require__(9091), exports);
-__exportStar(__nccwpck_require__(2896), exports);
+__exportStar(__nccwpck_require__(9436), exports);
 __exportStar(__nccwpck_require__(5654), exports);
 //# sourceMappingURL=index.js.map
 
@@ -6022,7 +6022,7 @@ const methods_1 = __nccwpck_require__(1587);
 const instrument_1 = __nccwpck_require__(458);
 const errors_1 = __nccwpck_require__(8432);
 const logger_1 = __nccwpck_require__(6237);
-const retry_policies_1 = __nccwpck_require__(7003);
+const retry_policies_1 = __nccwpck_require__(2906);
 const helpers_1 = __importDefault(__nccwpck_require__(3639));
 const file_upload_1 = __nccwpck_require__(3330);
 /*
@@ -7208,7 +7208,7 @@ var logger_1 = __nccwpck_require__(6237);
 Object.defineProperty(exports, "LogLevel", ({ enumerable: true, get: function () { return logger_1.LogLevel; } }));
 var errors_1 = __nccwpck_require__(8432);
 Object.defineProperty(exports, "ErrorCode", ({ enumerable: true, get: function () { return errors_1.ErrorCode; } }));
-var retry_policies_1 = __nccwpck_require__(7003);
+var retry_policies_1 = __nccwpck_require__(2906);
 Object.defineProperty(exports, "retryPolicies", ({ enumerable: true, get: function () { return __importDefault(retry_policies_1).default; } }));
 var instrument_1 = __nccwpck_require__(458);
 Object.defineProperty(exports, "addAppMetadata", ({ enumerable: true, get: function () { return instrument_1.addAppMetadata; } }));
@@ -8747,7 +8747,7 @@ __exportStar(__nccwpck_require__(3814), exports);
 
 /***/ }),
 
-/***/ 7003:
+/***/ 2906:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -13595,7 +13595,7 @@ module.exports.TimeoutError = TimeoutError;
 
 /***/ }),
 
-/***/ 2324:
+/***/ 5520:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -14689,7 +14689,7 @@ helpers_1.applyMixins(VideoBuilder, [
 
 /***/ }),
 
-/***/ 5880:
+/***/ 2324:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -14746,7 +14746,7 @@ exports.AccordionUIComponent = AccordionUIComponent;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Components = exports.Accordion = exports.EasyPaginator = exports.Paginator = void 0;
 const paginator_ui_component_1 = __nccwpck_require__(5337);
-const accordion_ui_component_1 = __nccwpck_require__(5880);
+const accordion_ui_component_1 = __nccwpck_require__(2324);
 const internal_1 = __nccwpck_require__(6431);
 /**
  * @param {Object} [params] Parameters passed to the constructor.
@@ -16209,7 +16209,7 @@ helpers_1.applyMixins(UserSelectBuilder, [
 
 /***/ }),
 
-/***/ 6758:
+/***/ 2896:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -18854,7 +18854,7 @@ helpers_1.applyMixins(HomeTabBuilder, [
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Surfaces = exports.WorkflowStep = exports.Modal = exports.Message = exports.HomeTab = void 0;
 const home_tab_1 = __nccwpck_require__(7398);
-const message_1 = __nccwpck_require__(4839);
+const message_1 = __nccwpck_require__(7003);
 const modal_1 = __nccwpck_require__(4168);
 const workflow_step_1 = __nccwpck_require__(5941);
 /**
@@ -18922,7 +18922,7 @@ exports.Surfaces = surfaces;
 
 /***/ }),
 
-/***/ 4839:
+/***/ 7003:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -46418,6 +46418,53 @@ exports.NEVER = parseUtil_1.INVALID;
 
 /***/ }),
 
+/***/ 4684:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getSlackClient = exports.getOctoClient = void 0;
+const github = __importStar(__nccwpck_require__(5942));
+const web_api_1 = __nccwpck_require__(9691);
+const inputs_1 = __nccwpck_require__(5164);
+function getOctoClient() {
+    const GITHUB_TOKEN = (0, inputs_1.getEnvVariable)('GITHUB_TOKEN');
+    return github.getOctokit(GITHUB_TOKEN);
+}
+exports.getOctoClient = getOctoClient;
+function getSlackClient() {
+    const SLACKBOT_TOKEN = (0, inputs_1.getEnvVariable)('SLACKBOT_TOKEN');
+    return new web_api_1.WebClient(SLACKBOT_TOKEN);
+}
+exports.getSlackClient = getSlackClient;
+
+
+/***/ }),
+
 /***/ 8926:
 /***/ ((__unused_webpack_module, exports) => {
 
@@ -46465,31 +46512,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(9093));
-const github = __importStar(__nccwpck_require__(5942));
 const ts_dedent_1 = __nccwpck_require__(464);
-const initialize_1 = __nccwpck_require__(6296);
 const messages_1 = __nccwpck_require__(8073);
+const inputs_1 = __nccwpck_require__(5164);
+const clients_1 = __nccwpck_require__(4684);
 async function main() {
     try {
-        const { inputs, octoClient, slackClient } = (0, initialize_1.initialize)();
-        // const commit =await octoClient.rest.git.getCommit({
-        //   owner: github.context.repo.owner,
-        //   repo: github.context.repo.repo,
-        //   commit_sha: github.context.sha
-        // })
-        // if()
-        if (github.context.payload.pull_request) {
-            const pr = await octoClient.rest.pulls.listCommits({
-                owner: github.context.repo.owner,
-                repo: github.context.repo.repo,
-                pull_number: github.context.payload.pull_request.number
-            });
-            const messages = pr.data.map(p => p.commit.message);
-            core.info(JSON.stringify(messages, null, 2));
-        }
-        // github.context.repo.repo
+        const inputs = (0, inputs_1.parseInputs)();
+        const slackClient = (0, clients_1.getSlackClient)();
         if (inputs.phase === 'start') {
-            const messageResponse = await slackClient.chat.postMessage((0, messages_1.createThreadMainMessage)(inputs));
+            const messageResponse = await slackClient.chat.postMessage(await (0, messages_1.createThreadMainMessage)(inputs));
             core.setOutput('thread_ts', messageResponse.ts);
             core.info((0, ts_dedent_1.dedent)(`Start message sent Successfully: ${JSON.stringify(messageResponse, null, 2)}`));
             if (messageResponse.ts) {
@@ -46503,7 +46535,7 @@ async function main() {
             }
         }
         else if (inputs.phase === 'finish') {
-            const updatedMessageResponse = await slackClient.chat.update((0, messages_1.createThreadMainMessage)(inputs));
+            const updatedMessageResponse = await slackClient.chat.update(await (0, messages_1.createThreadMainMessage)(inputs));
             const replyMessageResponse = await slackClient.chat.postMessage({
                 channel: inputs.channel_id,
                 thread_ts: inputs.thread_ts,
@@ -46521,50 +46553,6 @@ async function main() {
     }
 }
 main();
-
-
-/***/ }),
-
-/***/ 6296:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.initialize = void 0;
-const github = __importStar(__nccwpck_require__(5942));
-const web_api_1 = __nccwpck_require__(9691);
-const inputs_1 = __nccwpck_require__(5164);
-function initialize() {
-    const { inputs, GITHUB_TOKEN, SLACKBOT_TOKEN } = (0, inputs_1.parseInputs)();
-    const octoClient = github.getOctokit(GITHUB_TOKEN);
-    const slackClient = new web_api_1.WebClient(SLACKBOT_TOKEN);
-    return { inputs, octoClient, slackClient };
-}
-exports.initialize = initialize;
 
 
 /***/ }),
@@ -46629,7 +46617,7 @@ function getEnvVariable(name) {
 }
 exports.getEnvVariable = getEnvVariable;
 function parseInputs() {
-    const inputs = exports.InputSchema.parse({
+    return exports.InputSchema.parse({
         service_name: core.getInput('service_name', { required: true }),
         channel_id: core.getInput('channel_id', { required: true }),
         team: core.getInput('team', { required: true }),
@@ -46638,9 +46626,6 @@ function parseInputs() {
         environment: core.getInput('environment', { required: true }),
         thread_ts: core.getInput('thread_ts')
     });
-    const GITHUB_TOKEN = getEnvVariable('GITHUB_TOKEN');
-    const SLACKBOT_TOKEN = getEnvVariable('SLACKBOT_TOKEN');
-    return { inputs, GITHUB_TOKEN, SLACKBOT_TOKEN };
 }
 exports.parseInputs = parseInputs;
 
@@ -46678,11 +46663,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createDirectMessageToActor = exports.createThreadMainMessage = void 0;
 const github = __importStar(__nccwpck_require__(5942));
-const slack_block_builder_1 = __nccwpck_require__(6758);
+const slack_block_builder_1 = __nccwpck_require__(2896);
 const ts_dedent_1 = __nccwpck_require__(464);
 const ts_pattern_1 = __nccwpck_require__(4502);
 const constants_1 = __nccwpck_require__(8926);
-function createThreadMainMessage(inputs) {
+const clients_1 = __nccwpck_require__(4684);
+async function createThreadMainMessage(inputs) {
     const message = (0, slack_block_builder_1.Message)({
         channel: inputs.channel_id,
         text: (0, ts_pattern_1.match)(inputs.phase)
@@ -46710,7 +46696,7 @@ function createThreadMainMessage(inputs) {
             .with('start', () => '배포 진행중 :loading:')
             .with('finish', () => '배포 완료 :ballot_box_with_check:')
             .otherwise(() => '')}
-            ${createFormattedJiraIssueLink() ? `변경 사항 : ${createFormattedJiraIssueLink()}` : ''}
+          변경 사항 : ${createFormattedJiraIssueLinks()}
           `)
     })))
         .buildToObject();
@@ -46738,16 +46724,24 @@ function extractJiraIssueKey(title) {
     const match = title.match(/^\[(\w+-\d+)\]/);
     return match ? match[1] : '';
 }
+async function createFormattedJiraIssueLinks() {
+    const commitMessages = await getAssociatedCommitMessages();
+    return commitMessages.map(message => createFormattedLink(createJiraIssueLink(extractJiraIssueKey(message)), message));
+}
+async function getAssociatedCommitMessages() {
+    if (github.context.payload.pull_request) {
+        const octoClient = (0, clients_1.getOctoClient)();
+        const associatedCommits = await octoClient.rest.pulls.listCommits({
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo,
+            pull_number: github.context.payload.pull_request.number
+        });
+        return associatedCommits.data.map(p => p.commit.message);
+    }
+    return [];
+}
 function createJiraIssueLink(issueKey) {
     return issueKey ? `https://billynco.atlassian.net/browse/${issueKey}` : '';
-}
-function createFormattedJiraIssueLink() {
-    const title = github.context.payload.pull_request?.title;
-    if (!title)
-        return '';
-    const issueKey = extractJiraIssueKey(title);
-    const link = createJiraIssueLink(issueKey);
-    return createFormattedLink(link, issueKey);
 }
 function createFormattedLink(link, text) {
     return link ? `<${link}|${text}>` : '';
@@ -48616,7 +48610,7 @@ module.exports = parseParams
 
 const FormData$1 = __nccwpck_require__(6698);
 const url = __nccwpck_require__(7310);
-const proxyFromEnv = __nccwpck_require__(2324);
+const proxyFromEnv = __nccwpck_require__(5520);
 const http = __nccwpck_require__(3685);
 const https = __nccwpck_require__(5687);
 const util = __nccwpck_require__(3837);

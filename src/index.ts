@@ -1,37 +1,19 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { dedent } from 'ts-dedent'
-import { initialize } from './initialize'
 import { createDirectMessageToActor, createThreadMainMessage } from './messages'
+import { parseInputs } from './inputs'
+import { getOctoClient, getSlackClient } from './clients'
 
 async function main(): Promise<void> {
   try {
-    const { inputs, octoClient, slackClient } = initialize()
+    const inputs = parseInputs()
 
-    // const commit =await octoClient.rest.git.getCommit({
-    //   owner: github.context.repo.owner,
-    //   repo: github.context.repo.repo,
-    //   commit_sha: github.context.sha
-    // })
-    // if()
-
-    if (github.context.payload.pull_request) {
-      const pr = await octoClient.rest.pulls.listCommits({
-        owner: github.context.repo.owner,
-        repo: github.context.repo.repo,
-        pull_number: github.context.payload.pull_request.number
-      })
-
-      const messages = pr.data.map(p => p.commit.message)
-
-      core.info(JSON.stringify(messages, null, 2))
-    }
-
-    // github.context.repo.repo
+    const slackClient = getSlackClient()
 
     if (inputs.phase === 'start') {
       const messageResponse = await slackClient.chat.postMessage(
-        createThreadMainMessage(inputs)
+        await createThreadMainMessage(inputs)
       )
       core.setOutput('thread_ts', messageResponse.ts)
       core.info(
@@ -58,7 +40,7 @@ async function main(): Promise<void> {
       }
     } else if (inputs.phase === 'finish') {
       const updatedMessageResponse = await slackClient.chat.update(
-        createThreadMainMessage(inputs)
+        await createThreadMainMessage(inputs)
       )
 
       const replyMessageResponse = await slackClient.chat.postMessage({

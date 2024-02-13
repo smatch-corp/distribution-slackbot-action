@@ -1,3 +1,4 @@
+import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { Bits, Blocks, Message, SlackMessageDto } from 'slack-block-builder'
 import { dedent } from 'ts-dedent'
@@ -5,10 +6,11 @@ import { match } from 'ts-pattern'
 import { z } from 'zod'
 import { COLORS, MEMBERS } from './constants'
 import { InputSchema } from './inputs'
+import { getOctoClient } from './clients'
 
-export function createThreadMainMessage(
+export async function createThreadMainMessage(
   inputs: z.infer<typeof InputSchema>
-): SlackMessageDto {
+): Promise<SlackMessageDto> {
   const message = Message({
     channel: inputs.channel_id,
     text: match(inputs.phase)
@@ -40,7 +42,7 @@ export function createThreadMainMessage(
             .with('start', () => '배포 진행중 :loading:')
             .with('finish', () => '배포 완료 :ballot_box_with_check:')
             .otherwise(() => '')}
-            ${createFormattedJiraIssueLink() ? `변경 사항 : ${createFormattedJiraIssueLink()}` : ''}
+          변경 사항 : ${createFormattedJiraIssueLinks()}
           `)
         })
       )
@@ -81,16 +83,33 @@ function extractJiraIssueKey(title: string): string {
   return match ? match[1] : ''
 }
 
-function createJiraIssueLink(issueKey: string): string {
-  return issueKey ? `https://billynco.atlassian.net/browse/${issueKey}` : ''
+async function createFormattedJiraIssueLinks() {
+  const commitMessages = await getAssociatedCommitMessages()
+
+  return commitMessages.map(message =>
+    createFormattedLink(
+      createJiraIssueLink(extractJiraIssueKey(message)),
+      message
+    )
+  )
 }
 
-function createFormattedJiraIssueLink(): string {
-  const title = github.context.payload.pull_request?.title
-  if (!title) return ''
-  const issueKey = extractJiraIssueKey(title)
-  const link = createJiraIssueLink(issueKey)
-  return createFormattedLink(link, issueKey)
+async function getAssociatedCommitMessages(): Promise<string[]> {
+  if (github.context.payload.pull_request) {
+    const octoClient = getOctoClient()
+    const associatedCommits = await octoClient.rest.pulls.listCommits({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      pull_number: github.context.payload.pull_request.number
+    })
+
+    return associatedCommits.data.map(p => p.commit.message)
+  }
+  return []
+}
+
+function createJiraIssueLink(issueKey: string): string {
+  return issueKey ? `https://billynco.atlassian.net/browse/${issueKey}` : ''
 }
 
 function createFormattedLink(link: string, text: string): string {

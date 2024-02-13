@@ -30,7 +30,7 @@ export function getEnvVariable(name: string): string {
 }
 
 export function parseInputs() {
-  const inputs = InputSchema.parse({
+  return InputSchema.parse({
     service_name: core.getInput('service_name', { required: true }),
     channel_id: core.getInput('channel_id', { required: true }),
     team: core.getInput('team', { required: true }),
@@ -39,9 +39,4 @@ export function parseInputs() {
     environment: core.getInput('environment', { required: true }),
     thread_ts: core.getInput('thread_ts')
   })
-
-  const GITHUB_TOKEN = getEnvVariable('GITHUB_TOKEN')
-  const SLACKBOT_TOKEN = getEnvVariable('SLACKBOT_TOKEN')
-
-  return { inputs, GITHUB_TOKEN, SLACKBOT_TOKEN }
 }
