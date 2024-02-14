@@ -26,6 +26,9 @@ inputs:
   phase:
     description: '액션 타입 (start, finish)'
     required: true
+  thread_ts:
+    description: 'Thread timestamp'
+    required: false
 
 outputs:
   thread_ts:
