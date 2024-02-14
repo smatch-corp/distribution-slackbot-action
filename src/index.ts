@@ -1,9 +1,8 @@
 import * as core from '@actions/core'
-import * as github from '@actions/github'
 import { dedent } from 'ts-dedent'
-import { createDirectMessageToActor, createThreadMainMessage } from './messages'
+import { getSlackClient } from './clients'
 import { parseInputs } from './inputs'
-import { getOctoClient, getSlackClient } from './clients'
+import { createDirectMessageToActor, createThreadMainMessage } from './messages'
 
 async function main(): Promise<void> {
   try {

@@ -1,6 +1,6 @@
 import * as github from '@actions/github'
 import { WebClient } from '@slack/web-api'
-import { getEnvVariable, parseInputs } from './inputs'
+import { getEnvVariable } from './inputs'
 
 export function getOctoClient() {
   const GITHUB_TOKEN = getEnvVariable('GITHUB_TOKEN')
