@@ -48,6 +48,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
       - name: Test Start Action
         id: test-start-action
         uses: ./
