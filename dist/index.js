@@ -46596,7 +46596,8 @@ exports.InputSchema = zod_1.z.discriminatedUnion('phase', [
         team: zod_1.z.string(),
         group_id: zod_1.z.string(),
         phase: zod_1.z.literal('start'),
-        environment: zod_1.z.string()
+        environment: zod_1.z.string(),
+        before_ref: zod_1.z.string()
     }),
     zod_1.z.object({
         service_name: zod_1.z.string(),
@@ -46605,6 +46606,7 @@ exports.InputSchema = zod_1.z.discriminatedUnion('phase', [
         group_id: zod_1.z.string(),
         phase: zod_1.z.literal('finish'),
         environment: zod_1.z.string(),
+        before_ref: zod_1.z.string(),
         thread_ts: zod_1.z.string()
     })
 ]);
@@ -46669,6 +46671,7 @@ const ts_pattern_1 = __nccwpck_require__(4502);
 const constants_1 = __nccwpck_require__(8926);
 const clients_1 = __nccwpck_require__(4684);
 async function createThreadMainMessage(inputs) {
+    const commitMessages = await getAssociatedCommitMessages(inputs.before_ref);
     const message = (0, slack_block_builder_1.Message)({
         channel: inputs.channel_id,
         text: (0, ts_pattern_1.match)(inputs.phase)
@@ -46681,7 +46684,7 @@ async function createThreadMainMessage(inputs) {
     })
         .blocks(slack_block_builder_1.Blocks.Section({
         text: (0, ts_dedent_1.dedent)(`${slack_block_builder_1.Md.group(inputs.group_id)}
-        ${await createFormattedJiraIssueLinks()}
+        ${await createFormattedJiraIssueLinks(commitMessages)}
         `)
     }))
         .attachments(slack_block_builder_1.Bits.Attachment({
@@ -46719,8 +46722,7 @@ function extractJiraIssueKey(title) {
     const match = title.match(/^\[(\w+-\d+)\]/);
     return match ? match[1] : '';
 }
-async function createFormattedJiraIssueLinks() {
-    const commitMessages = await getAssociatedCommitMessages();
+async function createFormattedJiraIssueLinks(commitMessages) {
     return commitMessages
         .filter(Boolean)
         .map(message => isJiraTicket(message)
@@ -46731,18 +46733,23 @@ async function createFormattedJiraIssueLinks() {
 function isJiraTicket(message) {
     return !!extractJiraIssueKey(message);
 }
-async function getAssociatedCommitMessages() {
+async function getAssociatedCommitMessages(beforeRef) {
     const octoClient = (0, clients_1.getOctoClient)();
     const associatedCommits = await octoClient.rest.repos.compareCommitsWithBasehead({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        basehead: `${`d95f62a0f1fd219205a26d7914ec99455eca78fc`}...${`916d325b826f11fdab48d8154e7ef2f6b370cb46`}`
+        basehead: `${beforeRef}...${github.context.sha}`
     });
     return associatedCommits.data.commits.map(commit => commit.commit.message);
 }
 async function _getAssociatedCommitMessages() {
     if (github.context.payload.pull_request) {
         const octoClient = (0, clients_1.getOctoClient)();
+        const dd = await octoClient.rest.repos.listCommits({
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo,
+            sha: github.context.payload.pull_request.head.sha
+        });
         const associatedCommits = await octoClient.rest.pulls.listCommits({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,

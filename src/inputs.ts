@@ -8,7 +8,8 @@ export const InputSchema = z.discriminatedUnion('phase', [
     team: z.string(),
     group_id: z.string(),
     phase: z.literal('start'),
-    environment: z.string()
+    environment: z.string(),
+    before_ref: z.string()
   }),
   z.object({
     service_name: z.string(),
@@ -17,6 +18,7 @@ export const InputSchema = z.discriminatedUnion('phase', [
     group_id: z.string(),
     phase: z.literal('finish'),
     environment: z.string(),
+    before_ref: z.string(),
     thread_ts: z.string()
   })
 ])

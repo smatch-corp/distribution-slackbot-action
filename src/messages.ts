@@ -11,6 +11,8 @@ import { getOctoClient } from './clients'
 export async function createThreadMainMessage(
   inputs: z.infer<typeof InputSchema>
 ): Promise<SlackMessageDto> {
+  const commitMessages = await getAssociatedCommitMessages(inputs.before_ref)
+
   const message = Message({
     channel: inputs.channel_id,
     text: match(inputs.phase)
@@ -24,7 +26,7 @@ export async function createThreadMainMessage(
     .blocks(
       Blocks.Section({
         text: dedent(`${Md.group(inputs.group_id)}
-        ${await createFormattedJiraIssueLinks()}
+        ${await createFormattedJiraIssueLinks(commitMessages)}
         `)
       })
     )
@@ -75,9 +77,7 @@ function extractJiraIssueKey(title: string): string {
   return match ? match[1] : ''
 }
 
-async function createFormattedJiraIssueLinks() {
-  const commitMessages = await getAssociatedCommitMessages()
-
+async function createFormattedJiraIssueLinks(commitMessages: string[]) {
   return commitMessages
     .filter(Boolean)
     .map(message =>
@@ -92,13 +92,15 @@ function isJiraTicket(message: string): boolean {
   return !!extractJiraIssueKey(message)
 }
 
-async function getAssociatedCommitMessages(): Promise<string[]> {
+async function getAssociatedCommitMessages(
+  beforeRef: string
+): Promise<string[]> {
   const octoClient = getOctoClient()
   const associatedCommits =
     await octoClient.rest.repos.compareCommitsWithBasehead({
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
-      basehead: `${`d95f62a0f1fd219205a26d7914ec99455eca78fc`}...${`916d325b826f11fdab48d8154e7ef2f6b370cb46`}`
+      basehead: `${beforeRef}...${github.context.sha}`
     })
   return associatedCommits.data.commits.map(commit => commit.commit.message)
 }
@@ -106,6 +108,11 @@ async function getAssociatedCommitMessages(): Promise<string[]> {
 async function _getAssociatedCommitMessages(): Promise<string[]> {
   if (github.context.payload.pull_request) {
     const octoClient = getOctoClient()
+    const dd = await octoClient.rest.repos.listCommits({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      sha: github.context.payload.pull_request.head.sha
+    })
     const associatedCommits = await octoClient.rest.pulls.listCommits({
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,

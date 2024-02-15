@@ -26,6 +26,9 @@ inputs:
   phase:
     description: '액션 타입 (start, finish)'
     required: true
+  before_ref:
+    description: '배포 이전 커밋 SHA (github.event.before)'
+    required: true
   thread_ts:
     description: 'Thread timestamp'
     required: false
