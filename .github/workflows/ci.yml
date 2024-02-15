@@ -48,14 +48,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        id: checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-        env:
-          BEFORE_REF: ${{ github.event.before }}
-
       - name: Test Start Action
         id: test-start-action
         uses: ./
@@ -91,7 +83,7 @@ jobs:
           team: Front-End
           service_name: 스매치어드민
           environment: dev
-          before_ref: ${{ env.BEFORE_REF }}
+          before_ref: ${{ github.event.before }}
           thread_ts: ${{ steps.test-start-action.outputs.thread_ts }}
         env:
           SLACKBOT_TOKEN: ${{ secrets.DISTRIBUTION_SLACKBOT_TOKEN }}

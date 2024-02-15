@@ -39,6 +39,7 @@ export function parseInputs() {
     group_id: core.getInput('group_id', { required: true }),
     phase: core.getInput('phase', { required: true }),
     environment: core.getInput('environment', { required: true }),
+    before_ref: core.getInput('before_ref', { required: true }),
     thread_ts: core.getInput('thread_ts')
   })
 }
