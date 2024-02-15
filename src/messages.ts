@@ -101,7 +101,7 @@ async function getAssociatedCommitMessages(
     await octoClient.rest.repos.compareCommitsWithBasehead({
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
-      basehead: `${'v0.0.4'}...${github.context.sha}`
+      basehead: `${'v0.0.2'}...${github.context.sha}`
     })
   return associatedCommits.data.commits.map(commit => commit.commit.message)
 }
