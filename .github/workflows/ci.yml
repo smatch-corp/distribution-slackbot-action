@@ -67,7 +67,7 @@ jobs:
           team: Front-End
           service_name: 스매치어드민
           environment: dev
-          before_ref: ${{ env.BEFORE_REF }}
+          before_ref: ${{ github.event.before }}
         env:
           SLACKBOT_TOKEN: ${{ secrets.DISTRIBUTION_SLACKBOT_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
