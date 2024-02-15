@@ -93,6 +93,17 @@ function isJiraTicket(message: string): boolean {
 }
 
 async function getAssociatedCommitMessages(): Promise<string[]> {
+  const octoClient = getOctoClient()
+  const associatedCommits =
+    await octoClient.rest.repos.compareCommitsWithBasehead({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      basehead: `${`d95f62a0f1fd219205a26d7914ec99455eca78fc`}...${`916d325b826f11fdab48d8154e7ef2f6b370cb46`}`
+    })
+  return associatedCommits.data.commits.map(commit => commit.commit.message)
+}
+
+async function _getAssociatedCommitMessages(): Promise<string[]> {
   if (github.context.payload.pull_request) {
     const octoClient = getOctoClient()
     const associatedCommits = await octoClient.rest.pulls.listCommits({
