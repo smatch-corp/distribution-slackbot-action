@@ -7,7 +7,7 @@ import { createDirectMessageToActor, createThreadMainMessage } from './messages'
 async function main(): Promise<void> {
   try {
     const inputs = parseInputs()
-
+    //test comment
     const slackClient = getSlackClient()
 
     if (inputs.phase === 'start') {

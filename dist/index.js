@@ -46519,6 +46519,7 @@ const messages_1 = __nccwpck_require__(8073);
 async function main() {
     try {
         const inputs = (0, inputs_1.parseInputs)();
+        //test comment
         const slackClient = (0, clients_1.getSlackClient)();
         if (inputs.phase === 'start') {
             const messageResponse = await slackClient.chat.postMessage(await (0, messages_1.createThreadMainMessage)(inputs));
