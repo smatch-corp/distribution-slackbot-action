@@ -46692,8 +46692,9 @@ async function createThreadMainMessage(inputs) {
             .otherwise(() => undefined)
     })
         .blocks(slack_block_builder_1.Blocks.Section({
-        text: (0, ts_dedent_1.dedent)(`${slack_block_builder_1.Md.group(inputs.group_id)}
-        ${await createFormattedJiraIssueLinks(commitMessages)}
+        text: (0, ts_dedent_1.dedent)(`
+          ${slack_block_builder_1.Md.group(inputs.group_id)}
+          ${await createFormattedJiraIssueLinks(commitMessages)}
         `)
     }))
         .attachments(slack_block_builder_1.Bits.Attachment({
@@ -46733,10 +46734,10 @@ function extractJiraIssueKey(title) {
 }
 async function createFormattedJiraIssueLinks(commitMessages) {
     return commitMessages
-        .filter(Boolean)
         .map(message => isJiraTicket(message)
         ? `${slack_block_builder_1.Md.link(createJiraIssueLink(extractJiraIssueKey(message)), message)}`
         : '')
+        .filter(Boolean)
         .join('\n');
 }
 function isJiraTicket(message) {
@@ -46747,26 +46748,9 @@ async function getAssociatedCommitMessages(beforeRef) {
     const associatedCommits = await octoClient.rest.repos.compareCommitsWithBasehead({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        basehead: `${beforeRef}...${github.context.sha}`
+        basehead: `${'v0.0.4'}...${github.context.sha}`
     });
     return associatedCommits.data.commits.map(commit => commit.commit.message);
-}
-async function _getAssociatedCommitMessages() {
-    if (github.context.payload.pull_request) {
-        const octoClient = (0, clients_1.getOctoClient)();
-        const dd = await octoClient.rest.repos.listCommits({
-            owner: github.context.repo.owner,
-            repo: github.context.repo.repo,
-            sha: github.context.payload.pull_request.head.sha
-        });
-        const associatedCommits = await octoClient.rest.pulls.listCommits({
-            owner: github.context.repo.owner,
-            repo: github.context.repo.repo,
-            pull_number: github.context.payload.pull_request.number
-        });
-        return associatedCommits.data.map(p => p.commit.message);
-    }
-    return [];
 }
 function createJiraIssueLink(issueKey) {
     return issueKey ? `https://billynco.atlassian.net/browse/${issueKey}` : '';

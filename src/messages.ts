@@ -25,8 +25,9 @@ export async function createThreadMainMessage(
   })
     .blocks(
       Blocks.Section({
-        text: dedent(`${Md.group(inputs.group_id)}
-        ${await createFormattedJiraIssueLinks(commitMessages)}
+        text: dedent(`
+          ${Md.group(inputs.group_id)}
+          ${await createFormattedJiraIssueLinks(commitMessages)}
         `)
       })
     )
@@ -79,12 +80,12 @@ function extractJiraIssueKey(title: string): string {
 
 async function createFormattedJiraIssueLinks(commitMessages: string[]) {
   return commitMessages
-    .filter(Boolean)
     .map(message =>
       isJiraTicket(message)
         ? `${Md.link(createJiraIssueLink(extractJiraIssueKey(message)), message)}`
         : ''
     )
+    .filter(Boolean)
     .join('\n')
 }
 
@@ -100,28 +101,9 @@ async function getAssociatedCommitMessages(
     await octoClient.rest.repos.compareCommitsWithBasehead({
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
-      basehead: `${beforeRef}...${github.context.sha}`
+      basehead: `${'v0.0.4'}...${github.context.sha}`
     })
   return associatedCommits.data.commits.map(commit => commit.commit.message)
-}
-
-async function _getAssociatedCommitMessages(): Promise<string[]> {
-  if (github.context.payload.pull_request) {
-    const octoClient = getOctoClient()
-    const dd = await octoClient.rest.repos.listCommits({
-      owner: github.context.repo.owner,
-      repo: github.context.repo.repo,
-      sha: github.context.payload.pull_request.head.sha
-    })
-    const associatedCommits = await octoClient.rest.pulls.listCommits({
-      owner: github.context.repo.owner,
-      repo: github.context.repo.repo,
-      pull_number: github.context.payload.pull_request.number
-    })
-
-    return associatedCommits.data.map(p => p.commit.message)
-  }
-  return []
 }
 
 function createJiraIssueLink(issueKey: string): string {
