@@ -98,7 +98,7 @@ async function getAssociatedCommitMessages(
 ): Promise<string[]> {
   const octoClient = getOctoClient()
 
-  const baseRef = commitShaOrReleaseTag(beforeRef)
+  const baseRef = await commitShaOrReleaseTag(beforeRef)
   const headRef = github.context.sha
 
   const associatedCommits =

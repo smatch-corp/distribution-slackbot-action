@@ -46746,7 +46746,7 @@ function isJiraTicket(message) {
 }
 async function getAssociatedCommitMessages(beforeRef) {
     const octoClient = (0, clients_1.getOctoClient)();
-    const baseRef = commitShaOrReleaseTag(beforeRef);
+    const baseRef = await commitShaOrReleaseTag(beforeRef);
     const headRef = github.context.sha;
     const associatedCommits = await octoClient.rest.repos.compareCommitsWithBasehead({
         owner: github.context.repo.owner,
