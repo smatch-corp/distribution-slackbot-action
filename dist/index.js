@@ -46762,10 +46762,16 @@ async function getPreviousRelease() {
         repo: github.context.repo.repo,
         per_page: 2
     });
-    return latestTwoReleases.data.at(-1);
+    const previousRelease = latestTwoReleases?.data.at(-1);
+    if (!previousRelease) {
+        throw new Error('No previous release found');
+    }
+    return previousRelease;
 }
 async function commitShaOrReleaseTag(beforeRef) {
-    return isExistingSha(beforeRef) ? beforeRef : await getPreviousRelease();
+    return isExistingSha(beforeRef)
+        ? beforeRef
+        : (await getPreviousRelease()).tag_name;
 }
 function isExistingSha(sha) {
     return sha !== constants_1.NONEXSISTANT_SHA;

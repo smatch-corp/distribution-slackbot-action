@@ -118,11 +118,18 @@ async function getPreviousRelease() {
     repo: github.context.repo.repo,
     per_page: 2
   })
-  return latestTwoReleases.data.at(-1)
+
+  const previousRelease = latestTwoReleases?.data.at(-1)
+  if (!previousRelease) {
+    throw new Error('No previous release found')
+  }
+  return previousRelease
 }
 
-async function commitShaOrReleaseTag(beforeRef: string) {
-  return isExistingSha(beforeRef) ? beforeRef : await getPreviousRelease()
+async function commitShaOrReleaseTag(beforeRef: string): Promise<string> {
+  return isExistingSha(beforeRef)
+    ? beforeRef
+    : (await getPreviousRelease()).tag_name
 }
 
 function isExistingSha(sha: string) {
