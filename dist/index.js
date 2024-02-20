@@ -46735,7 +46735,8 @@ async function createFormattedJiraIssueLinks(commitMessages) {
         ? `${slack_block_builder_1.Md.link(createJiraIssueLink(extractJiraIssueKey(message)), message)}`
         : '')
         .filter(Boolean)
-        .join('\n');
+        .join('\n')
+        .trim();
 }
 async function getAssociatedCommitMessages(beforeRef) {
     const octoClient = (0, clients_1.getOctoClient)();

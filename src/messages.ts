@@ -82,6 +82,7 @@ async function createFormattedJiraIssueLinks(commitMessages: string[]) {
     )
     .filter(Boolean)
     .join('\n')
+    .trim()
 }
 
 async function getAssociatedCommitMessages(
