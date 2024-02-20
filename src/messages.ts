@@ -107,7 +107,11 @@ async function getAssociatedCommitMessages(
       repo: github.context.repo.repo,
       basehead: `${baseRef}...${headRef}`
     })
-  return associatedCommits.data.commits.map(commit => commit.commit.message)
+  return [
+    ...new Set(
+      associatedCommits.data.commits.map(commit => commit.commit.message)
+    )
+  ]
 }
 
 async function getPreviousRelease() {

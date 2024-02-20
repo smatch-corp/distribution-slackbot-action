@@ -46753,7 +46753,9 @@ async function getAssociatedCommitMessages(beforeRef) {
         repo: github.context.repo.repo,
         basehead: `${baseRef}...${headRef}`
     });
-    return associatedCommits.data.commits.map(commit => commit.commit.message);
+    return [
+        ...new Set(associatedCommits.data.commits.map(commit => commit.commit.message))
+    ];
 }
 async function getPreviousRelease() {
     const octoClient = (0, clients_1.getOctoClient)();
