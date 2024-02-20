@@ -46673,6 +46673,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createDirectMessageToActor = exports.createThreadMainMessage = void 0;
+const core = __importStar(__nccwpck_require__(9093));
 const github = __importStar(__nccwpck_require__(5942));
 const slack_block_builder_1 = __nccwpck_require__(6758);
 const ts_dedent_1 = __nccwpck_require__(464);
@@ -46745,14 +46746,20 @@ function isJiraTicket(message) {
 }
 async function getAssociatedCommitMessages(beforeRef) {
     const octoClient = (0, clients_1.getOctoClient)();
-    // const tags = await octoClient.rest.repos.listTags({
-    //   owner: github.context.repo.owner,
-    //   repo: github.context.repo.repo,
-    // })
+    const release = await octoClient.rest.repos.getLatestRelease();
+    const eventName = github.context.eventName;
+    const action = github.context.action;
+    core.info(`EVENT NAME: ${eventName}`);
+    core.info(`ACTION: ${action}`);
+    core.info(`CURRENT`);
+    core.info(`LATEST RELEASE: ${JSON.stringify(release, null, 2)}`);
+    const baseRef = release.data.tag_name;
+    const headRef = github.context.sha;
     const associatedCommits = await octoClient.rest.repos.compareCommitsWithBasehead({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        basehead: `${beforeRef}...${github.context.sha}`
+        // basehead: `${beforeRef}...${github.context.sha}`
+        basehead: `${baseRef}...${headRef}`
     });
     return associatedCommits.data.commits.map(commit => commit.commit.message);
 }

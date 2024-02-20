@@ -97,15 +97,25 @@ async function getAssociatedCommitMessages(
   beforeRef: string
 ): Promise<string[]> {
   const octoClient = getOctoClient()
-  // const tags = await octoClient.rest.repos.listTags({
-  //   owner: github.context.repo.owner,
-  //   repo: github.context.repo.repo,
-  // })
+
+  const release = await octoClient.rest.repos.getLatestRelease()
+
+  const eventName = github.context.eventName
+  const action = github.context.action
+  core.info(`EVENT NAME: ${eventName}`)
+  core.info(`ACTION: ${action}`)
+  core.info(`CURRENT`)
+  core.info(`LATEST RELEASE: ${JSON.stringify(release, null, 2)}`)
+
+  const baseRef = release.data.tag_name
+  const headRef = github.context.sha
+
   const associatedCommits =
     await octoClient.rest.repos.compareCommitsWithBasehead({
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
-      basehead: `${beforeRef}...${github.context.sha}`
+      // basehead: `${beforeRef}...${github.context.sha}`
+      basehead: `${baseRef}...${headRef}`
     })
   return associatedCommits.data.commits.map(commit => commit.commit.message)
 }
