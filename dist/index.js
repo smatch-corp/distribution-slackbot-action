@@ -46747,6 +46747,11 @@ function isJiraTicket(message) {
 async function getAssociatedCommitMessages(beforeRef) {
     const octoClient = (0, clients_1.getOctoClient)();
     core.info(`BEFORE REF: ${beforeRef}`);
+    const latestReleases = await octoClient.rest.repos.listReleases({
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo
+        // per_page: 2
+    });
     const release = await octoClient.rest.repos.getLatestRelease({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo
@@ -46756,7 +46761,8 @@ async function getAssociatedCommitMessages(beforeRef) {
     core.info(`EVENT NAME: ${eventName}`);
     core.info(`ACTION: ${action}`);
     core.info(`CURRENT`);
-    core.info(`LATEST RELEASE: ${JSON.stringify(release, null, 2)}`);
+    // core.info(`LATEST RELEASE: ${JSON.stringify(release, null, 2)}`)
+    core.info(`LATEST RELEASES: ${JSON.stringify(latestReleases, null, 2)}`);
     const baseRef = release.data.tag_name;
     const headRef = github.context.sha;
     const associatedCommits = await octoClient.rest.repos.compareCommitsWithBasehead({
