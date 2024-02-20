@@ -1,4 +1,3 @@
-import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { Bits, Blocks, Md, Message, SlackMessageDto } from 'slack-block-builder'
 import { dedent } from 'ts-dedent'
