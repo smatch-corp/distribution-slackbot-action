@@ -46729,10 +46729,6 @@ function createDirectMessageToActor(permaLink) {
     return message;
 }
 exports.createDirectMessageToActor = createDirectMessageToActor;
-function extractJiraIssueKey(title) {
-    const match = title.match(/^\[(\w+-\d+)\]/);
-    return match ? match[1] : '';
-}
 async function createFormattedJiraIssueLinks(commitMessages) {
     return commitMessages
         .map(message => isJiraTicket(message)
@@ -46740,9 +46736,6 @@ async function createFormattedJiraIssueLinks(commitMessages) {
         : '')
         .filter(Boolean)
         .join('\n');
-}
-function isJiraTicket(message) {
-    return !!extractJiraIssueKey(message);
 }
 async function getAssociatedCommitMessages(beforeRef) {
     const octoClient = (0, clients_1.getOctoClient)();
@@ -46775,6 +46768,13 @@ async function commitShaOrReleaseTag(beforeRef) {
 }
 function isExistingSha(sha) {
     return sha !== constants_1.NONEXSISTANT_SHA;
+}
+function extractJiraIssueKey(title) {
+    const match = title.match(/^\[(\w+-\d+)\]/);
+    return match ? match[1] : '';
+}
+function isJiraTicket(message) {
+    return !!extractJiraIssueKey(message);
 }
 function createJiraIssueLink(issueKey) {
     return issueKey ? `https://billynco.atlassian.net/browse/${issueKey}` : '';

@@ -73,11 +73,6 @@ export function createDirectMessageToActor(
   return message
 }
 
-function extractJiraIssueKey(title: string): string {
-  const match = title.match(/^\[(\w+-\d+)\]/)
-  return match ? match[1] : ''
-}
-
 async function createFormattedJiraIssueLinks(commitMessages: string[]) {
   return commitMessages
     .map(message =>
@@ -87,10 +82,6 @@ async function createFormattedJiraIssueLinks(commitMessages: string[]) {
     )
     .filter(Boolean)
     .join('\n')
-}
-
-function isJiraTicket(message: string): boolean {
-  return !!extractJiraIssueKey(message)
 }
 
 async function getAssociatedCommitMessages(
@@ -134,6 +125,15 @@ async function commitShaOrReleaseTag(beforeRef: string): Promise<string> {
 
 function isExistingSha(sha: string) {
   return sha !== NONEXSISTANT_SHA
+}
+
+function extractJiraIssueKey(title: string): string {
+  const match = title.match(/^\[(\w+-\d+)\]/)
+  return match ? match[1] : ''
+}
+
+function isJiraTicket(message: string): boolean {
+  return !!extractJiraIssueKey(message)
 }
 
 function createJiraIssueLink(issueKey: string): string {
