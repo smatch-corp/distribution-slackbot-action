@@ -4,7 +4,7 @@ import { Bits, Blocks, Md, Message, SlackMessageDto } from 'slack-block-builder'
 import { dedent } from 'ts-dedent'
 import { match } from 'ts-pattern'
 import { z } from 'zod'
-import { COLORS, MEMBERS } from './constants'
+import { COLORS, MEMBERS, NONEXSISTANT_SHA } from './constants'
 import { InputSchema } from './inputs'
 import { getOctoClient } from './clients'
 
@@ -98,37 +98,35 @@ async function getAssociatedCommitMessages(
 ): Promise<string[]> {
   const octoClient = getOctoClient()
 
-  core.info(`BEFORE REF: ${beforeRef}`)
-  const latestReleases = await octoClient.rest.repos.listReleases({
-    owner: github.context.repo.owner,
-    repo: github.context.repo.repo
-    // per_page: 2
-  })
-
-  const release = await octoClient.rest.repos.getLatestRelease({
-    owner: github.context.repo.owner,
-    repo: github.context.repo.repo
-  })
-
-  const eventName = github.context.eventName
-  const action = github.context.action
-  core.info(`EVENT NAME: ${eventName}`)
-  core.info(`ACTION: ${action}`)
-  core.info(`CURRENT`)
-  // core.info(`LATEST RELEASE: ${JSON.stringify(release, null, 2)}`)
-  core.info(`LATEST RELEASES: ${JSON.stringify(latestReleases, null, 2)}`)
-
-  const baseRef = release.data.tag_name
+  const baseRef = commitShaOrReleaseTag(beforeRef)
   const headRef = github.context.sha
 
   const associatedCommits =
     await octoClient.rest.repos.compareCommitsWithBasehead({
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
-      // basehead: `${beforeRef}...${github.context.sha}`
       basehead: `${baseRef}...${headRef}`
     })
   return associatedCommits.data.commits.map(commit => commit.commit.message)
+}
+
+async function getPreviousRelease() {
+  const octoClient = getOctoClient()
+
+  const latestTwoReleases = await octoClient.rest.repos.listReleases({
+    owner: github.context.repo.owner,
+    repo: github.context.repo.repo,
+    per_page: 2
+  })
+  return latestTwoReleases.data.at(-1)
+}
+
+async function commitShaOrReleaseTag(beforeRef: string) {
+  return isExistingSha(beforeRef) ? beforeRef : await getPreviousRelease()
+}
+
+function isExistingSha(sha: string) {
+  return sha !== NONEXSISTANT_SHA
 }
 
 function createJiraIssueLink(issueKey: string): string {

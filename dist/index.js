@@ -46471,7 +46471,7 @@ exports.getSlackClient = getSlackClient;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.COLORS = exports.MEMBERS = void 0;
+exports.NONEXSISTANT_SHA = exports.COLORS = exports.MEMBERS = void 0;
 exports.MEMBERS = {
     w00ing: 'U02U5KJ3G7P',
     pebblepark: 'U04DT95LT8V',
@@ -46485,6 +46485,7 @@ exports.COLORS = {
     PENDING: '#FFD166',
     ERROR: '#DE005B'
 };
+exports.NONEXSISTANT_SHA = '0000000000000000000000000000000000000000';
 
 
 /***/ }),
@@ -46673,7 +46674,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createDirectMessageToActor = exports.createThreadMainMessage = void 0;
-const core = __importStar(__nccwpck_require__(9093));
 const github = __importStar(__nccwpck_require__(5942));
 const slack_block_builder_1 = __nccwpck_require__(6758);
 const ts_dedent_1 = __nccwpck_require__(464);
@@ -46746,32 +46746,29 @@ function isJiraTicket(message) {
 }
 async function getAssociatedCommitMessages(beforeRef) {
     const octoClient = (0, clients_1.getOctoClient)();
-    core.info(`BEFORE REF: ${beforeRef}`);
-    const latestReleases = await octoClient.rest.repos.listReleases({
-        owner: github.context.repo.owner,
-        repo: github.context.repo.repo
-        // per_page: 2
-    });
-    const release = await octoClient.rest.repos.getLatestRelease({
-        owner: github.context.repo.owner,
-        repo: github.context.repo.repo
-    });
-    const eventName = github.context.eventName;
-    const action = github.context.action;
-    core.info(`EVENT NAME: ${eventName}`);
-    core.info(`ACTION: ${action}`);
-    core.info(`CURRENT`);
-    // core.info(`LATEST RELEASE: ${JSON.stringify(release, null, 2)}`)
-    core.info(`LATEST RELEASES: ${JSON.stringify(latestReleases, null, 2)}`);
-    const baseRef = release.data.tag_name;
+    const baseRef = commitShaOrReleaseTag(beforeRef);
     const headRef = github.context.sha;
     const associatedCommits = await octoClient.rest.repos.compareCommitsWithBasehead({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        // basehead: `${beforeRef}...${github.context.sha}`
         basehead: `${baseRef}...${headRef}`
     });
     return associatedCommits.data.commits.map(commit => commit.commit.message);
+}
+async function getPreviousRelease() {
+    const octoClient = (0, clients_1.getOctoClient)();
+    const latestTwoReleases = await octoClient.rest.repos.listReleases({
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo,
+        per_page: 2
+    });
+    return latestTwoReleases.data.at(-1);
+}
+async function commitShaOrReleaseTag(beforeRef) {
+    return isExistingSha(beforeRef) ? beforeRef : await getPreviousRelease();
+}
+function isExistingSha(sha) {
+    return sha !== constants_1.NONEXSISTANT_SHA;
 }
 function createJiraIssueLink(issueKey) {
     return issueKey ? `https://billynco.atlassian.net/browse/${issueKey}` : '';
