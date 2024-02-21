@@ -81,6 +81,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test-start-action]
     steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
       - name: Test Finish Action
         id: test-finish-action
         uses: ./
