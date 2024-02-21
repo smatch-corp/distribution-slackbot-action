@@ -76,6 +76,9 @@ jobs:
         run: sleep 10s
         shell: bash
 
+    outputs:
+      thread_ts: ${{ steps.test-start-action.outputs.thread_ts }}
+
   test-finish-action:
     name: GitHub Actions Test
     runs-on: ubuntu-latest
