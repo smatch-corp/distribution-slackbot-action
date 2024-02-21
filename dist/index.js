@@ -46673,7 +46673,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.createDirectMessageToActor = exports.createThreadMainMessage = void 0;
+exports.extractJiraIssueKey = exports.createFormattedJiraIssueLinks = exports.createDirectMessageToActor = exports.createThreadMainMessage = void 0;
 const github = __importStar(__nccwpck_require__(5942));
 const slack_block_builder_1 = __nccwpck_require__(6758);
 const ts_dedent_1 = __nccwpck_require__(464);
@@ -46738,6 +46738,7 @@ async function createFormattedJiraIssueLinks(commitMessages) {
         .join('\n')
         .trim();
 }
+exports.createFormattedJiraIssueLinks = createFormattedJiraIssueLinks;
 async function getAssociatedCommitMessages(beforeRef) {
     const octoClient = (0, clients_1.getOctoClient)();
     const baseRef = await commitShaOrReleaseTag(beforeRef);
@@ -46773,9 +46774,10 @@ function isExistingSha(sha) {
     return sha !== constants_1.NONEXSISTANT_SHA;
 }
 function extractJiraIssueKey(title) {
-    const match = title.match(/^\[(\w+-\d+)\]/);
+    const match = title.trim().match(/^\[(\w+-\d+)\]/);
     return match ? match[1] : '';
 }
+exports.extractJiraIssueKey = extractJiraIssueKey;
 function isJiraTicket(message) {
     return !!extractJiraIssueKey(message);
 }

@@ -51,6 +51,7 @@ export async function createThreadMainMessage(
       )
     )
     .buildToObject()
+
   return message
 }
 
@@ -72,7 +73,7 @@ export function createDirectMessageToActor(
   return message
 }
 
-async function createFormattedJiraIssueLinks(commitMessages: string[]) {
+export async function createFormattedJiraIssueLinks(commitMessages: string[]) {
   return commitMessages
     .map(message =>
       isJiraTicket(message)
@@ -131,8 +132,8 @@ function isExistingSha(sha: string) {
   return sha !== NONEXSISTANT_SHA
 }
 
-function extractJiraIssueKey(title: string): string {
-  const match = title.match(/^\[(\w+-\d+)\]/)
+export function extractJiraIssueKey(title: string): string {
+  const match = title.trim().match(/^\[(\w+-\d+)\]/)
   return match ? match[1] : ''
 }
 
