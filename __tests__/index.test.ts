@@ -68,6 +68,7 @@ describe('distribution-notification', () => {
     github.context.ref = 'd90bd39a392524a7d2a6b80c06d6874dbf00b003'
     github.context.sha = 'd90bd39a392524a7d2a6b80c06d6874dbf00b003'
     github.context.actor = 'w00ing'
+    github.context.runId = 8001787168
   })
 
   const text = [
@@ -135,7 +136,7 @@ describe('distribution-notification', () => {
             {
               text: {
                 type: 'mrkdwn',
-                text: '서비스 : 스매치\n배포 환경 : staging\n구분 : <@U02U5KJ3G7P>, Front-End\n진행 상태 : 배포 진행중 :loading:'
+                text: '서비스 : 스매치\n배포 환경 : staging\n구분 : <@U02U5KJ3G7P>, Front-End\nRun ID : <https://github.com/smatch-corp/distribution-slackbot-action/actions/runs/8001787168|8001787168>\n진행 상태 : 배포 진행중 :loading:'
               },
               type: 'section'
             }

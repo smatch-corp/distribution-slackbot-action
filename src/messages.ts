@@ -43,6 +43,7 @@ export async function createThreadMainMessageSurface(
           서비스 : ${inputs.service_name}
           배포 환경 : ${inputs.environment}
           구분 : ${Md.user(MEMBERS[github.context.actor])}, ${inputs.team}
+          Run ID : ${createGithubRunLink()}
           진행 상태 : ${match(inputs.phase)
             .with('start', () => '배포 진행중 :loading:')
             .with('finish', () => '배포 완료 :ballot_box_with_check:')
@@ -54,6 +55,13 @@ export async function createThreadMainMessageSurface(
     .buildToObject()
 
   return message
+}
+
+function createGithubRunLink() {
+  return Md.link(
+    `https://github.com/${github.context.repo.owner}/${github.context.repo.repo}/actions/runs/${github.context.runId}`,
+    String(github.context.runId)
+  )
 }
 
 export function createDirectMessageToActor(
