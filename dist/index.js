@@ -52427,11 +52427,13 @@ function createDirectMessageToActor(permaLink) {
     return message;
 }
 async function createFormattedJiraIssueLinks(commitMessages) {
-    return commitMessages
-        .map(message => isJiraTicket(message)
-        ? `${slack_block_builder_dist.Md.link(createJiraIssueLink(extractJiraIssueKey(message)), message)}`
-        : '')
-        .filter(Boolean);
+    return [
+        ...new Set(commitMessages
+            .map(message => isJiraTicket(message)
+            ? `${slack_block_builder_dist.Md.link(createJiraIssueLink(extractJiraIssueKey(message)), message)}`
+            : '')
+            .filter(Boolean))
+    ];
 }
 async function getAssociatedCommitMessages(beforeRef) {
     const octoClient = getOctoClient();

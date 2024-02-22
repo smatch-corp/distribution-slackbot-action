@@ -81,13 +81,17 @@ export function createDirectMessageToActor(
 }
 
 export async function createFormattedJiraIssueLinks(commitMessages: string[]) {
-  return commitMessages
-    .map(message =>
-      isJiraTicket(message)
-        ? `${Md.link(createJiraIssueLink(extractJiraIssueKey(message)), message)}`
-        : ''
+  return [
+    ...new Set(
+      commitMessages
+        .map(message =>
+          isJiraTicket(message)
+            ? `${Md.link(createJiraIssueLink(extractJiraIssueKey(message)), message)}`
+            : ''
+        )
+        .filter(Boolean)
     )
-    .filter(Boolean)
+  ]
 }
 
 async function getAssociatedCommitMessages(
