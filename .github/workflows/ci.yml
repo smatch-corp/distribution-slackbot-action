@@ -42,3 +42,6 @@ jobs:
       - name: Test
         id: pnpm-ci-test
         run: pnpm run ci-test
+        env:
+          SLACKBOT_TOKEN: ${{ secrets.DISTRIBUTION_SLACKBOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
