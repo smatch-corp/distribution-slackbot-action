@@ -2,7 +2,11 @@
   "env": {
     "node": true,
     "es6": true,
-    "jest": true
+  },
+   "settings": {
+    "import/resolver": {
+        "typescript": {}
+    }
   },
   "globals": {
     "Atomics": "readonly",
@@ -21,13 +25,12 @@
     "sourceType": "module",
     "project": ["./.github/linters/tsconfig.json", "./tsconfig.json"]
   },
-  "plugins": ["jest", "@typescript-eslint"],
+  "plugins": ["@typescript-eslint"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:github/recommended",
-    "plugin:jest/recommended"
+    "plugin:github/recommended"
   ],
   "rules": {
     "no-shadow": "off",
@@ -60,7 +63,7 @@
     "@typescript-eslint/no-inferrable-types": "error",
     "@typescript-eslint/no-misused-new": "error",
     "@typescript-eslint/no-namespace": "error",
-    "@typescript-eslint/no-non-null-assertion": "warn",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-require-imports": "error",
     "@typescript-eslint/no-unnecessary-qualifier": "error",
     "@typescript-eslint/no-unnecessary-type-assertion": "error",

@@ -6,13 +6,10 @@ import {
   createDirectMessageToActor,
   createThreadMainMessageSurface
 } from './messages'
-import { Blocks, Message } from 'slack-block-builder'
 
 export async function main(): Promise<void> {
   try {
     const inputs = parseInputs()
-    console.log({ inputs })
-    //test comment
     const slackClient = getSlackClient()
 
     if (inputs.phase === 'start') {

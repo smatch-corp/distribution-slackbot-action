@@ -52483,8 +52483,6 @@ function createJiraIssueLink(issueKey) {
 async function main() {
     try {
         const inputs = parseInputs();
-        console.log({ inputs });
-        //test comment
         const slackClient = getSlackClient();
         if (inputs.phase === 'start') {
             const messageResponse = await slackClient.chat.postMessage(await createThreadMainMessageSurface(inputs));

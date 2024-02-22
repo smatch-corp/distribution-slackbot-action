@@ -3,7 +3,7 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "ES2022",
-    "rootDir": "./src",
+    "rootDir": ".",
     "moduleResolution": "Bundler",
     "baseUrl": "./",
     "sourceMap": true,
@@ -16,11 +16,12 @@
     "newLine": "lf",
     "types": ["vite/client", "vitest/importMeta"]
   },
+  "include": ["./src/**/*.ts", "vitest.config.ts"],
   "exclude": [
     "./dist",
     "./node_modules",
     "./coverage",
     "./__tests__",
-    "vitest.config.ts"
+    "package.json"
   ]
 }

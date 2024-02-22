@@ -16,10 +16,10 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { InputSchema } from '../src/inputs'
 import { main } from '../src/index'
-import { SlackBlockDto, SlackMessageDto } from '../dist'
+import { SlackMessageDto } from 'slack-block-builder'
 
 // Inputs for mock @actions/core
-let inputs = InputSchema.parse({
+const inputs = InputSchema.parse({
   service_name: '스매치',
   channel_id: 'C06H62PLQNN',
   team: 'Front-End',
