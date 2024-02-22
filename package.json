@@ -9,7 +9,7 @@
     "coverage": "make-coverage-badge --output-path ./badges/coverage.svg",
     "format:write": "prettier --write **/*.ts",
     "format:check": "prettier --check **/*.ts",
-    "lint": "npx eslint . -c ./.eslintrc",
+    "lint": "pnpx eslint . -c ./.eslintrc",
     "package": "ncc build src/index.ts --license licenses.txt",
     "package:watch": "pnpm run package -- --watch",
     "test": "vitest",
