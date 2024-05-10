@@ -66,3 +66,7 @@ distribution-finish-notification:
         SLACKBOT_TOKEN: ${{ secrets.DISTRIBUTION_SLACKBOT_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
+
+## 예시 화면
+<img width="876" alt="Screenshot 2024-05-10 at 12 58 28" src="https://github.com/smatch-corp/distribution-slackbot-action/assets/29723695/83378c9c-902d-4a8d-872e-bf89efa48bd4">
+
