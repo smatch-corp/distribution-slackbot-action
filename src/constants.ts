@@ -10,7 +10,8 @@ export const MEMBERS: Record<string, string> = {
 export const COLORS = {
   SUCCESS: '#2EB67D',
   PENDING: '#FFD166',
-  ERROR: '#DE005B'
+  FAILURE: '#DE005B',
+  CANCEL: '#808080'
 } as const
 
 export const NONEXSISTANT_SHA = '0000000000000000000000000000000000000000'

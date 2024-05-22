@@ -168,7 +168,7 @@ describe('success case', () => {
   })
 })
 
-describe('error case', () => {
+describe('failure case', () => {
   beforeAll(() => {
     // Mock getInput
     vi.spyOn(core, 'getInput').mockImplementation((name: string) => {
@@ -195,6 +195,39 @@ describe('error case', () => {
   })
 
   it('should send initial message, update it with failure message and reply to the thread', async () => {
+    // execute second time to reply and update the message with the failure message, now with inputs.thread_ts
+    await sleep(1000)
+    await main()
+  })
+})
+
+describe('cancelled case', () => {
+  beforeAll(() => {
+    // Mock getInput
+    vi.spyOn(core, 'getInput').mockImplementation((name: string) => {
+      return inputs[name]
+    })
+
+    // Mock setOutput. This is used to pass thread_ts to the next step
+    vi.spyOn(core, 'setOutput').mockImplementation(
+      (_: string, thread_ts: string) => {
+        inputs.phase = 'cancelled'
+        if (inputs.phase === 'cancelled') {
+          inputs.thread_ts = thread_ts
+        }
+      }
+    )
+  })
+  afterAll(() => {
+    inputs.phase = 'start'
+    delete inputs['thread_ts']
+  })
+  it('should send initial message', async () => {
+    // Execute main function first time to send the message
+    await main()
+  })
+
+  it('should send initial message, update it with cancellation message and reply to the thread', async () => {
     // execute second time to reply and update the message with the failure message, now with inputs.thread_ts
     await sleep(1000)
     await main()

@@ -18,10 +18,11 @@ export async function createThreadMainMessageSurface(
       .with('start', () => '배포 진행중 :loading:')
       .with('finish', () => '배포 완료 :ballot_box_with_check:')
       .with('failure', () => '배포 실패 :x:')
+      .with('cancelled', () => '배포 취소 :black_square_for_stop:')
       .otherwise(() => ''),
     ts: match(inputs)
       .with(
-        { phase: P.union('finish', 'failure') },
+        { phase: P.union('finish', 'failure', 'cancelled') },
         ({ thread_ts }) => thread_ts
       )
       .otherwise(() => undefined)
@@ -40,8 +41,9 @@ export async function createThreadMainMessageSurface(
         color: match(inputs.phase)
           .with('start', () => COLORS.PENDING)
           .with('finish', () => COLORS.SUCCESS)
-          .with('failure', () => COLORS.ERROR)
-          .otherwise(() => COLORS.ERROR)
+          .with('failure', () => COLORS.FAILURE)
+          .with('cancelled', () => COLORS.CANCEL)
+          .otherwise(() => COLORS.CANCEL)
       }).blocks(
         Blocks.Section({
           text: dedent`
@@ -53,6 +55,7 @@ export async function createThreadMainMessageSurface(
             .with('start', () => '배포 진행중 :loading:')
             .with('finish', () => '배포 완료 :ballot_box_with_check:')
             .with('failure', () => '배포 실패 :x:')
+            .with('cancelled', () => '배포 취소 :black_square_for_stop:')
             .otherwise(() => '')}
           `
         })
