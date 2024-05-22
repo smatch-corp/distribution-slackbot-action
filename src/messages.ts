@@ -1,7 +1,7 @@
 import * as github from '@actions/github'
 import { Bits, Blocks, Md, Message, SlackMessageDto } from 'slack-block-builder'
 import { dedent } from 'ts-dedent'
-import { match } from 'ts-pattern'
+import { P, match } from 'ts-pattern'
 import { z } from 'zod'
 import { COLORS, MEMBERS, NONEXSISTANT_SHA } from './constants'
 import { InputSchema } from './inputs'
@@ -17,9 +17,13 @@ export async function createThreadMainMessageSurface(
     text: match(inputs.phase)
       .with('start', () => '배포 진행중 :loading:')
       .with('finish', () => '배포 완료 :ballot_box_with_check:')
+      .with('failure', () => '배포 실패 :x:')
       .otherwise(() => ''),
     ts: match(inputs)
-      .with({ phase: 'finish' }, ({ thread_ts }) => thread_ts)
+      .with(
+        { phase: P.union('finish', 'failure') },
+        ({ thread_ts }) => thread_ts
+      )
       .otherwise(() => undefined)
   })
     .blocks(
@@ -36,6 +40,7 @@ export async function createThreadMainMessageSurface(
         color: match(inputs.phase)
           .with('start', () => COLORS.PENDING)
           .with('finish', () => COLORS.SUCCESS)
+          .with('failure', () => COLORS.ERROR)
           .otherwise(() => COLORS.ERROR)
       }).blocks(
         Blocks.Section({
@@ -47,6 +52,7 @@ export async function createThreadMainMessageSurface(
           진행 상태 : ${match(inputs.phase)
             .with('start', () => '배포 진행중 :loading:')
             .with('finish', () => '배포 완료 :ballot_box_with_check:')
+            .with('failure', () => '배포 실패 :x:')
             .otherwise(() => '')}
           `
         })

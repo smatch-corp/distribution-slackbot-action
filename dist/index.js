@@ -52311,6 +52311,16 @@ const InputSchema = z.discriminatedUnion('phase', [
         environment: z.string(),
         before_ref: z.string(),
         thread_ts: z.string()
+    }),
+    z.object({
+        service_name: z.string(),
+        channel_id: z.string(),
+        team: z.string(),
+        group_id: z.string(),
+        phase: z.literal('failure'),
+        environment: z.string(),
+        before_ref: z.string(),
+        thread_ts: z.string()
     })
 ]);
 function getEnvVariable(name) {
@@ -52382,9 +52392,10 @@ async function createThreadMainMessageSurface(inputs) {
         text: N(inputs.phase)
             .with('start', () => '배포 진행중 :loading:')
             .with('finish', () => '배포 완료 :ballot_box_with_check:')
+            .with('failure', () => '배포 실패 :x:')
             .otherwise(() => ''),
         ts: N(inputs)
-            .with({ phase: 'finish' }, ({ thread_ts }) => thread_ts)
+            .with({ phase: _.union('finish', 'failure') }, ({ thread_ts }) => thread_ts)
             .otherwise(() => undefined)
     })
         .blocks(slack_block_builder_dist.Blocks.Divider(), slack_block_builder_dist.Blocks.Section({
@@ -52397,6 +52408,7 @@ async function createThreadMainMessageSurface(inputs) {
         color: N(inputs.phase)
             .with('start', () => COLORS.PENDING)
             .with('finish', () => COLORS.SUCCESS)
+            .with('failure', () => COLORS.ERROR)
             .otherwise(() => COLORS.ERROR)
     }).blocks(slack_block_builder_dist.Blocks.Section({
         text: dist/* dedent */.Zc `
@@ -52407,6 +52419,7 @@ async function createThreadMainMessageSurface(inputs) {
           진행 상태 : ${N(inputs.phase)
             .with('start', () => '배포 진행중 :loading:')
             .with('finish', () => '배포 완료 :ballot_box_with_check:')
+            .with('failure', () => '배포 실패 :x:')
             .otherwise(() => '')}
           `
     })))
@@ -52512,6 +52525,18 @@ async function main() {
             });
             core.info(dist/* dedent */.Zc `
           Finish message sent Successfully: ${JSON.stringify(replyMessageResponse, null, 2)}
+          Message updated Successfully: ${JSON.stringify(updatedMessageResponse, null, 2)}
+          `);
+        }
+        else if (inputs.phase === 'failure') {
+            const updatedMessageResponse = await slackClient.chat.update(await createThreadMainMessageSurface(inputs));
+            const replyMessageResponse = await slackClient.chat.postMessage({
+                channel: inputs.channel_id,
+                thread_ts: inputs.thread_ts,
+                text: dist/* dedent */.Zc `배포가 실패했습니다. Run ID를 확인해 주세요.`
+            });
+            core.info(dist/* dedent */.Zc `
+          Error message sent Successfully: ${JSON.stringify(replyMessageResponse, null, 2)}
           Message updated Successfully: ${JSON.stringify(updatedMessageResponse, null, 2)}
           `);
         }

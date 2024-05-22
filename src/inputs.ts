@@ -20,6 +20,16 @@ export const InputSchema = z.discriminatedUnion('phase', [
     environment: z.string(),
     before_ref: z.string(),
     thread_ts: z.string()
+  }),
+  z.object({
+    service_name: z.string(),
+    channel_id: z.string(),
+    team: z.string(),
+    group_id: z.string(),
+    phase: z.literal('failure'),
+    environment: z.string(),
+    before_ref: z.string(),
+    thread_ts: z.string()
   })
 ])
 

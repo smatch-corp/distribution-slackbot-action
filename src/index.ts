@@ -52,6 +52,23 @@ export async function main(): Promise<void> {
           Message updated Successfully: ${JSON.stringify(updatedMessageResponse, null, 2)}
           `
       )
+    } else if (inputs.phase === 'failure') {
+      const updatedMessageResponse = await slackClient.chat.update(
+        await createThreadMainMessageSurface(inputs)
+      )
+
+      const replyMessageResponse = await slackClient.chat.postMessage({
+        channel: inputs.channel_id,
+        thread_ts: inputs.thread_ts,
+        text: dedent`배포가 실패했습니다. Run ID를 확인해 주세요.`
+      })
+
+      core.info(
+        dedent`
+          Error message sent Successfully: ${JSON.stringify(replyMessageResponse, null, 2)}
+          Message updated Successfully: ${JSON.stringify(updatedMessageResponse, null, 2)}
+          `
+      )
     }
   } catch (error) {
     // Fail the workflow run if an error occurs

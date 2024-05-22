@@ -29,61 +29,46 @@ const inputs = InputSchema.parse({
   environment: 'staging'
 })
 
+const textBeforeFormatting = [
+  ' [SMATCH01-1789] retool api#192 opened 3 hours ago by JYC11 updated 1 hour ago',
+  '[SMATCH01-1850] auth 기능#193 opened 3 hours ago by JYC11',
+  '[SMATCH01-1851] 신청하기#184 opened last week by JYC11 updated 3 hours ago',
+  '[SMATCH01-1857] 제안 도메인 boilerplate code#181 op…ks ago by gwjang•  Approved updated 5 hours ago',
+  '[SMATCH01-1866] 더 제안받기#190 opened 2 days ago by gwjang updated 5 hours ago 2',
+  '[SMATCH01-1874] 제안시 PDF 생성#191 opened yesterday by gwjang updated 5 hours ago',
+  '[SMATCH01-1901] 유저&신청 boilerplate code#174 open… ago by JYC11•  Approved updated yesterday 20',
+  '[SMATCH01-1389] 맞춤 제안 매물 PDF 생성 - wip#22 opened on Jul 25'
+]
+
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
-describe('distribution-notification', () => {
-  beforeAll(() => {
-    vi.stubEnv('SLACKBOT_TOKEN', process.env.SLACKBOT_TOKEN!)
-    vi.stubEnv('GITHUB_TOKEN', process.env.GITHUB_TOKEN!)
-    // Mock getInput
-    vi.spyOn(core, 'getInput').mockImplementation((name: string) => {
-      return inputs[name]
-    })
+beforeAll(() => {
+  vi.stubEnv('SLACKBOT_TOKEN', process.env.SLACKBOT_TOKEN!)
+  vi.stubEnv('GITHUB_TOKEN', process.env.GITHUB_TOKEN!)
 
-    // Mock setOutput. This is used to pass thread_ts to the next step
-    vi.spyOn(core, 'setOutput').mockImplementation(
-      (_: string, thread_ts: string) => {
-        console.log('VALUELUE', thread_ts)
-        inputs.phase = 'finish'
-        if (inputs.phase === 'finish') {
-          inputs.thread_ts = thread_ts
-        }
-      }
-    )
+  // Mock error/warning/info/debug
+  vi.spyOn(core, 'error').mockImplementation(vi.fn())
+  vi.spyOn(core, 'warning').mockImplementation(vi.fn())
+  vi.spyOn(core, 'info').mockImplementation(vi.fn())
+  vi.spyOn(core, 'debug').mockImplementation(vi.fn())
 
-    // Mock error/warning/info/debug
-    vi.spyOn(core, 'error').mockImplementation(vi.fn())
-    vi.spyOn(core, 'warning').mockImplementation(vi.fn())
-    vi.spyOn(core, 'info').mockImplementation(vi.fn())
-    vi.spyOn(core, 'debug').mockImplementation(vi.fn())
-
-    // Mock github context
-    vi.spyOn(github.context, 'repo', 'get').mockImplementation(() => {
-      return {
-        owner: 'smatch-corp',
-        repo: 'distribution-slackbot-action'
-      }
-    })
-    github.context.eventName = 'push'
-    github.context.ref = 'd90bd39a392524a7d2a6b80c06d6874dbf00b003'
-    github.context.sha = 'd90bd39a392524a7d2a6b80c06d6874dbf00b003'
-    github.context.actor = 'w00ing'
-    github.context.runId = 8001787168
+  // Mock github context
+  vi.spyOn(github.context, 'repo', 'get').mockImplementation(() => {
+    return {
+      owner: 'smatch-corp',
+      repo: 'distribution-slackbot-action'
+    }
   })
+  github.context.eventName = 'push'
+  github.context.ref = 'd90bd39a392524a7d2a6b80c06d6874dbf00b003'
+  github.context.sha = 'd90bd39a392524a7d2a6b80c06d6874dbf00b003'
+  github.context.actor = 'w00ing'
+  github.context.runId = 8001787168
+})
 
-  const text = [
-    ' [SMATCH01-1789] retool api#192 opened 3 hours ago by JYC11 updated 1 hour ago',
-    '[SMATCH01-1850] auth 기능#193 opened 3 hours ago by JYC11',
-    '[SMATCH01-1851] 신청하기#184 opened last week by JYC11 updated 3 hours ago',
-    '[SMATCH01-1857] 제안 도메인 boilerplate code#181 op…ks ago by gwjang•  Approved updated 5 hours ago',
-    '[SMATCH01-1866] 더 제안받기#190 opened 2 days ago by gwjang updated 5 hours ago 2',
-    '[SMATCH01-1874] 제안시 PDF 생성#191 opened yesterday by gwjang updated 5 hours ago',
-    '[SMATCH01-1901] 유저&신청 boilerplate code#174 open… ago by JYC11•  Approved updated yesterday 20',
-    '[SMATCH01-1389] 맞춤 제안 매물 PDF 생성 - wip#22 opened on Jul 25'
-  ]
-
+describe('distribution-notification', () => {
   it('should extract jira issue key', () => {
-    const formatted = text.map(extractJiraIssueKey)
+    const formatted = textBeforeFormatting.map(extractJiraIssueKey)
     const intendedResult = [
       'SMATCH01-1789',
       'SMATCH01-1850',
@@ -98,7 +83,7 @@ describe('distribution-notification', () => {
     expect(formatted).toEqual(intendedResult)
   })
   it('should print out formatted jira tickets', async () => {
-    const formatted = await createFormattedJiraIssueLinks(text)
+    const formatted = await createFormattedJiraIssueLinks(textBeforeFormatting)
     const intendedResult = [
       '<https://billynco.atlassian.net/browse/SMATCH01-1789| [SMATCH01-1789] retool api#192 opened 3 hours ago by JYC11 updated 1 hour ago>',
       '<https://billynco.atlassian.net/browse/SMATCH01-1850|[SMATCH01-1850] auth 기능#193 opened 3 hours ago by JYC11>',
@@ -148,12 +133,69 @@ describe('distribution-notification', () => {
 
     expect(message).toEqual(intendedResult)
   })
+})
 
-  it('should send, updated slack message and reply to the thread', async () => {
+describe('success case', () => {
+  beforeAll(() => {
+    // Mock getInput
+    vi.spyOn(core, 'getInput').mockImplementation((name: string) => {
+      return inputs[name]
+    })
+
+    // Mock setOutput. This is used to pass thread_ts to the next step
+    vi.spyOn(core, 'setOutput').mockImplementation(
+      (_: string, thread_ts: string) => {
+        inputs.phase = 'finish'
+        if (inputs.phase === 'finish') {
+          inputs.thread_ts = thread_ts
+        }
+      }
+    )
+  })
+  afterAll(() => {
+    inputs.phase = 'start'
+    delete inputs['thread_ts']
+  })
+  it('should send initial message', async () => {
     // Execute main function first time to send the message
     await main()
+  })
 
-    // execute second time to reply and update the message, now with inputs.thread_ts
+  it('should update initial message with success message and reply to the thread', async () => {
+    // execute second time to reply and update the message with the success message, now with inputs.thread_ts
+    await sleep(1000)
+    await main()
+  })
+})
+
+describe('error case', () => {
+  beforeAll(() => {
+    // Mock getInput
+    vi.spyOn(core, 'getInput').mockImplementation((name: string) => {
+      return inputs[name]
+    })
+
+    // Mock setOutput. This is used to pass thread_ts to the next step
+    vi.spyOn(core, 'setOutput').mockImplementation(
+      (_: string, thread_ts: string) => {
+        inputs.phase = 'failure'
+        if (inputs.phase === 'failure') {
+          inputs.thread_ts = thread_ts
+        }
+      }
+    )
+  })
+  afterAll(() => {
+    inputs.phase = 'start'
+    delete inputs['thread_ts']
+  })
+  it('should send initial message', async () => {
+    // Execute main function first time to send the message
+    await main()
+  })
+
+  it('should send initial message, update it with failure message and reply to the thread', async () => {
+    // execute second time to reply and update the message with the failure message, now with inputs.thread_ts
     await sleep(1000)
     await main()
   })
