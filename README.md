@@ -150,3 +150,5 @@ distribution-cancelled-action:
 ## 예시 화면
 
 <img width="876" alt="Screenshot 2024-05-10 at 12 58 28" src="https://github.com/smatch-corp/distribution-slackbot-action/assets/29723695/83378c9c-902d-4a8d-872e-bf89efa48bd4">
+
+<img width="1596" alt="Screenshot 2024-05-22 at 17 15 00" src="https://github.com/smatch-corp/distribution-slackbot-action/assets/29723695/524ea2c1-6367-4c65-916d-424e12705d6a">
