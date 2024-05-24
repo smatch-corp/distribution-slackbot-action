@@ -115,7 +115,7 @@ distribution-cancelled-action:
       id: checkout
       uses: actions/checkout@v4
 
-    - name: 배포 알림 (오류)
+    - name: 배포 알림 (취소)
       id: distribution-cancelled-notification
       uses: smatch-corp/distribution-slackbot-action@main
       with:
