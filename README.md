@@ -77,14 +77,7 @@ distribution-finish-notification:
 distribution-failure-action:
   name: 배포 알림 (오류)
   runs-on: ubuntu-latest
-  needs:
-    [
-      setup-infra-variables,
-      distribution-start-notification,
-      setup-variables,
-      build-and-push,
-      cdk-deploy
-    ]
+  needs: [setup-infra-variables, distribution-start-notification, setup-variables, build-and-push, cdk-deploy]
   if: failure()
   steps:
     - name: Checkout
@@ -115,14 +108,7 @@ distribution-failure-action:
 distribution-cancelled-action:
   name: 배포 알림 (취소)
   runs-on: ubuntu-latest
-  needs:
-    [
-      setup-infra-variables,
-      distribution-start-notification,
-      setup-variables,
-      build-and-push,
-      cdk-deploy
-    ]
+  needs: [setup-infra-variables, distribution-start-notification, setup-variables, build-and-push, cdk-deploy]
   if: cancelled()
   steps:
     - name: Checkout
